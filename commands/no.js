@@ -5,10 +5,10 @@ exports.run = (api, update, args) => {
   
   if (no[update.peerId]) {
     no[update.peerId] = false;
-    update.send("Теперь тут будет отправляться рассылка")
+    update.send("Теперь отсюда бот будет брать сообщения")
   } else {
     no[update.peerId] = true;
-    update.send("Теперь здесь не будет отправляться рассылка")
+    update.send("Теперь сюда бот не будет смотреть")
   }
   
   fs.writeFile("./no.json", JSON.stringify(no, null, 2), (err) => {

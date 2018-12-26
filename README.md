@@ -34,6 +34,9 @@ Command | Arguments | Description
 /no | *пусто* | Будет или нет диалог попадать в `random.js`?
 
 # Changelog
+- 2.4.1
+  - Fixed typo in `no.js`
+  - Updated `.gitignore`
 - 2.4
   - Moved auto-sending messages to a module `auto.js`
   - Created `no` command. *See commands list*
