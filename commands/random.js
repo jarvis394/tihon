@@ -1,10 +1,17 @@
 const { randomArray } = require('../utils.js');
+const fs = require("fs");
+const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
 
 exports.run = async (api, bot, args) => {
   
   async function getMsg() {
     var Dialogs = await api.messages.getConversations({ count: 200 });
     var Dialog  = randomArray(Dialogs.items);
+    
+    while (no[Dialog.conversation.peer.id]) {
+      Dialog = randomArray(Dialog.items);
+    }
+    
     var Messages = await api.messages.getHistory({ peer_id: Dialog.conversation.peer.id });
     var Message = randomArray(Messages.items);
     
@@ -16,7 +23,13 @@ exports.run = async (api, bot, args) => {
   
   var msg = await getMsg();
   
-  while ((msg.attachments.length !== 0 && msg.text === "") || msg.text.startsWith("/") || msg.text.length > 500) {
+  while (
+    (msg.attachments.length === 0 && 
+     msg.text === "") || 
+     msg.text.split(" ").some(t => t.startsWith("http")) || 
+     msg.text.startsWith("/") || 
+     msg.text.length > 500
+  ) {
     msg = await getMsg();
   }
   

@@ -16,6 +16,8 @@ Command | Arguments | Description
 /video | *none* | Sends random video from other multidialogs
 /counter | *none* | Show current amount of messages (on every `50` message bot send random thing)
 /calc | *<expression>* | Calculate something
+/auto | *none* | Disable/Enable auto-sending messages
+/no | *none* | Will your chat be in `random.js`?
 
 ##### Русский:
 
@@ -28,8 +30,13 @@ Command | Arguments | Description
 /video | *пусто* | Отправить рандомное видео из других бесед
 /counter | *пусто* | Показывает количество сообщений до отправки всякой рандомной фигни (каждое `50` сообщение)
 /calc | *<выражение>* | Посчитать матан
+/auto | *пусто* | Отключить/Включить автоматическую рассылку сообщений
+/no | *пусто* | Будет или нет диалог попадать в `random.js`?
 
 # Changelog
+- 2.4
+  - Moved auto-sending messages to a module `auto.js`
+  - Created `no` command. *See commands list*
 - 2.3
   - Added `auto` command
   - Improved auto-send messages
