@@ -12,7 +12,7 @@ exports.run = (api, update, args) => {
   }
   
   fs.writeFile("./blacklist.json", JSON.stringify(blacklist, null, 2), (err) => {
-    if (err) return console.log("> [ERROR] In no.js: \n", err)
+    if (err) return console.log("> [ERROR] In auto.js: \n", err)
   });
   
 }
