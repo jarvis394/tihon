@@ -7,6 +7,9 @@
 
 ##### English:
 
+To add bot, go to [VK userpage](https://vk.com/tihon_bot) and add **bot to friends list**.
+Then, you can actually start using bot by typing commands below: *(also works in multidialogs)*
+
 Command | Arguments | Description
 ------------ | ------------- | -------------
 /ping | *none* | Pong!
@@ -20,6 +23,8 @@ Command | Arguments | Description
 /no | *none* | Will your chat be in `random.js`?
 
 ##### Русский:
+
+Чтобы начать пользоваться ботом, [добавьте его в друзья](https://vk.com/tihon_bot), а потом можете писать ему в ЛС команды, приведённые ниже: *(работает и в беседах)*
 
 Команда | Аргументы | Описание
 ------------ | ------------- | -------------
