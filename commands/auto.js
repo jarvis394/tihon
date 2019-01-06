@@ -16,3 +16,12 @@ exports.run = (api, update, args) => {
   });
   
 }
+
+exports.command = {
+  "name": "auto",
+  "arguments": false,
+  "description": {
+    "en": "Disable/Enable auto-sending messages",
+    "ru": "Отключить/Включить автоматическую рассылку сообщений"
+  }
+}

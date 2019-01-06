@@ -29,3 +29,12 @@ exports.run = async (api, update, args) => {
   await update.send("", { "attachment": `photo${ph.attachment.photo.owner_id}_${ph.attachment.photo.id}${access}` })
   
 }
+
+exports.command = {
+  "name": "photo",
+  "arguments": false,
+  "description": {
+    "en": "Sends random photo from other multidialogs",
+    "ru": "Отправить рандомное фото из других бесед"
+  }
+}
