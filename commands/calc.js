@@ -14,3 +14,12 @@ exports.run = (api, update, args) => {
   update.send(`Ввод: ${calc}\nВывод: ${resp}`);
 
 }
+
+exports.command = {
+  "name": "calc",
+  "arguments": "(expression)|(выражение)",
+  "description": {
+    "en": "Calculate something",
+    "ru": "Посчитать матан"
+  }
+}

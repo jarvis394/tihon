@@ -31,3 +31,12 @@ exports.run = async (api, update, args) => {
   await update.send("", { "attachment": `video${video.owner_id}_${video.id}${access}` });
   
 }
+
+exports.command = {
+  "name": "video",
+  "arguments": false,
+  "description": {
+    "en": "Sends random video from other multidialogs",
+    "ru": "Отправить рандомное видео из других бесед"
+  }
+}

@@ -1,4 +1,5 @@
 dependencies:
+  ejs: 2.6.1
   express: 4.16.4
   fs: 0.0.2
   mathjs: 5.4.0
@@ -169,6 +170,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
+  /ejs/2.6.1:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
   /encodeurl/1.0.2:
     dev: false
     engines:
@@ -616,6 +623,7 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
+  ejs: ^2.6.1
   express: ^4.16.4
   fs: ^0.0.2
   mathjs: ^5.4.0

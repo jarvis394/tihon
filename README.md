@@ -14,7 +14,7 @@ Command | Arguments | Description
 /random | *none* | Sends random message from other multidialogs
 /photo | *none* | Sends random photo from other multidialogs
 /video | *none* | Sends random video from other multidialogs
-/counter | *none* | Show current amount of messages (on every `50` message bot send random thing)
+/counter | *none* | Show current amount of messages (on every `50th` message bot send random thing)
 /calc | *<expression>* | Calculate something
 /auto | *none* | Disable/Enable auto-sending messages
 /no | *none* | Will your chat be in `random.js`?

@@ -16,3 +16,12 @@ exports.run = (api, update, args) => {
   });
   
 }
+
+exports.command = {
+  "name": "no",
+  "arguments": false,
+  "description": {
+    "en": "Will your chat be in random.js?",
+    "ru": "Будет или нет диалог попадать в random.js?"
+  }
+}

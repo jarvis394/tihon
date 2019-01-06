@@ -1,10 +1,7 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
-  "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
+  "name": "ded-tihon",
+  "version": "2.4.1",
+  "description": "VK bot",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -13,18 +10,14 @@
     "express": "^4.16.4",
     "vk-io": "^4.0.0-rc.10",
     "mathjs": "^5.4.0",
-    "fs": "^0.0.2"
+    "fs": "^0.0.2",
+    "ejs": "^2.6.1"
   },
   "engines": {
     "node": "8.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
+    "url": "https://github.com/jarvis394/ded_tihon"
   },
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+  "license": "MIT"
 }

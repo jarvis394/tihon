@@ -28,7 +28,8 @@ exports.run = async (api, bot, args) => {
      msg.text === "") || 
      msg.text.split(" ").some(t => t.startsWith("http")) || 
      msg.text.startsWith("/") || 
-     msg.text.length > 500
+     msg.text.length > 500 ||
+     msg.from_id === process.env.ID
   ) {
     msg = await getMsg();
   }
@@ -63,4 +64,13 @@ exports.run = async (api, bot, args) => {
     });
   }
   
+}
+
+exports.command = {
+  "name": "random",
+  "arguments": false,
+  "description": {
+    "en": "Sends random message from other multidialogs",
+    "ru": "Отправить рандомное сообщение из других бесед"
+  }
 }
