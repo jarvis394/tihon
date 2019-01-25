@@ -36,7 +36,7 @@ const listener = app.listen(process.env.PORT, () => {
 const { VK } = require('vk-io');
 
 const vk = new VK;
-const { api, updates } = vk;
+const { api, updates, auth } = vk;
   
 const memoryStorage = new Map();
 
