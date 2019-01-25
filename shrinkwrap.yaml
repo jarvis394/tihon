@@ -2,7 +2,7 @@ dependencies:
   ejs: 2.6.1
   express: 4.16.4
   fs: 0.0.2
-  mathjs: 5.4.0
+  mathjs: 5.4.1
   vk-io: 4.0.0-rc.10
 packages:
   /@types/node/10.12.15:
@@ -117,10 +117,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-heNPJUJIqC+xB6ayLAMHaIrmN9HKa7aQO8MGqKpvCA+uJYVcvR6l5kgdrhRuwPFHU7P5/A1w0BjByPHwpfTDKg==
-  /decimal.js/10.0.1:
+  /decimal.js/10.0.2:
     dev: false
     resolution:
-      integrity: sha512-vklWB5C4Cj423xnaOtsUmAv0/7GqlXIgDv2ZKDyR64OV3OSzGHNx2mk4p/1EKnB5s70k73cIOOEcG9YzF0q4Lw==
+      integrity: sha512-qL5tUTXAWjB5cSBfm0V2a4jO5FaDLumCfwc/0f7WaTOT3WU8pIeq2HHrd98eXHtbey4qFWlaPzfml1JWIoO9TQ==
   /depd/1.1.2:
     dev: false
     engines:
@@ -257,10 +257,10 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
-  /fraction.js/4.0.11:
+  /fraction.js/4.0.12:
     dev: false
     resolution:
-      integrity: sha512-wyQd1A06dTom7vTkf8OsnqXNi5XjleeaDFrvQX3SDIyMsVN1eb8KSGH3fsckF5FMlSWBrMfDCcJWVf99rXbf/g==
+      integrity: sha512-8Z1K0VTG4hzYY7kA/1sj4/r1/RWLBD3xwReT/RCrUCbzPszjNQCCsy3ktkU/eaEqX3MYa4pY37a52eiBlPMlhA==
   /fresh/0.5.2:
     dev: false
     engines:
@@ -319,12 +319,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
-  /mathjs/5.4.0:
+  /mathjs/5.4.1:
     dependencies:
       complex.js: 2.0.11
-      decimal.js: 10.0.1
+      decimal.js: 10.0.2
       escape-latex: 1.2.0
-      fraction.js: 4.0.11
+      fraction.js: 4.0.12
       javascript-natural-sort: 0.7.1
       seed-random: 2.2.0
       tiny-emitter: 2.0.2
@@ -334,7 +334,7 @@ packages:
       node: '>= 6'
     hasBin: true
     resolution:
-      integrity: sha512-dhoFsi9SUR5IwUlDRq1KyP/2MhYo5yL8nROx7w0wlHF/yc7h5gAR4P7GRVt5mBBPliRYTLc63wsFVOigJ3YSEg==
+      integrity: sha512-sgJtr7tEW0hDLHG1SUuVeLHa9gnWwsmYs7NjRRpgowMYWvEszwvng7GzTN+ABWP9I0gO6AIIgNhCwRlE5eyG2Q==
   /media-typer/0.3.0:
     dev: false
     engines:
@@ -626,5 +626,5 @@ specifiers:
   ejs: ^2.6.1
   express: ^4.16.4
   fs: ^0.0.2
-  mathjs: ^5.4.0
+  mathjs: ^5.4.1
   vk-io: ^4.0.0-rc.10
