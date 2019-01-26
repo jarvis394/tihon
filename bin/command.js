@@ -1,4 +1,4 @@
-const { prefix } = require("../constants");
+const { prefix } = require("../config");
 
 module.exports = (updates, api) => updates.on('message', async (context, next) => {
   let text = context.text;

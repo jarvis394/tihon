@@ -46,6 +46,7 @@ Command | Arguments | Description
   - Fixed invisible arguments in `README.md`
   - Moved bot TOKEN and ID constants to `constants.js`
   - Renamed v -> views and p -> public + everything in these folders to longer names
+  - Renamed `constants.js` -> `config.js`
   - Fixes
 - 2.4.1
   - Fixed typo in `no.js`

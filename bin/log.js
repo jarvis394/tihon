@@ -1,7 +1,7 @@
 const {
   prefix,
   cooldown
-} = require("../constants");
+} = require("../config");
 
 module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message', async (context, next) => {
   if (talkedRecently.has(context.senderId))

@@ -37,7 +37,7 @@ const { VK } = require('vk-io');
 
 const vk = new VK;
 const { api, updates, auth } = vk;
-const { TOKEN } = require("./constants");
+const { TOKEN } = require("./config");
   
 const memoryStorage = new Map();
 const talkedRecently = new Set();

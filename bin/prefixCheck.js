@@ -1,4 +1,4 @@
-const { prefix } = require("../constants.js");
+const { prefix } = require("../config");
 
 module.exports = (updates) => updates.on('message', async (update, next) => {
 	if (update.isOutbox) return;
