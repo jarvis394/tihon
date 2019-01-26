@@ -13,12 +13,12 @@ Then, you can actually start using bot by typing commands below: *(also works in
 Command | Arguments | Description
 ------------ | ------------- | -------------
 /ping | *none* | Pong!
-/join | *<link>* | Join to multidialog by an invite link
+/join | *link* | Join to multidialog by an invite link
 /random | *none* | Sends random message from other multidialogs
 /photo | *none* | Sends random photo from other multidialogs
 /video | *none* | Sends random video from other multidialogs
 /counter | *none* | Show current amount of messages (on every `50th` message bot send random thing)
-/calc | *<expression>* | Calculate something
+/calc | *expression* | Calculate something
 /auto | *none* | Disable/Enable auto-sending messages
 /no | *none* | Will your chat be in `random.js`?
 
@@ -29,16 +29,24 @@ Command | Arguments | Description
 Команда | Аргументы | Описание
 ------------ | ------------- | -------------
 /ping | *пусто* | Понг!
-/join | *<ссылка>* | Войти в беседу по приглашению
+/join | *ссылка* | Войти в беседу по приглашению
 /random | *пусто* | Отправить рандомное сообщение из других бесед
 /photo | *пусто* | Отправить рандомное фото из других бесед
 /video | *пусто* | Отправить рандомное видео из других бесед
 /counter | *пусто* | Показывает количество сообщений до отправки всякой рандомной фигни (каждое `50` сообщение)
-/calc | *<выражение>* | Посчитать матан
+/calc | *выражение* | Посчитать матан
 /auto | *пусто* | Отключить/Включить автоматическую рассылку сообщений
 /no | *пусто* | Будет или нет диалог попадать в `random.js`?
 
 # Changelog
+- 2.5
+  - Implemented cooldown
+  - New error handling system
+  - getMsg() went to ./utils.js
+  - Fixed invisible arguments in `README.md`
+  - Moved bot TOKEN and ID constants to `constants.js`
+  - Renamed v -> views and p -> public + everything in these folders to longer names
+  - Fixes
 - 2.4.1
   - Fixed typo in `no.js`
   - Updated `.gitignore`

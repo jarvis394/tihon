@@ -2,8 +2,8 @@ const fs = require("fs");
 const no = JSON.parse(fs.readFileSync("./no.json", "utf8"))
 const blacklist = JSON.parse(fs.readFileSync("./blacklist.json", "utf8"));
 const {
-  randomArray,
-  random
+  random,
+  randomMessage
 } = require("../utils");
 
 module.exports = (api, vk) => {
@@ -16,53 +16,32 @@ module.exports = (api, vk) => {
 
     Dialogs.items.forEach(async (dialog) => {
 
+      // If dialog is blacklisted then return
       if (blacklist[dialog.conversation.peer.id]) return;
 
-      async function getMsg() {
-        var Dialogs = await api.messages.getConversations({
-          count: 200
-        });
-        var Dialog = randomArray(Dialogs.items);
-
-        while (no[Dialog.conversation.peer.id]) {
-          Dialog = randomArray(Dialog.items);
-        }
-
-        var Messages = await api.messages.getHistory({
-          peer_id: Dialog.conversation.peer.id
-        });
-        var Message = randomArray(Messages.items);
-
-        return Message;
-      }
-
-      var res = "Произошла ошибочка. Я из села :(";
+      var res = "";
       var options = {};
 
-      var msg = await getMsg();
-
-      while (
-        (msg.attachments.length === 0 && msg.text === "") || 
-         msg.text.split(" ").some(t => t.startsWith("http")) || 
-         msg.text.startsWith("/") || 
-         msg.text.length > 500) {
-        
-        msg = await getMsg();
-      }
+      var msg = randomMessage(api);
 
       if (msg.text !== "")
         res = msg.text;
-      if (msg.attachments.length !== 0)
-        if (msg.attachments[0].type === "photo") {
-          var access = msg.attachments[0].photo.access_key ? "_" + msg.attachments[0].photo.access_key : "";
-          options.attachment = "photo" + msg.attachments[0].photo.owner_id + "_" + msg.attachments[0].photo.id + access
-        }
+      if (msg.attachments.length !== 0) {
+        msg.attachments.forEach(attachment => {
+          if (attachment.type === "photo") {
+            var access = attachment.photo.access_key ? "_" + attachment.photo.access_key : "";
+            options.attachments += options.attachments ? 
+              "photo" + attachment.photo.owner_id + "_" + attachment.photo.id + access :
+              ", photo" + attachment.photo.owner_id + "_" + attachment.photo.id + access
+          }
+        });
+      }
 
       setTimeout(() => {
-        if (options.attachment)
+        if (options.attachments)
           vk.api.messages.send({
             "message": res,
-            "attachment": options.attachment,
+            "attachment": options.attachments,
             "peer_id": dialog.conversation.peer.id
           })
         else
