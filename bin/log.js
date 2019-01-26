@@ -4,21 +4,22 @@ const {
 } = require("../config");
 
 module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message', async (context, next) => {
-  if (talkedRecently.has(context.senderId))
-    return;
-
   let {
     peerId,
-    text
+    text,
+    senderId,
+    isOutbox
   } = context;
 
-  if (text && text.startsWith(prefix) && context.isInbox) {
+  if (talkedRecently.has(senderId)) return;
+
+  if (text && text.startsWith(prefix)) {
     console.log("> [LOG]", text, "|", peerId);
 
-    talkedRecently.add(context.senderId);
+    talkedRecently.add(senderId);
     setTimeout(() => {
       // Removes the user from the set after 2.5 seconds
-      talkedRecently.delete(context.senderId);
+      talkedRecently.delete(senderId);
     }, cooldown);
   }
 

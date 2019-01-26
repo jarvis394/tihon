@@ -13,7 +13,7 @@ exports.run = (api, update, args) => {
       return update.send("Похоже, я слишком тупой для таких примеров");
     }
 
-    update.send(`Ввод: ${calc}\nВывод: ${resp}`);
+    update.send(`📥 Ввод: ${calc}\n📤 Вывод: ${resp}`);
   } catch (e) {
     handleError(update, e)
   }

@@ -8,6 +8,7 @@ exports.run = async (api, update, args) => {
       if (err) return await update.send("Ошибочка вышла:\n", err)
 
       var res = [];
+      var helpText = args && args[0] === "en" ? "Help:\n" : "Помощь:\n";
 
       items.forEach(item => {
         var i = require("./" + item).command;
@@ -23,10 +24,10 @@ exports.run = async (api, update, args) => {
 
         var desc = lang[0] ? i.description.en : i.description.ru;
 
-        res += `/${i.name} ${a}- ${desc}\n`
+        res += `▫️ /${i.name} ${a}- ${desc}\n`
       });
 
-      return await update.send(res)
+      return await update.send("📃 " + helpText + res);
     });
   } catch (e) {
     handleError(update, e)
