@@ -1,6 +1,38 @@
+const { VK } = require('vk-io');
+
+const vk = new VK;
+const { api, updates, auth } = vk;
+const { TOKEN } = require("./config");
+
+const memoryStorage = new Map();
+const talkedRecently = new Set();
+
+vk.setOptions({
+  token: TOKEN
+});
+
+require("./bin/auto")(api, vk)
+
+require("./bin/log")(updates, memoryStorage, talkedRecently);
+require("./bin/counter")(updates, api);
+require("./bin/prefixCheck")(updates);
+require("./bin/command")(updates, api);
+
+async function run() {
+  await vk.updates.startPolling();
+  console.log('> [LOG] Polling started');
+}
+
+run().catch(err => {
+  console.log("> [ERROR]");
+  console.error(err)
+});
+
+////////////////////////////
+
 const express = require('express');
 const ejs = require("ejs");
-const fs = require("fs")
+const fs = require("fs");
 const app = express();
 
 app.use(express.static('public'));
@@ -27,38 +59,6 @@ app.get('/', (req, res) => {
   });
 });
 
-const listener = app.listen(process.env.PORT, () => {
+const listener = app.listen(4000, () => {
   console.log('> [WEB] Started on port', listener.address().port);
-});
-
-/////////////////////////////////////
-
-const { VK } = require('vk-io');
-
-const vk = new VK;
-const { api, updates, auth } = vk;
-const { TOKEN } = require("./config");
-  
-const memoryStorage = new Map();
-const talkedRecently = new Set();
-
-vk.setOptions({
-  token: TOKEN
-});
-
-require("./bin/auto")(api, vk)
-
-require("./bin/log")(updates, memoryStorage, talkedRecently);
-require("./bin/counter")(updates, api);
-require("./bin/prefixCheck")(updates);
-require("./bin/command")(updates, api);
-
-async function run() {
-  await vk.updates.startPolling();
-  console.log('> [LOG] Polling started');
-}
-
-run().catch(err => {
-  console.log("> [ERROR]");
-  console.error(err)
 });
