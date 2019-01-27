@@ -22,7 +22,7 @@ module.exports = (api, vk) => {
       var res = "";
       var options = {};
 
-      var msg = randomMessage(api);
+      var msg = await randomMessage(api);
 
       if (msg.text !== "")
         res = msg.text;
