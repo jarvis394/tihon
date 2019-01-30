@@ -1,5 +1,7 @@
 const fs = require("fs");
 const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
+const firebase = require("firebase");
+const db = firebase.app().database();
 
 /**
  * Returns random item from array
@@ -76,34 +78,31 @@ module.exports.handleError = (update, e) => {
   return update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
 }
 
+module.exports.dbSet = async (path, data) => {
+  await db.ref(path).set(data);
+}
+
+module.exports.dbUpdate = async (path, data) => {
+  await db.ref(path).update(data);
+}
+
+
+
+
+// Old method to keep user's settings; moved to Firebase
+
+
 /**
  * Write value to ./settings.json
  * 
  * @param {any} name Name of the field
  * @param {any} value Value to write
- */
-module.exports.writeSettings = (name, value) => {
-  let settings = JSON.parse(fs.readFileSync("./settings.json", "utf8")); // Get
-  settings[name] = value; // Update
-
-  // Write
-  fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
-    if (err) return console.log(err);
-  });
-}
-
-/**
- * Get user's settings from ./settings.json
- * 
- * @param {any} name Name of the field
  * @param {value} peer peer_id of the dialog
- * @returns {any} Field
  */
-module.exports.getSettings = (name, peer) => {
-  let settings = JSON.parse(fs.readFileSync("./settings.json", "utf8"))
-
+/*module.exports.writeSettings = (name, value, peer) => {
+  let settings = JSON.parse(fs.readFileSync("./settings.json", "utf8")); // Get
   if (peer && settings[peer])
-    return settings[peer][name];
+    settings[peer][name] = value;
   if (peer && !settings[peer]) {
     settings[peer] = {};
 
@@ -112,7 +111,64 @@ module.exports.getSettings = (name, peer) => {
       if (err) return console.log(err);
     });
 
-    return settings[peer][name];
+    settings[peer][name] = value;
   } else
-    return settings[name];
+    settings[name] = value;
+
+  // Write
+  fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
+    if (err) return console.log(err);
+  });
+}*/
+
+/**
+ * Get user's settings from ./settings.json
+ * 
+ * @param {any} name Name of the field
+ * @param {value} peer peer_id of the dialog
+ * @returns {any} Field
+ */
+/*module.exports.getSettings = async (name, peer) => {
+  fs.readFile("./settings.json", "utf8", (err, data) => {
+    let settings = JSON.parse(data);
+
+    if (peer && settings[peer])
+      return settings[peer][name];
+    if (peer && !settings[peer]) {
+      settings[peer] = {};
+
+      // Write
+      fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
+        if (err) return console.log(err);
+      });
+
+      return settings[peer][name];
+    } else
+      return settings[name];
+  });
 }
+
+module.exports.pushRole = (id, role, peer) => {
+  let settings = JSON.parse(fs.readFileSync("./settings.json", "utf8"));
+
+  if (settings[peer] && settings[peer][id]) {
+    settings[peer][id].roles.push(role);
+  } else if (settings[peer] && !settings[peer][id]) {
+    settings[peer][id] = {};
+    settings[peer][id].roles = [];
+
+    // Write
+    fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
+      if (err) return console.log(err);
+    });
+
+    settings[peer][id].roles.push(role);
+  } else {
+    settings[peer][id].roles.push(role);
+  }
+
+  // Write
+  fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
+    if (err) return console.log(err);
+  });
+}*/

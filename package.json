@@ -1,6 +1,6 @@
 {
   "name": "ded-tihon",
-  "version": "2.5",
+  "version": "2.5.0",
   "description": "VK bot",
   "main": "server.js",
   "scripts": {
@@ -10,6 +10,7 @@
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "firebase": "^5.8.1",
     "fs": "^0.0.2",
     "mathjs": "^5.4.2",
     "vk-io": "^4.0.0-rc.14"
