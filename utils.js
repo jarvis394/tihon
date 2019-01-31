@@ -86,6 +86,22 @@ module.exports.dbUpdate = async (path, data) => {
   await db.ref(path).update(data);
 }
 
+module.exports.dbGet = async (path) => {
+  return await db.ref(path).once("value", (data) => data.val());
+}
+
+module.exports.dbDialogGet = async (path, peer) => {
+  return await db.ref("dialogs/" + peer + "/" + path).once("value", (data) => data.val());
+}
+
+module.exports.dbDialogSet = async (path, peer, data) => {
+  await db.ref("dialogs/" + peer + "/" + path).set(data)
+}
+
+module.exports.dbDialogUpdate = async (path, peer, data) => {
+  await db.ref("dialogs/" + peer + "/" + path).update(data)
+}
+
 
 
 

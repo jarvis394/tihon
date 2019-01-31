@@ -4,14 +4,16 @@ const {
 
 const {
   dbSet,
-  dbUpdate
+  dbUpdate,
+  dbDialogGet,
+  dbDialogSet
 } = require("../utils");
 
 exports.run = async (api, update, args) => {
   try {
 
     // Return if group mentioned (usually that's bot)
-    if (args[0] && args[0].startsWith("[club")) return update.send("Группам роли не даю");
+    if (args.includes(el => el.startsWith("[club"))) return update.send("Группам роли не даю");
 
     // Add role if a first argument is "add"
     if (args[0] == "add") return addRole();
@@ -36,20 +38,27 @@ exports.run = async (api, update, args) => {
    * Add role
    */
   async function addRole() {
-    let roleName = args[1];  // Role name is second arg
-    let userId = args[2] && args[2].startsWith("[id") ? args[2].slice(1, -1).split("|")[0] : update.senderId;
+    let roleName = args[1]; // Role name is the second argument
+    let userId = args[2] && args[2].startsWith("[id") ?  // If there is a third argument
+      args[2].slice(1, -1).split("|")[0] :               // User ID is the third argument
+      update.senderId;                                   // but if there isn't, userID is sender's ID
 
     if (!roleName) return update.send("⭕️ Не указана роль");
 
-    // db(userId, roleName, update.peerId);
+    let data = await dbDialogGet(userId, update.peerId);
 
-    let r = await getSettings(userId, update.peerId);
+    if (!data) await dbDialogSet(userId, update.peerId, {});
+
+    data.roles = data.roles ? data.roles : [];
+    data.roles.push(roleName);
+    await dbDialogSet(userId, update.peerId, data);
+
     let user = await api.users.get({
       user_ids: userId,
       name_case: "gen"
     });
 
-    r = r && r.roles ? r.roles.map(val => "🔸 " + val).join("\n") : "Пока ничего!";
+    let r = data && data.roles ? data.roles.map(val => "🔸 " + val).join("\n") : "Пока ничего!";
 
     return await update.send(`Теперь роли у ${user[0].first_name} ${user[0].last_name}:\n${r}`);
   }
@@ -59,7 +68,7 @@ exports.run = async (api, update, args) => {
   }
 
   async function showRoles(id) {
-    let r = await getSettings(id, update.peerId);
+    let r = await dbDialogGet(id, update.peerId);
     let user = await api.users.get({
       user_ids: id,
       name_case: "gen"
