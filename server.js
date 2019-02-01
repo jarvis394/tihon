@@ -70,6 +70,16 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   fs.readdir(__dirname + "/commands", async (err, items) => {
+    if (err) {
+      console.error("> [ERROR] On rendering page:\n", err)
+      res.json({
+        "code": 500,
+        "message": "Internal error on rendering page"
+      });
+      
+      return;
+    }
+
     var commands = [];
 
     items.forEach(item => {

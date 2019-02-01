@@ -14,29 +14,23 @@ const {
 exports.run = async (api, update, args) => {
   try {
 
-    await dbSet('/dialogs', {
-      "70": {
-        "437920818": {
-          "roles": [
-            "asd",
-            "test"
-          ]
-        }
-      }
+    await dbGet("/").then(data => {
+      console.log(data)
     });
-
-    await dbDialogSet('437920818', '70', {
-      "roles": [
-        "123",
-        "321"
-      ]
-    })
-
-    let d = await dbGet("/");
-    let data = await dbDialogGet('437920818', '70');
-    console.log(d, data);
+    await dbDialogGet('437920818', '70').then(data => {
+      console.log(data)
+    });
 
   } catch (e) {
     handleError(update, e);
+  }
+}
+
+exports.command = {
+  "name": "db",
+  "arguments": false,
+  "description": {
+    "en": "Testing database",
+    "ru": "Testing database"
   }
 }

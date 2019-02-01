@@ -78,26 +78,57 @@ module.exports.handleError = (update, e) => {
   return update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
 }
 
+/**
+ * Set data to database
+ * @param {string} path Path
+ * @param {any} data Data to set
+ */
 module.exports.dbSet = async (path, data) => {
   await db.ref(path).set(data);
 }
 
+/**
+ * Update data in database
+ * @param {string} path Path
+ * @param {any} data Data to update
+ */
 module.exports.dbUpdate = async (path, data) => {
   await db.ref(path).update(data);
 }
 
+/**
+ * Get data from database
+ * @param {string} path Path
+ */
 module.exports.dbGet = async (path) => {
   return await db.ref(path).once("value", (data) => data.val());
 }
 
+/**
+ * Get data from dialogs in database
+ * @param {string} path Path
+ * @param {string} peer PeerID of the dialog
+ */
 module.exports.dbDialogGet = async (path, peer) => {
   return await db.ref("dialogs/" + peer + "/" + path).once("value", (data) => data.val());
 }
 
+/**
+ * Set data to dialogs in database
+ * @param {string} path Path
+ * @param {string} peer PeerID of the dialog
+ * @param {any} data Data to set
+ */
 module.exports.dbDialogSet = async (path, peer, data) => {
   await db.ref("dialogs/" + peer + "/" + path).set(data)
 }
 
+/**
+ * Update data in dialogs in database
+ * @param {string} path Path
+ * @param {string} peer PeerID of the dialog
+ * @param {any} data Data to update
+ */
 module.exports.dbDialogUpdate = async (path, peer, data) => {
   await db.ref("dialogs/" + peer + "/" + path).update(data)
 }
