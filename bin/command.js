@@ -10,7 +10,7 @@ module.exports = (updates, api) => updates.on('message', async (context, next) =
     commandFile.run(api, context, args);
   } catch (e) { 
     if (e.code === "MODULE_NOT_FOUND") return; // :)
-    console.error("[ERROR]", e);
+    console.error("> [ERROR]", e);
   }
   
   await next();

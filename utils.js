@@ -75,7 +75,8 @@ module.exports.randomMessage = async (api) => {
  * @param {object} e Error object
  */
 module.exports.handleError = (update, e) => {
-  return update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
+  console.error("> [ERR] Error with command '" + update.text + "':\n", e);
+  update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
 }
 
 /**
@@ -101,7 +102,10 @@ module.exports.dbUpdate = async (path, data) => {
  * @param {string} path Path
  */
 module.exports.dbGet = async (path) => {
-  return await db.ref(path).once("value", (data) => data.val());
+  let data;
+  await db.ref(path).once("value", (d) => data = d.val());
+
+  return data;
 }
 
 /**
@@ -110,7 +114,10 @@ module.exports.dbGet = async (path) => {
  * @param {string} peer PeerID of the dialog
  */
 module.exports.dbDialogGet = async (path, peer) => {
-  return await db.ref("dialogs/" + peer + "/" + path).once("value", (data) => data.val());
+  let data;
+  await db.ref("dialogs/" + peer + "/" + path).once("value", (d) => data = d.val());
+
+  return data;
 }
 
 /**
