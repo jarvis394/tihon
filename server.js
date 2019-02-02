@@ -80,7 +80,7 @@ app.post('/git', (req, res) => {
       console.log('> [shell]:', data, err, stderr);
     });
 
-    cmd.get('git reset --hard origin/master', (err, data, stderr) => {
+    cmd.get('git reset --hard HEAD', (err, data, stderr) => {
       console.log('> [shell]:', data, err, stderr);
     });
 
