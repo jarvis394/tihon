@@ -40,6 +40,7 @@ require("./bin/auto")(api, vk)
 
 require("./bin/log")(updates, memoryStorage, talkedRecently);
 require("./bin/counter")(updates, api);
+require("./bin/mention")(updates);
 require("./bin/prefixCheck")(updates);
 require("./bin/command")(updates, api);
 
