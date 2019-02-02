@@ -28,7 +28,7 @@ exports.run = async (api, update, args) => {
     if (member.startsWith('club')) member = -parseInt(member.slice(4))
     else member = member.slice(2);
 
-    if (member == -ID) return update.send('👺');
+    if (member == ID) return update.send('👺');
 
     api.messages.removeChatUser({
       "chat_id": parseInt(update.peerId) - 2000000000,
