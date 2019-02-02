@@ -4,13 +4,13 @@
   "description": "VK bot",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "firebase": "^5.8.1",
+    "firebase": "^5.8.2",
     "fs": "^0.0.2",
     "mathjs": "^5.4.2",
     "node-cmd": "^3.0.0",
