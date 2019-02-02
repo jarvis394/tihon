@@ -76,7 +76,15 @@ app.use(bodyParser);
 
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
-    cmd.get('git pull https://github.com/jarvis394/ded_tihon.git -f', (err, data, stderr) => {
+    cmd.get('git fetch --all', (err, data, stderr) => {
+      console.log('> [shell]:', data, err, stderr);
+    });
+
+    cmd.get('git reset --hard origin/master', (err, data, stderr) => {
+      console.log('> [shell]:', data, err, stderr);
+    });
+
+    cmd.get('git pull origin master', (err, data, stderr) => {
       console.log('> [shell]:', data, err, stderr);
     });
 
