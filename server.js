@@ -65,6 +65,7 @@ vk.captchaHandler = async ({
 const express = require('express');
 const ejs = require("ejs");
 const fs = require("fs");
+const bodyParser = require("body-parser").json();
 const app = express();
 
 // Libs for command line
