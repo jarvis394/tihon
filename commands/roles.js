@@ -63,11 +63,19 @@ exports.run = async (api, update, args) => {
         name_case: "gen"
       });
 
-      let r = r && r.roles ? r.roles.map(val => {
-        if (val) return "🔸 " + val
-      }).join("\n") : "Пока ничего!";
+      let res = "";
+      if (user && user.roles) {
+        let c = 0;
+        user.roles.forEach(el => {
+          if (el) res += "🔸 " + el + "\n", c++;
+        });
+        if (!c) res = "🔸 Пока ничего!";
+      }
 
-      return await update.send(`Теперь роли у ${name[0].first_name} ${name[0].last_name}:\n${r}`);
+      return await update.send(
+        `Добавлена роль '${roleName}'\n
+         Теперь роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`
+      );
     }
 
     /**
@@ -96,6 +104,7 @@ exports.run = async (api, update, args) => {
 
       let i = user.roles.findIndex(el => el === roleName);
       if (i !== -1) user.roles.splice(i, 1);
+      else return update.send("⭕️ Такой роли нет");
 
       await dbDialogSet(userId, update.peerId, user);
 
@@ -104,23 +113,31 @@ exports.run = async (api, update, args) => {
         name_case: "gen"
       });
 
-      let r = r && r.roles ? r.roles.map(val => {
-        if (val) return "🔸 " + val
-      }).join("\n") : "Пока ничего!";
+      let res = "";
+      if (user && user.roles) {
+        let c = 0;
+        user.roles.forEach(el => {
+          if (el) res += "🔸 " + el + "\n", c++;
+        });
+        if (!c) res = "🔸 Пока ничего!";
+      }
 
-      return await update.send(`Теперь роли у ${name[0].first_name} ${name[0].last_name}:\n${r}`);
+      return await update.send(
+        `Удалена роль '${roleName}'\n
+         Теперь роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`
+      );
     }
 
     async function showRoles(id) {
-      let r = await dbDialogGet(id, update.peerId);
+      let user = await dbDialogGet(id, update.peerId);
 
-      if (!r) {
+      if (!user) {
         await dbDialogSet(id, update.peerId, {
           "roles": [
             false
           ]
         });
-        r = await dbDialogGet(id, update.peerId);
+        user = await dbDialogGet(id, update.peerId);
       }
 
       let name = await api.users.get({
@@ -128,11 +145,16 @@ exports.run = async (api, update, args) => {
         name_case: "gen"
       });
 
-      r = r && r.roles ? r.roles.map(val => {
-        if (val) return "🔸 " + val
-      }).join("\n") : "Пока ничего!";
+      let res = "";
+      if (user && user.roles) {
+        let c = 0;
+        user.roles.forEach(el => {
+          if (el) res += "🔸 " + el + "\n", c++;
+        });
+        if (!c) res = "🔸 Пока ничего!";
+      }
 
-      return await update.send(`Роли у ${name[0].first_name} ${name[0].last_name}:\n${r}`);
+      return await update.send(`Роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`);
     }
 
   } catch (e) {
