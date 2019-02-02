@@ -75,7 +75,7 @@ app.use(bodyParser);
 
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
-    cmd.get('git pull https://github.com/jarvis394/ded_tihon.git', (err, data, stderr) => {
+    cmd.get('git pull https://github.com/jarvis394/ded_tihon.git -f', (err, data, stderr) => {
       console.log('> [shell]:', data, err, stderr);
     });
 
