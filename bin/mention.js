@@ -15,8 +15,7 @@ const answers = [
 
 module.exports = (updates) => updates.on('message', async (context, next) => {
   let {
-    text,
-    isOutbox
+    text
   } = context;
 
   if (text && !text.startsWith("/") && text.split(" ").some(el => el.startsWith("[id" + ID))) {
