@@ -14,6 +14,7 @@ const talkedRecently = new Set(); // Saves users that talked recently
 
 const {
   TOKEN,
+  SECRET,
   FIREBASE_TOKEN,
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL,
@@ -90,7 +91,9 @@ app.use(bodyParser);
 
 // Git webhooks
 app.post('/git', (req, res) => {
-  if (req.headers['x-github-event'] == "push") { // If event is "push"
+  // If event is "push" and secret matches config.SECRET
+  if (req.headers['x-github-event'] == "push" &&
+      req.headers['x-hub-signature'] == SECRET) {
     cmd.run('chmod 777 git.sh'); // :/ Fix no perms after updating
     cmd.get('./git.sh', (err, data) => {
       if (data) console.log(data);
