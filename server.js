@@ -108,7 +108,7 @@ app.post('/git', (req, res) => {
     console.log("> [GIT] Updated with origin/master\n" +
                 "        Latest commit: " + 
                 req.body.head_commit.message.split("\n").length == 1 ? 
-                req.body.head_commit.message :
+                "        " + req.body.head_commit.message :
                 req.body.head_commit.message.split("\n").map(el => "        " + el).join("\n"));
     
   }
