@@ -1,4 +1,5 @@
 node_modules/
-/blacklist.json
-/no.json
-/shrinkwrap.yaml
+blacklist.json
+no.json
+shrinkwrap.yaml
+config.js

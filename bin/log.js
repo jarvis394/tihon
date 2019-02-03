@@ -1,17 +1,34 @@
-const { prefix } = require("../constants");
+const {
+  prefix,
+  cooldown
+} = require("../config");
 
-module.exports = (updates, memoryStorage) => updates.on('message', async (context, next) => {
-	let { peerId, text } = context;
-  
-  if (text && text.startsWith(prefix)) console.log("> [LOG]", text, "|", context.peerId);
+module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message', async (context, next) => {
+  let {
+    peerId,
+    text,
+    senderId,
+    isOutbox
+  } = context;
 
-	let session = memoryStorage.has(peerId)
-		? memoryStorage.get(peerId)
-		: {};
+  if (talkedRecently.has(senderId)) return;
 
-	context.state.session = session;
+  if (text && text.startsWith(prefix)) {
+    console.log("> [LOG]", text, "|", peerId);
+
+    talkedRecently.add(senderId);
+    setTimeout(() => {
+      // Removes the user from the set after 2.5 seconds
+      talkedRecently.delete(senderId);
+    }, cooldown);
+  }
+
+  let session = memoryStorage.has(peerId) ?
+    memoryStorage.get(peerId) : {};
+
+  context.state.session = session;
 
   await next();
-  
-	memoryStorage.set(peerId, session);
+
+  memoryStorage.set(peerId, session);
 });

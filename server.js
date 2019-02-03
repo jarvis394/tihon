@@ -1,53 +1,46 @@
-const express = require('express');
-const ejs = require("ejs");
-const fs = require("fs")
-const app = express();
-
-app.use(express.static('p'));
-
-app.get('/', (req, res) => {
-  fs.readdir(__dirname + "/commands", async (err, items) => {
-    var commands = [];
-    
-    items.forEach(item => {
-      var i = require("./commands/" + item).command;
-      commands.push(i);
-    });
-    
-    ejs.renderFile(__dirname + '/v/i.html', { "commands": commands }, (err, str) => {
-    if (!err)
-      return res.send(str);
-    else
-      console.error("> [ERROR] On rendering page:\n", err),
-      res.json({
-        "code": 500,
-        "message": "Internal error on rendering page"
-      });
-    });
-  });
-});
-
-const listener = app.listen(process.env.PORT, () => {
-  console.log('> [LOG] Started on port', listener.address().port);
-});
-
-/////////////////////////////////////
-
-const { VK } = require('vk-io');
+const {
+  VK
+} = require('vk-io');
 
 const vk = new VK;
-const { api, updates, auth } = vk;
-  
+const {
+  api,
+  updates
+} = vk;
+const {
+  TOKEN,
+  FIREBASE_TOKEN,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_DB_URL,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_SENDER_ID
+} = require("./config");
+
 const memoryStorage = new Map();
+const talkedRecently = new Set();
+
+const firebase = require("firebase");
+
+// Initialize Firebase
+var config = {
+  apiKey: FIREBASE_TOKEN,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  databaseURL: FIREBASE_DB_URL,
+  projectId: "ded-tihon",
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_SENDER_ID
+};
+firebase.initializeApp(config);
 
 vk.setOptions({
-  token: process.env.TOKEN
+  token: TOKEN
 });
 
 require("./bin/auto")(api, vk)
 
-require("./bin/log")(updates, memoryStorage);
+require("./bin/log")(updates, memoryStorage, talkedRecently);
 require("./bin/counter")(updates, api);
+require("./bin/mention")(updates);
 require("./bin/prefixCheck")(updates);
 require("./bin/command")(updates, api);
 
@@ -59,4 +52,77 @@ async function run() {
 run().catch(err => {
   console.log("> [ERROR]");
   console.error(err)
+});
+
+vk.captchaHandler = async ({
+  src
+}, retry) => {
+  console.log("> [LOG] Needed captcha:", src);
+};
+
+////////////////////////////
+
+const express = require('express');
+const ejs = require("ejs");
+const fs = require("fs");
+const bodyParser = require("body-parser").json();
+const app = express();
+
+// Libs for command line
+const cmd = require("node-cmd");
+
+app.use(express.static('public'));
+app.use(bodyParser);
+
+app.post('/git', (req, res) => {
+  if (req.headers['x-github-event']) {
+    cmd.run('git fetch --all');
+
+    cmd.run('git reset --hard HEAD');
+
+    cmd.run('git pull origin master -f');
+
+    cmd.run('refresh');
+    
+    console.log("> [GIT] Updated");
+  }  
+  res.sendStatus(200);
+});
+
+app.get('/', (req, res) => {
+  fs.readdir(__dirname + "/commands", async (err, items) => {
+    if (err) {
+      console.error("> [ERROR] On rendering page:\n", err)
+      res.json({
+        "code": 500,
+        "message": "Internal error on rendering page"
+      });
+      
+      return;
+    }
+
+    var commands = [];
+
+    items.forEach(item => {
+      var i = require("./commands/" + item).command;
+      commands.push(i);
+    });
+
+    ejs.renderFile(__dirname + '/views/index.html', {
+      "commands": commands
+    }, (err, str) => {
+      if (!err)
+        return res.send(str);
+      else
+        console.error("> [ERROR] On rendering page:\n", err),
+        res.json({
+          "code": 500,
+          "message": "Internal error on rendering page"
+        });
+    });
+  });
+});
+
+const listener = app.listen(4000, () => {
+  console.log('> [WEB] Started on port', listener.address().port);
 });

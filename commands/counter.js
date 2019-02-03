@@ -1,7 +1,11 @@
-exports.run = async (api, update, args) => {
-	const { session } = update.state;
+const { handleError } = require("../utils")
 
-	await update.send(`Счётчик: (${session.counter})`);
+exports.run = async (api, update, args) => {
+  try {
+    await update.send(`Счётчик: (${update.state.session.counter})`);
+  } catch (e) {
+    handleError(update, e)
+  }
 }
 
 exports.command = {

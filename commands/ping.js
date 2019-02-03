@@ -1,3 +1,5 @@
+const { handleError } = require("../utils")
+
 const replies = [
   "Шо ты меня пингуешь братец",
   "А?",
@@ -5,10 +7,16 @@ const replies = [
   "Чавой?",
   "Пинг-понг"
 ]
-const { randomArray } = require("../utils");
+const {
+  randomArray
+} = require("../utils");
 
 exports.run = async (api, update, args) => {
-  await update.send(randomArray(replies))
+  try {
+    await update.send(randomArray(replies))
+  } catch (e) {
+    handleError(update, e)
+  }
 }
 
 exports.command = {
