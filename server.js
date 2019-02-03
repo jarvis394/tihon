@@ -101,7 +101,8 @@ app.post('/git', (req, res) => {
     });
     cmd.run('refresh');
 
-    console.log("> [GIT] Updated with origin/master");
+    console.log("> [GIT] Updated with origin/master\n" +
+                "        Latest commit: \n" + req.body.head_commit.message);
   }
 
   return res.sendStatus(200);
