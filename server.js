@@ -76,19 +76,15 @@ app.use(bodyParser);
 
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
-    cmd.get('git fetch --all', (err, data, stderr) => {
-      console.log('> [shell]:', data, err, stderr);
-    });
+    cmd.run('git fetch --all');
 
-    cmd.get('git reset --hard HEAD', (err, data, stderr) => {
-      console.log('> [shell]:', data, err, stderr);
-    });
+    cmd.run('git reset --hard HEAD');
 
-    cmd.get('git pull origin master', (err, data, stderr) => {
-      console.log('> [shell]:', data, err, stderr);
-    });
+    cmd.run('git pull origin master -f');
 
     cmd.run('refresh');
+    
+    console.log("> [GIT] Updated");
   }
   
   res.sendStatus(200);
