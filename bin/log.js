@@ -7,8 +7,7 @@ module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message
   let {
     peerId,
     text,
-    senderId,
-    isOutbox
+    senderId
   } = context;
 
   if (talkedRecently.has(senderId)) return;
