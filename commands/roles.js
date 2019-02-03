@@ -14,16 +14,16 @@ exports.run = async (api, update, args) => {
     if (args.includes(el => el.startsWith("[club"))) return update.send("Группам роли не даю");
 
     // Add role if a first argument is "add"
-    if (args[0] == "add") return addRole();
+    if (args[0] == "add") return await addRole();
 
     // Remove role if a first argument is "remove"
-    else if (args[0] == "remove") return removeRole();
+    else if (args[0] == "remove") return await removeRole();
 
     // Show mentioned user's roles
-    else if (args[0] && args[0].startsWith("[id")) return showRoles(args[0].slice(1, -1).split("|")[0])
+    else if (args[0] && args[0].startsWith("[id")) return await showRoles(args[0].slice(1, -1).split("|")[0])
 
     // Show user's roles
-    else if (!args[0]) return showRoles(update.senderId);
+    else if (!args[0]) return await showRoles(update.senderId);
 
     // Error if nothing mathcing
     else return update.send("Не опознал");
@@ -41,20 +41,20 @@ exports.run = async (api, update, args) => {
       if (!roleName) return update.send("⭕️ Не указана роль");
 
       // Get data
-      let user = await dbDialogGet(userId, update.peerId);
+      let user = await dbDialogGet("users/" + userId, update.peerId);
 
       if (!user) {
-        await dbDialogSet(userId, update.peerId, {
+        await dbDialogSet("users/" + userId, update.peerId, {
           "roles": [
             false
           ]
         });
-        user = await dbDialogGet(userId, update.peerId);
+        user = await dbDialogGet("users/" + userId, update.peerId);
       }
 
       user.roles = user.roles ? user.roles : [];
       user.roles.push(roleName);
-      await dbDialogSet(userId, update.peerId, user);
+      await dbDialogSet("users/" + userId, update.peerId, user);
 
       let name = await api.users.get({
         user_ids: userId,
@@ -89,22 +89,22 @@ exports.run = async (api, update, args) => {
       if (!roleName) return update.send("⭕️ Не указана роль");
 
       // Get data
-      let user = await dbDialogGet(userId, update.peerId);
+      let user = await dbDialogGet("users/" + userId, update.peerId);
 
       if (!user) {
-        await dbDialogSet(userId, update.peerId, {
+        await dbDialogSet("users/" + userId, update.peerId, {
           "roles": [
             false
           ]
         });
-        user = await dbDialogGet(userId, update.peerId);
+        user = await dbDialogGet("users/" + userId, update.peerId);
       }
 
       let i = user.roles.findIndex(el => el === roleName);
       if (i !== -1) user.roles.splice(i, 1);
       else return update.send("⭕️ Такой роли нет");
 
-      await dbDialogSet(userId, update.peerId, user);
+      await dbDialogSet("users/" + userId, update.peerId, user);
 
       let name = await api.users.get({
         user_ids: userId,
@@ -127,15 +127,15 @@ exports.run = async (api, update, args) => {
     }
 
     async function showRoles(id) {
-      let user = await dbDialogGet(id, update.peerId);
+      let user = await dbDialogGet("users/" + id, update.peerId);
 
       if (!user) {
-        await dbDialogSet(id, update.peerId, {
+        await dbDialogSet("users/" + id, update.peerId, {
           "roles": [
             false
           ]
         });
-        user = await dbDialogGet(id, update.peerId);
+        user = await dbDialogGet("users/" + id, update.peerId);
       }
 
       let name = await api.users.get({
