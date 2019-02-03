@@ -91,6 +91,7 @@ app.use(bodyParser);
 // Git webhooks
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
+    cmd.run('chmod 777 git.sh');
     cmd.get('./git.sh', (err, data, stderr) => {
       console.log(data, err);
     });
