@@ -9,7 +9,7 @@ const {
   updates
 } = vk;
 
-const memoryStorage = new Map();  // Saves counter to every dialog
+const memoryStorage = new Map(); // Saves counter to every dialog
 const talkedRecently = new Set(); // Saves users that talked recently
 
 const {
@@ -91,10 +91,12 @@ app.use(bodyParser);
 // Git webhooks
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
-    cmd.run('./git.sh');
+    cmd.get('./git.sh', (err, data, stderr) => {
+      console.log(data, err);
+    });
     cmd.run('refresh');
 
-    console.log("> [GIT] Updated with origin/master");
+    console.log("> [GIT] Updated with origin/master\n" + "        Latest commit: " + req.body.head_commit.message);
   }
 
   return res.sendStatus(200);
