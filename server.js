@@ -96,8 +96,8 @@ app.post('/git', (req, res) => {
   let sig  = "sha1=" + hmac.update(JSON.stringify(req.body)).digest("hex");
   
   // If event is "push" and secret matches config.SECRET
-  if (req.headers['x-github-event'] == "push" && 
-      sig == req.headers['x-hub-signature']) {
+  if (req.headers['x-github-event'] == "push" && sig == req.headers['x-hub-signature']) {
+
     cmd.run('chmod 777 git.sh'); // :/ Fix no perms after updating
     cmd.get('./git.sh', (err, data) => {
       if (data) console.log(data);
@@ -106,7 +106,11 @@ app.post('/git', (req, res) => {
     cmd.run('refresh');
 
     console.log("> [GIT] Updated with origin/master\n" +
-                "        Latest commit: \n" + req.body.head_commit.message);
+                "        Latest commit: " + 
+                req.body.head_commit.message.split("\n").length == 1 ? 
+                req.body.head_commit.message :
+                req.body.head_commit.message.split("\n").map(el => "        " + el).join("\n"));
+    
   }
 
   return res.sendStatus(200);
