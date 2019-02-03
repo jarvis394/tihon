@@ -91,13 +91,14 @@ app.use(bodyParser);
 // Git webhooks
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
-    cmd.run('chmod 777 git.sh');
-    cmd.get('./git.sh', (err, data, stderr) => {
-      console.log(data, err);
+    cmd.run('chmod 777 git.sh'); // :/ Fix no perms after updating
+    cmd.get('./git.sh', (err, data) => {
+      if (data) console.log(data);
+      if (err) console.log(err);
     });
     cmd.run('refresh');
 
-    console.log("> [GIT] Updated with origin/master\n" + "        Latest commit: \n\n" + req.body.head_commit.message);
+    console.log("> [GIT] Updated with origin/master");
   }
 
   return res.sendStatus(200);
