@@ -77,15 +77,13 @@ app.use(bodyParser);
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
     cmd.run('git fetch origin master');
-
-    cmd.run('git reset --hard origin/master');
-
+    cmd.run('git reset --hard origin master');
     cmd.run('refresh');
 
-    console.log("> [GIT] Updated");
+    console.log("> [GIT] Updated with origin/master");
   }
-  
-  res.sendStatus(200);
+
+  return res.sendStatus(200);
 });
 
 app.get('/', (req, res) => {
