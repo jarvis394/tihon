@@ -106,8 +106,10 @@ app.post('/git', (req, res) => {
     cmd.run('refresh');
 
     let commits = req.body.head_commit.message.split("\n").length == 1 ?
-      "        " + req.body.head_commit.message :
-      req.body.head_commit.message.split("\n").map(el => "        " + el).join("\n")
+      req.body.head_commit.message :
+      req.body.head_commit.message.split("\n").map((el, i) => {
+        if (i !== 0) "                     " + el
+      }).join("\n");
     console.log(`> [GIT] Updated with origin/master\n` +
       `        Latest commit: ${commits}`);
 
