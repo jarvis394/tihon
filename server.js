@@ -93,8 +93,8 @@ app.use(bodyParser);
 // Git webhooks
 app.post('/git', (req, res) => {
   let hmac = crypto.createHmac("sha1", SECRET);
-  let sig  = "sha1=" + hmac.update(JSON.stringify(req.body)).digest("hex");
-  
+  let sig = "sha1=" + hmac.update(JSON.stringify(req.body)).digest("hex");
+
   // If event is "push" and secret matches config.SECRET
   if (req.headers['x-github-event'] == "push" && sig == req.headers['x-hub-signature']) {
 
@@ -105,12 +105,12 @@ app.post('/git', (req, res) => {
     });
     cmd.run('refresh');
 
-    console.log("> [GIT] Updated with origin/master\n" +
-                "        Latest commit: " + 
-                req.body.head_commit.message.split("\n").length == 1 ? 
-                "        " + req.body.head_commit.message :
-                req.body.head_commit.message.split("\n").map(el => "        " + el).join("\n"));
-    
+    let commits = req.body.head_commit.message.split("\n").length == 1 ?
+      "        " + req.body.head_commit.message :
+      req.body.head_commit.message.split("\n").map(el => "        " + el).join("\n")
+    console.log(`> [GIT] Updated with origin/master\n` +
+      `        Latest commit: ${commits}`);
+
   }
 
   return res.sendStatus(200);
