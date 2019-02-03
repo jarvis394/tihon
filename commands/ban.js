@@ -4,12 +4,7 @@ const {
 } = require("../utils");
 
 const {
-  dbSet,
-  dbUpdate,
-  dbGet,
-  dbDialogGet,
-  dbDialogSet,
-  dbDialogUpdate
+  dbDialogGet
 } = require("../utils");
 
 exports.run = async (api, update, args) => {

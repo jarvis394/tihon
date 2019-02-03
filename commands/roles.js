@@ -3,8 +3,6 @@ const {
 } = require("../utils")
 
 const {
-  dbSet,
-  dbUpdate,
   dbDialogGet,
   dbDialogSet
 } = require("../utils");
