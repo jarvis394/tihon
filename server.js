@@ -1,12 +1,17 @@
 const {
   VK
 } = require('vk-io');
+const firebase = require("firebase");
 
 const vk = new VK;
 const {
   api,
   updates
 } = vk;
+
+const memoryStorage = new Map();  // Saves counter to every dialog
+const talkedRecently = new Set(); // Saves users that talked recently
+
 const {
   TOKEN,
   FIREBASE_TOKEN,
@@ -16,13 +21,10 @@ const {
   FIREBASE_SENDER_ID
 } = require("./config");
 
-const memoryStorage = new Map();
-const talkedRecently = new Set();
-
-const firebase = require("firebase");
+/** INIT **/
 
 // Initialize Firebase
-var config = {
+let config = {
   apiKey: FIREBASE_TOKEN,
   authDomain: FIREBASE_AUTH_DOMAIN,
   databaseURL: FIREBASE_DB_URL,
@@ -36,12 +38,22 @@ vk.setOptions({
   token: TOKEN
 });
 
-require("./bin/auto")(api, vk)
+// Auto send messages
+require("./bin/auto")(api, vk);
 
+// Log incoming messages
 require("./bin/log")(updates, memoryStorage, talkedRecently);
+
+// Count them
 require("./bin/counter")(updates, api);
+
+// Check if user mentioned bot
 require("./bin/mention")(updates);
+
+// Check for prefix
 require("./bin/prefixCheck")(updates);
+
+// Run command
 require("./bin/command")(updates, api);
 
 async function run() {
@@ -49,18 +61,20 @@ async function run() {
   console.log('> [LOG] Polling started');
 }
 
-run().catch(err => {
+// Run
+run().catch(e => {
   console.log("> [ERROR]");
-  console.error(err)
+  console.error(e);
 });
 
+// Handle captcha
 vk.captchaHandler = async ({
   src
 }, retry) => {
   console.log("> [LOG] Needed captcha:", src);
 };
 
-////////////////////////////
+////////////// WEB //////////////
 
 const express = require('express');
 const ejs = require("ejs");
@@ -68,7 +82,7 @@ const fs = require("fs");
 const bodyParser = require("body-parser").json();
 const app = express();
 
-// Libs for command line
+// Lib for command line
 const cmd = require("node-cmd");
 
 app.use(express.static('public'));
@@ -76,10 +90,6 @@ app.use(bodyParser);
 
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
-    // cmd.run('git fetch origin master');
-    // cmd.run('git reset --hard origin master');
-    // cmd.run('refresh');
-
     cmd.run('./git.sh');
     cmd.run('refresh');
 
