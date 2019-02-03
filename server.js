@@ -90,7 +90,7 @@ app.use(bodyParser);
 
 // Git webhooks
 app.post('/git', (req, res) => {
-  if (req.headers['x-github-event']) {
+  if (req.headers['x-github-event'] == "push") { // If event is "push"
     cmd.run('chmod 777 git.sh'); // :/ Fix no perms after updating
     cmd.get('./git.sh', (err, data) => {
       if (data) console.log(data);
