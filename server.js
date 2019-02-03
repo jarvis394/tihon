@@ -76,14 +76,12 @@ app.use(bodyParser);
 
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
-    cmd.run('git fetch --all');
+    cmd.run('git fetch origin master');
 
-    cmd.run('git reset --hard HEAD');
-
-    cmd.run('git pull origin master -f');
+    cmd.run('git reset --hard origin/master');
 
     cmd.run('refresh');
-    
+
     console.log("> [GIT] Updated");
   }
   
@@ -98,7 +96,7 @@ app.get('/', (req, res) => {
         "code": 500,
         "message": "Internal error on rendering page"
       });
-      
+
       return;
     }
 
