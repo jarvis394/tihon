@@ -80,6 +80,7 @@ vk.captchaHandler = async ({
 const express = require('express');
 const ejs = require("ejs");
 const fs = require("fs");
+const crypto = require("crypto");
 const bodyParser = require("body-parser").json();
 const app = express();
 
@@ -91,9 +92,12 @@ app.use(bodyParser);
 
 // Git webhooks
 app.post('/git', (req, res) => {
+  let hmac = crypto.createHmac("sha1", SECRET);
+  let sig  = "sha1=" + hmac.update(JSON.stringify(req.body)).digest("hex");
+  
   // If event is "push" and secret matches config.SECRET
-  if (req.headers['x-github-event'] == "push" &&
-      req.headers['x-hub-signature'] == SECRET) {
+  if (req.headers['x-github-event'] == "push" && 
+      sig == req.headers['x-hub-signature']) {
     cmd.run('chmod 777 git.sh'); // :/ Fix no perms after updating
     cmd.get('./git.sh', (err, data) => {
       if (data) console.log(data);
