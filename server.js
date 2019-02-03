@@ -88,6 +88,7 @@ const cmd = require("node-cmd");
 app.use(express.static('public'));
 app.use(bodyParser);
 
+// Git webhooks
 app.post('/git', (req, res) => {
   if (req.headers['x-github-event']) {
     cmd.run('./git.sh');
@@ -99,6 +100,7 @@ app.post('/git', (req, res) => {
   return res.sendStatus(200);
 });
 
+// Home
 app.get('/', (req, res) => {
   fs.readdir(__dirname + "/commands", async (err, items) => {
     if (err) {
