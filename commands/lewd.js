@@ -20,7 +20,7 @@ exports.run = async (api, update, args) => {
 }
 
 exports.command = {
-  "name": "neko",
+  "name": "lewd",
   "arguments": false,
   "description": {
     "en": "Eww, lewd nekos!~~",
