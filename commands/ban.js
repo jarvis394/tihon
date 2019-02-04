@@ -10,8 +10,9 @@ const {
 exports.run = async (api, update, args) => {
   try {
 
-    let user = await dbDialogGet(update.senderId, update.peerId);
+    let user = await dbDialogGet("users/" + update.senderId, update.peerId);
     if (user && user.roles) {
+
       if (!user.roles.some(el => el == "admin")) return update.send("Прав нема");
       
       if (args.length == 0) return update.send('Упомяни кого-нибудь чтобы \nз а б а н и т ь')
