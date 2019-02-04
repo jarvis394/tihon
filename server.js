@@ -103,13 +103,16 @@ app.post('/git', (req, res) => {
       if (data) console.log(data);
       if (err) console.log(err);
     });
-    cmd.run('refresh');
 
     let commits = req.body.head_commit.message.split("\n").length == 1 ?
       req.body.head_commit.message :
       req.body.head_commit.message.split("\n").map((el, i) => i !== 0 ? "                       " + el : el).join("\n");
     console.log(`> [GIT] Updated with origin/master\n` +
       `        Latest commit: ${commits}`);
+
+    cmd.get('refresh', (err) => {
+      if (err) console.log(err);
+    });
 
   }
 
