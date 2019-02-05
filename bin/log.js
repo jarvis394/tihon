@@ -3,6 +3,8 @@ const {
   cooldown
 } = require("../config");
 
+const { log } = require("../utils")
+
 module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message', async (context, next) => {
   let {
     peerId,
@@ -13,7 +15,7 @@ module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message
   if (talkedRecently.has(senderId)) return;
 
   if (text && text.startsWith(prefix)) {
-    console.log("> [LOG]", text, "|", peerId);
+    log("> [LOG]", text, "|", peerId);
 
     talkedRecently.add(senderId);
     setTimeout(() => {

@@ -3,7 +3,8 @@ const no = JSON.parse(fs.readFileSync("./no.json", "utf8"))
 const blacklist = JSON.parse(fs.readFileSync("./blacklist.json", "utf8"));
 const {
   random,
-  randomMessage
+  randomMessage,
+  log
 } = require("../utils");
 
 module.exports = (api, vk) => {
@@ -53,7 +54,7 @@ module.exports = (api, vk) => {
 
     });
 
-    console.log("> [AUTO] SENT");
+    log("> [AUTO] SENT");
 
   }, 3600 * 1000);
 

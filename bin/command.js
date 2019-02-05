@@ -1,4 +1,5 @@
 const { prefix } = require("../config");
+const { error } = require("../utils");
 
 module.exports = (updates, api) => updates.on('message', async (context, next) => {
   let text = context.text;
@@ -10,7 +11,7 @@ module.exports = (updates, api) => updates.on('message', async (context, next) =
     commandFile.run(api, context, args);
   } catch (e) { 
     if (e.code === "MODULE_NOT_FOUND") return; // :)
-    console.error("> [ERROR]", e);
+    error("> [ERROR]", e);
   }
   
   await next();
