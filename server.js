@@ -66,15 +66,14 @@ async function run() {
 
 // Run
 run().catch(e => {
-  log("> [ERROR]");
-  error(e);
+  error("> [ERR] "+ e);
 });
 
 // Handle captcha
 vk.captchaHandler = async ({
   src
 }, retry) => {
-  log("> [LOG] Needed captcha:", src);
+  log("> [LOG] Needed captcha: " + src);
 };
 
 ////////////// WEB //////////////
@@ -109,7 +108,7 @@ app.post('/git', (req, res) => {
     let commits = req.body.head_commit.message.split("\n").length == 1 ?
       req.body.head_commit.message :
       req.body.head_commit.message.split("\n").map((el, i) => i !== 0 ? "                       " + el : el).join("\n");
-    log(`> [GIT] Updated with origin/master\n` +
+    console.log(`> [GIT] Updated with origin/master\n` +
       `        Latest commit: ${commits}`);
 
     cmd.get('refresh', (err) => {
@@ -125,7 +124,7 @@ app.post('/git', (req, res) => {
 app.get('/', (req, res) => {
   fs.readdir(__dirname + "/commands", async (err, items) => {
     if (err) {
-      error("> [ERROR] On rendering page:\n", err)
+      error("> [ERROR] On rendering page: " + err)
       res.json({
         "code": 500,
         "message": "Internal error on rendering page"
@@ -147,7 +146,7 @@ app.get('/', (req, res) => {
       if (!err)
         return res.send(str);
       else
-        error("> [ERROR] On rendering page:\n", err),
+        error("> [ERROR] On rendering page: " + err),
         res.json({
           "code": 500,
           "message": "Internal error on rendering page"
