@@ -1,4 +1,4 @@
-const { error }
+const { error } = require("../utils")
 
 module.exports = (updates, api) => updates.on('message', async (context, next) => {
 	const { session } = context.state;
