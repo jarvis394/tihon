@@ -39,6 +39,8 @@ vk.setOptions({
   token: TOKEN
 });
 
+const { log, error } = require("./utils.js")
+
 // Auto send messages
 require("./bin/auto")(api, vk);
 
@@ -59,20 +61,20 @@ require("./bin/command")(updates, api);
 
 async function run() {
   await vk.updates.startPolling();
-  console.log('> [LOG] Polling started');
+  log('> [LOG] Polling started');
 }
 
 // Run
 run().catch(e => {
-  console.log("> [ERROR]");
-  console.error(e);
+  log("> [ERROR]");
+  error(e);
 });
 
 // Handle captcha
 vk.captchaHandler = async ({
   src
 }, retry) => {
-  console.log("> [LOG] Needed captcha:", src);
+  log("> [LOG] Needed captcha:", src);
 };
 
 ////////////// WEB //////////////
@@ -100,18 +102,18 @@ app.post('/git', (req, res) => {
 
     cmd.run('chmod 777 git.sh'); // :/ Fix no perms after updating
     cmd.get('./git.sh', (err, data) => {
-      if (data) console.log(data);
-      if (err) console.log(err);
+      if (data) log(data);
+      if (err) log(err);
     });
 
     let commits = req.body.head_commit.message.split("\n").length == 1 ?
       req.body.head_commit.message :
       req.body.head_commit.message.split("\n").map((el, i) => i !== 0 ? "                       " + el : el).join("\n");
-    console.log(`> [GIT] Updated with origin/master\n` +
+    log(`> [GIT] Updated with origin/master\n` +
       `        Latest commit: ${commits}`);
 
     cmd.get('refresh', (err) => {
-      if (err) console.log(err);
+      if (err) error(err);
     });
 
   }
@@ -123,7 +125,7 @@ app.post('/git', (req, res) => {
 app.get('/', (req, res) => {
   fs.readdir(__dirname + "/commands", async (err, items) => {
     if (err) {
-      console.error("> [ERROR] On rendering page:\n", err)
+      error("> [ERROR] On rendering page:\n", err)
       res.json({
         "code": 500,
         "message": "Internal error on rendering page"
@@ -145,7 +147,7 @@ app.get('/', (req, res) => {
       if (!err)
         return res.send(str);
       else
-        console.error("> [ERROR] On rendering page:\n", err),
+        error("> [ERROR] On rendering page:\n", err),
         res.json({
           "code": 500,
           "message": "Internal error on rendering page"
@@ -155,5 +157,5 @@ app.get('/', (req, res) => {
 });
 
 const listener = app.listen(4000, () => {
-  console.log('> [WEB] Started on port', listener.address().port);
+  log('> [WEB] Started on port ' + listener.address().port);
 });
