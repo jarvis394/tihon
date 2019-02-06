@@ -5,37 +5,48 @@ const {
 const {
   dbDialogGet,
   dbDialogSet
-} = require("../utils");
+} = require("../utils")
 
 exports.run = async (api, update, args) => {
   try {
 
     // Return if group mentioned (usually that's bot)
-    if (args.includes(el => el.startsWith("[club"))) return update.send("Группам роли не даю");
+    if (args.some(el => el.startsWith("[club"))) return update.send("Группам роли не даю");
 
-    // Add role if a first argument is "add"
-    if (args[0] == "add") return await addRole();
+    if (args[0] && args[0].startsWith("[id")) {
 
-    // Remove role if a first argument is "remove"
-    else if (args[0] == "remove") return await removeRole();
+      let id = args[0].slice(1, -1).split("|")[0].slice(2)
+      if (args[1] == "add") return await addRole(id, 2)
+      else if (args[1] == "remove" || args[1] == "delete") return await removeRole(id, 2)
+      else if (args[0]) return await showRoles(id)
+      else return update.send("Не опознал")
 
-    // Show mentioned user's roles
-    else if (args[0] && args[0].startsWith("[id")) return await showRoles(args[0].slice(1, -1).split("|")[0])
+    } else {
 
-    // Show user's roles
-    else if (!args[0]) return await showRoles(update.senderId);
+      let id = update.senderId
 
-    // Error if nothing mathcing
-    else return update.send("Не опознал");
+      // Add role if a first argument is "add"
+      if (args[0] == "add") return await addRole(id, 1)
+
+      // Remove role if a first argument is "remove"
+      else if (args[0] == "remove" || args[0] == "delete") return await removeRole(id, 1)
+
+      // Show user's roles
+      else if (!args[0]) return await showRoles(id)
+
+      // Error if nothing mathcing
+      else return update.send("Не опознал")
+    }
 
     /**
      * Add role
      */
-    async function addRole() {
-      let roleName = args[1]; // Role name is the second argument
-      let userId = args[2] && args[2].startsWith("[id") ? // If there is a third argument
-        args[2].slice(1, -1).split("|")[0] : // User ID is the third argument
-        update.senderId; // but if there isn't, userID is sender's ID
+    async function addRole(id, index) {
+      let sliceLen = index == 1 ? 
+        args[0].length + 1 : 
+        args[0].length + args[1].length + 1
+      let roleName = args.join(" ").slice(sliceLen)
+      let userId = id
 
       // If no role name
       if (!roleName) return update.send("⭕️ Не указана роль");
@@ -79,11 +90,12 @@ exports.run = async (api, update, args) => {
     /**
      * Remove role
      */
-    async function removeRole() {
-      let roleName = args[1]; // Role name is the second argument
-      let userId = args[2] && args[2].startsWith("[id") ? // If there is a third argument
-        args[2].slice(1, -1).split("|")[0] : // User ID is the third argument
-        update.senderId; // but if there isn't, userID is sender's ID
+    async function removeRole(id, index) {
+      let sliceLen = index == 1 ? 
+        args[0].length + 1 : 
+        args[0].length + args[1].length + 1
+      let roleName = args.join(" ").slice(sliceLen)
+      let userId = id
 
       // If no role name
       if (!roleName) return update.send("⭕️ Не указана роль");
