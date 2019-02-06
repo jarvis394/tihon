@@ -39,7 +39,7 @@ vk.setOptions({
   token: TOKEN
 });
 
-const { log, error } = require("./utils.js")
+const { log, error, captcha } = require("./utils.js")
 
 // Auto send messages
 require("./bin/auto")(api, vk);
