@@ -143,7 +143,7 @@ module.exports.dbDialogUpdate = async (path, peer, data) => {
 module.exports.log = async (msg) => {
   let date = Date.now();
 
-  await db.ref("log/" + date).set({
+  await db.ref("log/messages/" + date).set({
     msg: msg,
     type: "message"
   })
@@ -154,7 +154,18 @@ module.exports.log = async (msg) => {
 module.exports.error = async (msg) => {
   let date = Date.now();
 
-  await db.ref("log/" + date).set({
+  await db.ref("log/errors/" + date).set({
+    msg: msg,
+    type: "error"
+  })
+
+  console.error(msg)
+}
+
+module.exports.captcha = async (msg) => {
+  let date = Date.now();
+
+  await db.ref("log/captcha/" + date).set({
     msg: msg,
     type: "error"
   })
