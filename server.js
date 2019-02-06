@@ -73,7 +73,7 @@ run().catch(e => {
 vk.captchaHandler = async ({
   src
 }, retry) => {
-  log("> [LOG] Needed captcha: " + src);
+  captcha("> [LOG] Needed captcha: " + src);
 };
 
 ////////////// WEB //////////////
