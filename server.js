@@ -61,7 +61,7 @@ require("./bin/command")(updates, api);
 
 async function run() {
   await vk.updates.startPolling();
-  log('> [LOG] Polling started');
+  console.log('> [LOG] Polling started');
 }
 
 // Run
@@ -155,6 +155,14 @@ app.get('/', (req, res) => {
   });
 });
 
+app.post("/", (req, res) => {
+  console.log(req.body)
+  
+  return res.json(JSON.stringify({
+    "code": 200
+  }))
+})
+
 const listener = app.listen(4000, () => {
-  log('> [WEB] Started on port ' + listener.address().port);
+  console.log('> [WEB] Started on port ' + listener.address().port);
 });

@@ -9,7 +9,7 @@ const db = firebase.app().database();
  * @param {array} array Array
  * @returns {any} Item from array
  */
-module.exports.randomArray = (array) => {
+const randomArray = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -20,7 +20,7 @@ module.exports.randomArray = (array) => {
  * @param {value} max Maximum
  * @returns {value} Random value
  */
-module.exports.random = (min, max) => {
+const random = (min, max) => {
   var rand = min - 0.5 + Math.random() * (max - min + 1)
   rand = Math.round(rand);
   return rand;
@@ -32,7 +32,7 @@ module.exports.random = (min, max) => {
  * @param {object} api Api object
  * @returns {object} Message object
  */
-module.exports.randomMessage = async (api) => {
+const randomMessage = async (api) => {
   // Get dialogs
   var Dialogs = await api.messages.getConversations({
     count: 200
@@ -74,9 +74,11 @@ module.exports.randomMessage = async (api) => {
  * @param {object} update Update object
  * @param {object} e Error object
  */
-module.exports.handleError = (update, e) => {
+const handleError = (update, e) => {
   console.error("> [ERR] Error with command '" + update.text + "':\n", e);
   update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
+
+  
 }
 
 /**
@@ -84,7 +86,7 @@ module.exports.handleError = (update, e) => {
  * @param {string} path Path
  * @param {any} data Data to set
  */
-module.exports.dbSet = async (path, data) => {
+const dbSet = async (path, data) => {
   await db.ref(path).set(data);
 }
 
@@ -93,7 +95,7 @@ module.exports.dbSet = async (path, data) => {
  * @param {string} path Path
  * @param {any} data Data to update
  */
-module.exports.dbUpdate = async (path, data) => {
+const dbUpdate = async (path, data) => {
   await db.ref(path).update(data);
 }
 
@@ -101,7 +103,7 @@ module.exports.dbUpdate = async (path, data) => {
  * Get data from database
  * @param {string} path Path
  */
-module.exports.dbGet = async (path) => {
+const dbGet = async (path) => {
   let data;
   await db.ref(path).once("value", (d) => data = d.val());
 
@@ -113,7 +115,7 @@ module.exports.dbGet = async (path) => {
  * @param {string} path Path
  * @param {string} peer PeerID of the dialog
  */
-module.exports.dbDialogGet = async (path, peer) => {
+const dbDialogGet = async (path, peer) => {
   let data;
   await db.ref("dialogs/" + peer + "/" + path).once("value", (d) => data = d.val());
 
@@ -126,7 +128,7 @@ module.exports.dbDialogGet = async (path, peer) => {
  * @param {string} peer PeerID of the dialog
  * @param {any} data Data to set
  */
-module.exports.dbDialogSet = async (path, peer, data) => {
+const dbDialogSet = async (path, peer, data) => {
   await db.ref("dialogs/" + peer + "/" + path).set(data)
 }
 
@@ -136,39 +138,47 @@ module.exports.dbDialogSet = async (path, peer, data) => {
  * @param {string} peer PeerID of the dialog
  * @param {any} data Data to update
  */
-module.exports.dbDialogUpdate = async (path, peer, data) => {
+const dbDialogUpdate = async (path, peer, data) => {
   await db.ref("dialogs/" + peer + "/" + path).update(data)
 }
 
-module.exports.log = async (msg) => {
+const log = async (msg) => {
   let date = Date.now();
 
-  await db.ref("log/messages/" + date).set({
-    msg: msg,
-    type: "message"
-  })
+  await db.ref("log/messages/" + date).set(msg)
 
   console.log(msg)
 }
 
-module.exports.error = async (msg) => {
+const error = async (msg) => {
   let date = Date.now();
 
-  await db.ref("log/errors/" + date).set({
-    msg: msg,
-    type: "error"
-  })
+  await db.ref("log/errors/" + date).set(msg)
 
   console.error(msg)
 }
 
-module.exports.captcha = async (msg) => {
-  let date = Date.now();
+const captcha = async (msg) => {
+  let data;
 
-  await db.ref("log/captcha/" + date).set({
-    msg: msg,
-    type: "error"
-  })
+  await db.ref("log/captcha").once("value", (d) => data = d.val());
+  await db.ref("log/captcha").set(data++)
 
   console.error(msg)
+}
+
+module.exports = {
+  randomArray,
+  random,
+  randomMessage,
+  handleError,
+  dbSet,
+  dbGet,
+  dbUpdate,
+  dbDialogGet,
+  dbDialogSet,
+  dbDialogUpdate,
+  log,
+  error,
+  captcha
 }
