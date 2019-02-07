@@ -16,7 +16,7 @@ module.exports = (updates, memoryStorage, talkedRecently, cmds) => updates.on('m
 
   if (talkedRecently.has(senderId)) return;
 
-  if (text && text.startsWith(prefix) && cmds.some(el => el.name.startsWith(text.slice(prefix.length)))) {
+  if (text && text.startsWith(prefix) && cmds.some(el => el.name.startsWith(text.split(" ")[0].slice(prefix.length)))) {
     log(text, peerId);
 
     talkedRecently.add(senderId);
