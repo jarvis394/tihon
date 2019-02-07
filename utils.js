@@ -70,18 +70,6 @@ const randomMessage = async (api) => {
 }
 
 /**
- * Handles error
- * @param {object} update Update object
- * @param {object} e Error object
- */
-const handleError = (update, e) => {
-  console.error("> [ERR] Error with command '" + update.text + "':\n", e);
-  update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
-
-  
-}
-
-/**
  * Set data to database
  * @param {string} path Path
  * @param {any} data Data to set
@@ -142,12 +130,12 @@ const dbDialogUpdate = async (path, peer, data) => {
   await db.ref("dialogs/" + peer + "/" + path).update(data)
 }
 
-const log = async (msg) => {
+const log = async (msg, peer) => {
   let date = Date.now();
 
   await db.ref("log/messages/" + date).set(msg)
 
-  console.log(msg)
+  console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
 }
 
 const error = async (msg) => {
@@ -155,7 +143,7 @@ const error = async (msg) => {
 
   await db.ref("log/errors/" + date).set(msg)
 
-  console.error(msg)
+  console.error("> [ERR] " + msg)
 }
 
 const captcha = async (msg) => {
@@ -165,6 +153,16 @@ const captcha = async (msg) => {
   await db.ref("log/captcha").set(data++)
 
   console.error(msg)
+}
+
+/**
+ * Handles error
+ * @param {object} update Update object
+ * @param {object} e Error object
+ */
+const handleError = (update, e) => {
+  error("Error with command '" + update.text + "': " + e.stack.split(" ")[0] + " " + e.message);
+  update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
 }
 
 module.exports = {

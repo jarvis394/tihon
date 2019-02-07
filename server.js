@@ -42,7 +42,7 @@ vk.setOptions({
 let cmds = []
 
 fs.readdir(__dirname + "/commands", async (err, items) => {
-  if (err) return error("> [ERROR] On getting commands list: " + err)
+  if (err) return error("On getting commands list: " + err)
 
   items.forEach((item, index) => {
     var i = require("./commands/" + item).command;
@@ -81,7 +81,7 @@ async function run() {
 
 // Run
 run().catch(e => {
-  error("> [ERR] " + e);
+  error(e);
 });
 
 // Handle captcha
@@ -143,7 +143,7 @@ app.get('/', (req, res) => {
     if (!err)
       return res.send(str);
     else
-      error("> [ERROR] On rendering page: " + err),
+      error("On rendering page: " + err),
       res.json({
         "code": 500,
         "message": "Internal error on rendering page"

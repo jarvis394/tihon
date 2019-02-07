@@ -54,7 +54,7 @@ module.exports = (api, vk) => {
 
     });
 
-    log("> [AUTO] SENT");
+    console.log("> [LOG] Auto has been sent");
 
   }, 3600 * 1000);
 
