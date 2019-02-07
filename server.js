@@ -39,7 +39,11 @@ vk.setOptions({
   token: TOKEN
 });
 
-const { log, error, captcha } = require("./utils.js")
+const {
+  log,
+  error,
+  captcha
+} = require("./utils.js")
 
 // Auto send messages
 require("./bin/auto")(api, vk);
@@ -66,7 +70,7 @@ async function run() {
 
 // Run
 run().catch(e => {
-  error("> [ERR] "+ e);
+  error("> [ERR] " + e);
 });
 
 // Handle captcha
@@ -155,12 +159,27 @@ app.get('/', (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body)
-  
-  return res.json(JSON.stringify({
-    "code": 200
-  }))
+app.get("/cmdList", (req, res) => {
+  fs.readdir(__dirname + "/commands", async (err, items) => {
+    if (err) {
+      error("> [ERROR] On getting commands list: " + err)
+      res.json({
+        "code": 500,
+        "message": "Internal error on getting commands list"
+      })
+
+      return
+    }
+
+    var commands = []
+
+    items.forEach(item => {
+      var i = require("./commands/" + item).command;
+      commands.push(i)
+    })
+
+    return res.json(JSON.stringify(commands))
+  })
 })
 
 const listener = app.listen(4000, () => {
