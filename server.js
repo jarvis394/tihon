@@ -61,7 +61,7 @@ const {
 require("./bin/auto")(api, vk);
 
 // Log incoming messages
-require("./bin/log")(updates, memoryStorage, talkedRecently);
+require("./bin/log")(updates, memoryStorage, talkedRecently, cmds);
 
 // Count them
 require("./bin/counter")(updates, api);
