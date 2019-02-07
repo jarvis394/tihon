@@ -173,7 +173,7 @@ exports.run = async (api, update, args) => {
 }
 
 exports.command = {
-  "name": "role",
+  "name": "roles",
   "arguments": "(add)/(remove) *user|(add)/(remove) *user",
   "description": {
     "en": "Adds or removes role at specific user. Without add/remove shows only user's roles",
