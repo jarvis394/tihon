@@ -39,6 +39,17 @@ vk.setOptions({
   token: TOKEN
 });
 
+let cmds = []
+
+fs.readdir(__dirname + "/commands", async (err, items) => {
+  if (err) return error("> [ERROR] On getting commands list: " + err)
+
+  items.forEach((item, index) => {
+    var i = require("./commands/" + item).command;
+    cmds.push(i)
+  })
+})
+
 const {
   log,
   error,
@@ -126,60 +137,22 @@ app.post('/git', (req, res) => {
 
 // Home
 app.get('/', (req, res) => {
-  fs.readdir(__dirname + "/commands", async (err, items) => {
-    if (err) {
-      error("> [ERROR] On rendering page: " + err)
+  ejs.renderFile(__dirname + '/views/index.html', {
+    "commands": cmds
+  }, (err, str) => {
+    if (!err)
+      return res.send(str);
+    else
+      error("> [ERROR] On rendering page: " + err),
       res.json({
         "code": 500,
         "message": "Internal error on rendering page"
       });
-
-      return;
-    }
-
-    var commands = [];
-
-    items.forEach(item => {
-      var i = require("./commands/" + item).command;
-      commands.push(i);
-    });
-
-    ejs.renderFile(__dirname + '/views/index.html', {
-      "commands": commands
-    }, (err, str) => {
-      if (!err)
-        return res.send(str);
-      else
-        error("> [ERROR] On rendering page: " + err),
-        res.json({
-          "code": 500,
-          "message": "Internal error on rendering page"
-        });
-    });
   });
 });
 
 app.get("/cmdList", (req, res) => {
-  fs.readdir(__dirname + "/commands", async (err, items) => {
-    if (err) {
-      error("> [ERROR] On getting commands list: " + err)
-      res.json({
-        "code": 500,
-        "message": "Internal error on getting commands list"
-      })
-
-      return
-    }
-
-    var commands = ""
-
-    items.forEach((item, index) => {
-      var i = require("./commands/" + item).command.name;
-      commands += index !== 0 ? " " + i : i
-    })
-
-    return res.send(commands)
-  })
+  return res.send(cmds)
 })
 
 const listener = app.listen(4000, () => {
