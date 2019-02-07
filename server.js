@@ -8,6 +8,7 @@ const {
   api,
   updates
 } = vk;
+const fs = require("fs")
 
 const memoryStorage = new Map(); // Saves counter to every dialog
 const talkedRecently = new Set(); // Saves users that talked recently
