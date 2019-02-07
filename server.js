@@ -171,14 +171,14 @@ app.get("/cmdList", (req, res) => {
       return
     }
 
-    var commands = []
+    var commands = ""
 
-    items.forEach(item => {
-      var i = require("./commands/" + item).command;
-      commands.push(i)
+    items.forEach((item, index) => {
+      var i = require("./commands/" + item).command.name;
+      commands += index !== 0 ? " " + i : i
     })
 
-    return res.json(JSON.stringify(commands))
+    return res.send(commands)
   })
 })
 
