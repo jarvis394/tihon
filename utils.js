@@ -1,7 +1,11 @@
 const fs = require("fs");
 const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
+
 const firebase = require("firebase");
-const db = firebase.app().database();
+const db = firebase.firestore();
+
+const errorRef = db.collection("log").doc("errors");
+const captchaRef = db.collection("log").doc("captcha");
 
 /**
  * Returns random item from array
@@ -69,71 +73,78 @@ const randomMessage = async (api) => {
   return msg;
 }
 
-/**
- * Set data to database
- * @param {string} path Path
- * @param {any} data Data to set
- */
-const dbSet = async (path, data) => {
-  await db.ref(path).set(data);
-}
+// /**
+//  * Set data to database
+//  * @param {string} path Path
+//  * @param {any} data Data to set
+//  */
+// const dbSet = async (path, data) => {
+//   await db.ref(path).set(data);
+// }
 
-/**
- * Update data in database
- * @param {string} path Path
- * @param {any} data Data to update
- */
-const dbUpdate = async (path, data) => {
-  await db.ref(path).update(data);
-}
+// /**
+//  * Update data in database
+//  * @param {string} path Path
+//  * @param {any} data Data to update
+//  */
+// const dbUpdate = async (path, data) => {
+//   await db.ref(path).update(data);
+// }
 
-/**
- * Get data from database
- * @param {string} path Path
- */
-const dbGet = async (path) => {
-  let data;
-  await db.ref(path).once("value", (d) => data = d.val());
+// /**
+//  * Get data from database
+//  * @param {string} path Path
+//  */
+// const dbGet = async (path) => {
+//   let data;
+//   await db.ref(path).once("value", (d) => data = d.val());
 
-  return data;
-}
+//   return data;
+// }
 
-/**
- * Get data from dialogs in database
- * @param {string} path Path
- * @param {string} peer PeerID of the dialog
- */
-const dbDialogGet = async (path, peer) => {
-  let data;
-  await db.ref("dialogs/" + peer + "/" + path).once("value", (d) => data = d.val());
+// /**
+//  * Get data from dialogs in database
+//  * @param {string} path Path
+//  * @param {string} peer PeerID of the dialog
+//  */
+// const dbDialogGet = async (path, peer) => {
+//   let data;
+//   await db.ref("dialogs/" + peer + "/" + path).once("value", (d) => data = d.val());
 
-  return data;
-}
+//   return data;
+// }
 
-/**
- * Set data to dialogs in database
- * @param {string} path Path
- * @param {string} peer PeerID of the dialog
- * @param {any} data Data to set
- */
-const dbDialogSet = async (path, peer, data) => {
-  await db.ref("dialogs/" + peer + "/" + path).set(data)
-}
+// /**
+//  * Set data to dialogs in database
+//  * @param {string} path Path
+//  * @param {string} peer PeerID of the dialog
+//  * @param {any} data Data to set
+//  */
+// const dbDialogSet = async (path, peer, data) => {
+//   await db.ref("dialogs/" + peer + "/" + path).set(data)
+// }
 
-/**
- * Update data in dialogs in database
- * @param {string} path Path
- * @param {string} peer PeerID of the dialog
- * @param {any} data Data to update
- */
-const dbDialogUpdate = async (path, peer, data) => {
-  await db.ref("dialogs/" + peer + "/" + path).update(data)
-}
+// /**
+//  * Update data in dialogs in database
+//  * @param {string} path Path
+//  * @param {string} peer PeerID of the dialog
+//  * @param {any} data Data to update
+//  */
+// const dbDialogUpdate = async (path, peer, data) => {
+//   await db.ref("dialogs/" + peer + "/" + path).update(data)
+// }
 
 const log = async (msg, peer) => {
   let date = Date.now();
 
-  await db.ref("log/messages/" + date).set(msg)
+  await db
+    .collection("dialogs")
+    .doc(peer.toString())
+    .collection("log")
+    .doc("messages")
+    .update({
+      [date]: msg
+    })
 
   console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
 }
@@ -141,18 +152,19 @@ const log = async (msg, peer) => {
 const error = async (msg) => {
   let date = Date.now();
 
-  await db.ref("log/errors/" + date).set(msg)
+  await errorRef.update({
+    [date]: msg
+  })
 
-  console.error("> [ERR] " + msg)
+  console.error("> [ERROR] " + msg)
 }
 
 const captcha = async (msg) => {
-  let data;
+  await db.runTransaction(d => {
+    d.get(captchaRef).then(doc => t.update(captchaRef, doc.data() + 1));
+  })
 
-  await db.ref("log/captcha").once("value", (d) => data = d.val());
-  await db.ref("log/captcha").set(data++)
-
-  console.error(msg)
+  console.warn(msg)
 }
 
 /**
@@ -170,12 +182,12 @@ module.exports = {
   random,
   randomMessage,
   handleError,
-  dbSet,
-  dbGet,
-  dbUpdate,
-  dbDialogGet,
-  dbDialogSet,
-  dbDialogUpdate,
+  // dbSet,
+  // dbGet,
+  // dbUpdate,
+  // dbDialogGet,
+  // dbDialogSet,
+  // dbDialogUpdate,
   log,
   error,
   captcha
