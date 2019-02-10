@@ -144,6 +144,15 @@ const log = async (msg, peer) => {
     .doc("messages")
     .update({
       [date]: msg
+    }).catch(async () => {
+      await db
+        .collection("dialogs")
+        .doc(peer.toString())
+        .collection("log")
+        .doc("messages")
+        .set({
+          [date]: msg
+        })
     })
 
   console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
@@ -154,6 +163,8 @@ const error = async (msg) => {
 
   await errorRef.update({
     [date]: msg
+  }).catch(async () => {
+    await errorRef.set({})
   })
 
   console.error("> [ERROR] " + msg)
@@ -161,7 +172,9 @@ const error = async (msg) => {
 
 const captcha = async (msg) => {
   await db.runTransaction(d => {
-    d.get(captchaRef).then(doc => t.update(captchaRef, doc.data() + 1));
+    d.get(captchaRef).then(async doc => await t.update(captchaRef, doc.data() + 1).catch(async () => {
+      await t.set(captchaRef, 0)
+    }));
   })
 
   console.warn(msg)
