@@ -29,9 +29,9 @@ exports.run = async (api, update, args) => {
       }
 
       let res = "⚙️ Настройки\n" +
-        `- Авто отправка сообщений: ${data.auto ? "Да" : "Нет"}\n` +
-        `${data.auto ? `⠀| Интервал отправки сообщений: ${data.interval / 1000} секунд\n` : ""}` +
-        `- Пресет ролей: №${data.preset + 1}`
+        `(auto) - Авто отправка сообщений: ${data.auto ? "Да" : "Нет"}\n` +
+        `⠀| (interval)${data.auto ? ` - Интервал отправки сообщений: ${data.interval / 1000} секунд\n` : ""}` +
+        `(preset) - Пресет ролей: №${data.preset + 1}`
 
       return update.send(res);
     }
