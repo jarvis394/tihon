@@ -135,7 +135,7 @@ const randomMessage = async (api) => {
 // }
 
 const log = async (msg, peer) => {
-  let date = Date.now();
+  let date = Date();
 
   await db
     .collection("dialogs")
@@ -159,7 +159,7 @@ const log = async (msg, peer) => {
 }
 
 const error = async (msg) => {
-  let date = Date.now();
+  let date = Date();
 
   await errorRef.update({
     [date]: msg
@@ -172,8 +172,8 @@ const error = async (msg) => {
 
 const captcha = async (msg) => {
   await db.runTransaction(d => {
-    d.get(captchaRef).then(async doc => await t.update(captchaRef, doc.data() + 1).catch(async () => {
-      await t.set(captchaRef, 0)
+    d.get(captchaRef).then(async doc => await d.update(captchaRef, doc.data() + 1).catch(async () => {
+      await d.set(captchaRef, 0)
     }));
   })
 
