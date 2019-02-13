@@ -7,6 +7,8 @@ const db = firebase.firestore();
 const errorRef = db.collection("log").doc("errors");
 const captchaRef = db.collection("log").doc("captcha");
 
+const DBDialog = require("./lib/DBDialog")
+
 /**
  * Returns random item from array
  * 
@@ -45,7 +47,10 @@ const randomMessage = async (api) => {
   async function getMsg() {
     var Dialog = Dialogs.items[Math.floor(Math.random() * Dialogs.items.length)]
 
-    while (no[Dialog.conversation.peer.id]) {
+    const dialog = new DBDialog(Dialog.conversation.peer.id)
+    const data = dialog.checkData()
+
+    while (data.no) {
       Dialog = Dialogs.items[Math.floor(Math.random() * Dialogs.items.length)]
     }
 
@@ -60,9 +65,11 @@ const randomMessage = async (api) => {
   var msg = await getMsg();
 
   while (
-    (msg.attachments.length === 0 &&
-      msg.text === "") ||
-    msg.text.split(" ").some(t => t.startsWith("http")) ||
+    (
+      msg.attachments.length === 0 &&
+      msg.text === ""
+    ) ||
+    msg.text.split(" ").some(t => t.startsWith("http") || t.startsWith("+7")) ||
     msg.text.startsWith("/") ||
     msg.text.length > 500 ||
     msg.from_id === process.env.ID
@@ -145,6 +152,9 @@ const log = async (msg, peer) => {
     .update({
       [date]: msg
     }).catch(async () => {
+      const dialog = new DBDialog(peer)
+
+      await dialog.checkData()
       await db
         .collection("dialogs")
         .doc(peer.toString())
@@ -195,12 +205,6 @@ module.exports = {
   random,
   randomMessage,
   handleError,
-  // dbSet,
-  // dbGet,
-  // dbUpdate,
-  // dbDialogGet,
-  // dbDialogSet,
-  // dbDialogUpdate,
   log,
   error,
   captcha

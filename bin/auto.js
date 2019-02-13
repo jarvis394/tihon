@@ -1,10 +1,7 @@
-const fs = require("fs");
-const no = JSON.parse(fs.readFileSync("./no.json", "utf8"))
-const blacklist = JSON.parse(fs.readFileSync("./blacklist.json", "utf8"));
+const DBDialog = require("../lib/DBDialog")
 const {
   random,
-  randomMessage,
-  log
+  randomMessage
 } = require("../utils");
 
 module.exports = (api, vk) => {
@@ -17,8 +14,11 @@ module.exports = (api, vk) => {
 
     Dialogs.items.forEach(async (dialog) => {
 
+      const Dialog = new DBDialog(dialog.conversation.peer.id)
+      const data = await Dialog.checkData()
+
       // If dialog is blacklisted then return
-      if (blacklist[dialog.conversation.peer.id]) return;
+      if (!data.auto) return;
 
       var res = "";
       var options = {};

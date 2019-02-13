@@ -1,16 +1,20 @@
 const firebase = require("firebase");
 const db = firebase.firestore();
 
-const { handleError } = require("../utils");
+const {
+  ADMIN_ID
+} = require("../config")
+
+const {
+  handleError
+} = require("../utils")
 
 exports.run = async (api, update, args) => {
   try {
+
+    console.log(update)
     
-    db.collection("users").doc("123").set({
-      first: "Ada",
-      last: "Lovelace",
-      born: 1815
-    })
+    if (update.senderId !== ADMIN_ID) return update.send("Права ауе")
     
   } catch (e) {
     handleError(update, e)

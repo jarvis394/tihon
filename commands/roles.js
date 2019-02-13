@@ -18,6 +18,9 @@ exports.run = async (api, update, args) => {
     // Return if group mentioned (usually that's bot)
     if (args.some(el => el.startsWith("[club"))) return update.send("Группам роли не даю")
 
+    // Return if in dialog, not multidialog
+    if (update.peerType === "user") return update.send("Мы с тобой тут с глазу на глаз")
+
     if (args[0] && args[0].startsWith("[id")) {
 
       let id = args[0].slice(1, -1).split("|")[0].slice(2)
@@ -47,6 +50,8 @@ exports.run = async (api, update, args) => {
      * Add role
      */
     async function addRole(id, index) {
+      await dialog.checkData()
+
       let sliceLen = index == 1 ?
         args[0].length + 1 :
         args[0].length + args[1].length + 1
@@ -57,11 +62,11 @@ exports.run = async (api, update, args) => {
       if (!roleName) return update.send("⭕️ Не указана роль")
 
       // Get data
-      let user = await dialog.get(userId);
+      let user = await dialog.getUser(userId);
 
       // No user fetched
       if (!user) {
-        await dialog.set(userId, emptyUserData);
+        await dialog.setUser(userId, emptyUserData);
         user = emptyUserData;
       }
 
@@ -92,6 +97,8 @@ exports.run = async (api, update, args) => {
      * Remove role
      */
     async function removeRole(id, index) {
+      await dialog.checkData()
+
       let sliceLen = index == 1 ?
         args[0].length + 1 :
         args[0].length + args[1].length + 1
@@ -102,11 +109,11 @@ exports.run = async (api, update, args) => {
       if (!roleName) return update.send("⭕️ Не указана роль")
 
       // Get data
-      let user = await dialog.get(userId);
+      let user = await dialog.getUser(userId);
 
       // No user fetched
       if (!user) {
-        await dialog.set(userId, emptyUserData);
+        await dialog.setUser(userId, emptyUserData);
         user = emptyUserData;
       }
 
@@ -137,11 +144,13 @@ exports.run = async (api, update, args) => {
     }
 
     async function showRoles(userId) {
-      let user = await dialog.get(userId)
+      await dialog.checkData()
+
+      let user = await dialog.getUser(userId)
 
       // No user fetched
       if (!user) {
-        await dialog.set(userId, emptyUserData)
+        await dialog.setUser(userId, emptyUserData)
         user = emptyUserData
       }
 
