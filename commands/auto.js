@@ -1,21 +1,27 @@
-const { handleError } = require("../utils")
+const {
+  handleError
+} = require("../utils")
 
-const fs = require("fs");
-const blacklist = JSON.parse(fs.readFileSync("./blacklist.json", "utf8"));
+const DBDialog = require("../lib/DBDialog")
 
-exports.run = (api, update, args) => {
+exports.run = async (api, update, args) => {
   try {
-    if (blacklist[update.peerId]) {
-      blacklist[update.peerId] = false;
-      update.send("Теперь тут будет отправляться рассылка")
-    } else {
-      blacklist[update.peerId] = true;
+    const dialog = new DBDialog(update.peerId)
+
+    let state = await dialog.checkData()
+    state = state.auto
+
+    if (state) {
+      state = false;
       update.send("Теперь здесь не будет отправляться рассылка")
+    } else {
+      state = true;
+      update.send("Теперь тут будет отправляться рассылка")
     }
 
-    fs.writeFile("./blacklist.json", JSON.stringify(blacklist, null, 2), (err) => {
-      if (err) return console.log("> [ERROR] In auto.js: \n", err)
-    });
+    dialog.update({
+      auto: state
+    })
   } catch (e) {
     handleError(update, e)
   }

@@ -1,14 +1,22 @@
 const {
   VK
 } = require('vk-io');
+const firebase = require("firebase");
 
 const vk = new VK;
 const {
   api,
   updates
 } = vk;
+const fs = require("fs")
+
+const memoryStorage = new Map(); // Saves counter to every dialog
+const talkedRecently = new Set(); // Saves users that talked recently
+const randomStorage = new Map(); // Saves previous random messages
+
 const {
   TOKEN,
+  SECRET,
   FIREBASE_TOKEN,
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL,
@@ -16,13 +24,10 @@ const {
   FIREBASE_SENDER_ID
 } = require("./config");
 
-const memoryStorage = new Map();
-const talkedRecently = new Set();
-
-const firebase = require("firebase");
+/** INIT **/
 
 // Initialize Firebase
-var config = {
+let config = {
   apiKey: FIREBASE_TOKEN,
   authDomain: FIREBASE_AUTH_DOMAIN,
   databaseURL: FIREBASE_DB_URL,
@@ -36,93 +41,122 @@ vk.setOptions({
   token: TOKEN
 });
 
-require("./bin/auto")(api, vk)
+let cmds = []
 
-require("./bin/log")(updates, memoryStorage, talkedRecently);
-require("./bin/counter")(updates, api);
+fs.readdir(__dirname + "/commands", async (err, items) => {
+  if (err) return error("On getting commands list: " + err)
+
+  items.forEach((item, index) => {
+    var i = require("./commands/" + item).command;
+    cmds.push(i)
+  })
+})
+
+const {
+  log,
+  error,
+  captcha
+} = require("./utils.js")
+
+// Auto send messages
+require("./bin/auto")(api, vk);
+
+// Log incoming messages
+require("./bin/log")(updates, memoryStorage, talkedRecently, cmds);
+
+// Count them
+require("./bin/counter")(updates, api, randomStorage);
+
+// Check if user mentioned bot
 require("./bin/mention")(updates);
+
+// Check for prefix
 require("./bin/prefixCheck")(updates);
-require("./bin/command")(updates, api);
+
+// Run command
+require("./bin/command")(updates, api, randomStorage);
 
 async function run() {
   await vk.updates.startPolling();
   console.log('> [LOG] Polling started');
 }
 
-run().catch(err => {
-  console.log("> [ERROR]");
-  console.error(err)
+// Run
+run().catch(e => {
+  if (e.code == 100) return console.log("> [WARN] Api Error: 100")
+  error(e);
 });
 
+// Handle captcha
 vk.captchaHandler = async ({
   src
 }, retry) => {
-  console.log("> [LOG] Needed captcha:", src);
+  captcha("> [LOG] Needed captcha: " + src);
 };
 
-////////////////////////////
+////////////// WEB //////////////
 
 const express = require('express');
 const ejs = require("ejs");
-const fs = require("fs");
+const crypto = require("crypto");
 const bodyParser = require("body-parser").json();
 const app = express();
 
-// Libs for command line
+// Lib for command line
 const cmd = require("node-cmd");
 
 app.use(express.static('public'));
 app.use(bodyParser);
 
+// Git webhooks
 app.post('/git', (req, res) => {
-  if (req.headers['x-github-event']) {
-    cmd.run('git fetch --all');
+  let hmac = crypto.createHmac("sha1", SECRET);
+  let sig = "sha1=" + hmac.update(JSON.stringify(req.body)).digest("hex");
 
-    cmd.run('git reset --hard HEAD');
+  // If event is "push" and secret matches config.SECRET
+  if (req.headers['x-github-event'] == "push" && sig == req.headers['x-hub-signature']) {
 
-    cmd.run('git pull origin master -f');
+    cmd.run('chmod 777 git.sh'); // :/ Fix no perms after updating
+    cmd.get('./git.sh', (err, data) => {
+      if (data) log(data);
+      if (err) log(err);
+    });
 
-    cmd.run('refresh');
-    
-    console.log("> [GIT] Updated");
-  }  
-  res.sendStatus(200);
+    let commits = req.body.head_commit.message.split("\n").length == 1 ?
+      req.body.head_commit.message :
+      req.body.head_commit.message.split("\n").map((el, i) => i !== 0 ? "                       " + el : el).join("\n");
+    console.log(`> [GIT] Updated with origin/master\n` +
+      `        Latest commit: ${commits}`);
+
+    cmd.get('refresh', (err) => {
+      if (err) error(err);
+    });
+
+  }
+
+  return res.sendStatus(200);
 });
 
+// Home
 app.get('/', (req, res) => {
-  fs.readdir(__dirname + "/commands", async (err, items) => {
-    if (err) {
-      console.error("> [ERROR] On rendering page:\n", err)
+  ejs.renderFile(__dirname + '/views/index.html', {
+    "commands": cmds
+  }, (err, str) => {
+    if (!err)
+      return res.send(str);
+    else
+      error("On rendering page: " + err),
       res.json({
         "code": 500,
         "message": "Internal error on rendering page"
       });
-      
-      return;
-    }
-
-    var commands = [];
-
-    items.forEach(item => {
-      var i = require("./commands/" + item).command;
-      commands.push(i);
-    });
-
-    ejs.renderFile(__dirname + '/views/index.html', {
-      "commands": commands
-    }, (err, str) => {
-      if (!err)
-        return res.send(str);
-      else
-        console.error("> [ERROR] On rendering page:\n", err),
-        res.json({
-          "code": 500,
-          "message": "Internal error on rendering page"
-        });
-    });
   });
 });
 
+app.get("/cmdList", (req, res) => {
+  return res.send(cmds)
+})
+
 const listener = app.listen(4000, () => {
-  console.log('> [WEB] Started on port', listener.address().port);
+  console.log('> [WEB] Started on port ' + listener.address().port);
 });

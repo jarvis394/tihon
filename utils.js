@@ -1,7 +1,13 @@
 const fs = require("fs");
 const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
+
 const firebase = require("firebase");
-const db = firebase.app().database();
+const db = firebase.firestore();
+
+const errorRef = db.collection("log").doc("errors");
+const captchaRef = db.collection("log").doc("captcha");
+
+const DBDialog = require("./lib/DBDialog")
 
 /**
  * Returns random item from array
@@ -9,7 +15,7 @@ const db = firebase.app().database();
  * @param {array} array Array
  * @returns {any} Item from array
  */
-module.exports.randomArray = (array) => {
+const randomArray = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -20,7 +26,7 @@ module.exports.randomArray = (array) => {
  * @param {value} max Maximum
  * @returns {value} Random value
  */
-module.exports.random = (min, max) => {
+const random = (min, max) => {
   var rand = min - 0.5 + Math.random() * (max - min + 1)
   rand = Math.round(rand);
   return rand;
@@ -32,41 +38,107 @@ module.exports.random = (min, max) => {
  * @param {object} api Api object
  * @returns {object} Message object
  */
-module.exports.randomMessage = async (api) => {
+const randomMessage = async (api) => {
   // Get dialogs
   var Dialogs = await api.messages.getConversations({
     count: 200
   });
 
   async function getMsg() {
-    var Dialog = Dialogs.items[Math.floor(Math.random() * Dialogs.items.length)]
+    var Dialog = randomArray(Dialogs.items)
 
-    while (no[Dialog.conversation.peer.id]) {
-      Dialog = Dialogs.items[Math.floor(Math.random() * Dialogs.items.length)]
+    const dialog = new DBDialog(Dialog.conversation.peer.id)
+    const data = dialog.checkData()
+
+    while (data.no) {
+      Dialog = randomArray(Dialogs.items)
     }
 
     var Messages = await api.messages.getHistory({
       peer_id: Dialog.conversation.peer.id
     });
-    var Message = Messages.items[Math.floor(Math.random() * Messages.items.length)]
+    var Message = randomArray(Messages.items)
 
     return Message;
   }
 
-  var msg = await getMsg();
-
+  let msg = await getMsg();
+  let ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+  let flag = 0
+  
+  ir.forEach(d => {
+    flag = true 
+  })
+  
   while (
-    (msg.attachments.length === 0 &&
-      msg.text === "") ||
-    msg.text.split(" ").some(t => t.startsWith("http")) ||
+    (
+      msg.attachments.length === 0 &&
+      (msg.text === "" || !msg.text)
+    ) ||
+    msg.text.split(" ").some(t => t.startsWith("http") || t.startsWith("+7")) ||
     msg.text.startsWith("/") ||
+    msg.text.startsWith("АШИБКА РИП.") || 
     msg.text.length > 500 ||
-    msg.from_id === process.env.ID
+    msg.from_id.toString() === process.env.ID.toString() ||
+    
+    flag
   ) {
     msg = await getMsg();
+    
+    ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+    flag = 0
+  
+    ir.forEach(d => {
+      flag = true 
+    })
   }
 
   return msg;
+}
+
+const log = async (msg, peer) => {
+  let date = Date();
+
+  await db
+    .collection("dialogs")
+    .doc(peer.toString())
+    .collection("log")
+    .doc("messages")
+    .update({
+      [date]: msg
+    }).catch(async () => {
+      const dialog = new DBDialog(peer)
+
+      await dialog.checkData()
+      await db
+        .collection("dialogs")
+        .doc(peer.toString())
+        .collection("log")
+        .doc("messages")
+        .set({
+          [date]: msg
+        })
+    })
+
+  console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
+}
+
+const error = async (msg, path) => {
+  let date = Date();
+
+  await errorRef.update({
+    [date]: msg
+  }).catch(async () => {
+    await errorRef.set({
+      [date]: msg
+    })
+  })
+
+  console.error(`> [ERR] ${path ? `In ${path}: ` : ''}${msg}`)
+}
+
+const captcha = async (msg) => {
+  console.warn(msg)
 }
 
 /**
@@ -74,155 +146,18 @@ module.exports.randomMessage = async (api) => {
  * @param {object} update Update object
  * @param {object} e Error object
  */
-module.exports.handleError = (update, e) => {
-  console.error("> [ERR] Error with command '" + update.text + "':\n", e);
+const handleError = (update, e) => {
+  error("Error with command '" + update.text + "': " + e);
+  
   update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
 }
 
-/**
- * Set data to database
- * @param {string} path Path
- * @param {any} data Data to set
- */
-module.exports.dbSet = async (path, data) => {
-  await db.ref(path).set(data);
+module.exports = {
+  randomArray,
+  random,
+  randomMessage,
+  handleError,
+  log,
+  error,
+  captcha
 }
-
-/**
- * Update data in database
- * @param {string} path Path
- * @param {any} data Data to update
- */
-module.exports.dbUpdate = async (path, data) => {
-  await db.ref(path).update(data);
-}
-
-/**
- * Get data from database
- * @param {string} path Path
- */
-module.exports.dbGet = async (path) => {
-  let data;
-  await db.ref(path).once("value", (d) => data = d.val());
-
-  return data;
-}
-
-/**
- * Get data from dialogs in database
- * @param {string} path Path
- * @param {string} peer PeerID of the dialog
- */
-module.exports.dbDialogGet = async (path, peer) => {
-  let data;
-  await db.ref("dialogs/" + peer + "/" + path).once("value", (d) => data = d.val());
-
-  return data;
-}
-
-/**
- * Set data to dialogs in database
- * @param {string} path Path
- * @param {string} peer PeerID of the dialog
- * @param {any} data Data to set
- */
-module.exports.dbDialogSet = async (path, peer, data) => {
-  await db.ref("dialogs/" + peer + "/" + path).set(data)
-}
-
-/**
- * Update data in dialogs in database
- * @param {string} path Path
- * @param {string} peer PeerID of the dialog
- * @param {any} data Data to update
- */
-module.exports.dbDialogUpdate = async (path, peer, data) => {
-  await db.ref("dialogs/" + peer + "/" + path).update(data)
-}
-
-
-
-
-// Old method to keep user's settings; moved to Firebase
-
-
-/**
- * Write value to ./settings.json
- * 
- * @param {any} name Name of the field
- * @param {any} value Value to write
- * @param {value} peer peer_id of the dialog
- */
-/*module.exports.writeSettings = (name, value, peer) => {
-  let settings = JSON.parse(fs.readFileSync("./settings.json", "utf8")); // Get
-  if (peer && settings[peer])
-    settings[peer][name] = value;
-  if (peer && !settings[peer]) {
-    settings[peer] = {};
-
-    // Write
-    fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
-      if (err) return console.log(err);
-    });
-
-    settings[peer][name] = value;
-  } else
-    settings[name] = value;
-
-  // Write
-  fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
-    if (err) return console.log(err);
-  });
-}*/
-
-/**
- * Get user's settings from ./settings.json
- * 
- * @param {any} name Name of the field
- * @param {value} peer peer_id of the dialog
- * @returns {any} Field
- */
-/*module.exports.getSettings = async (name, peer) => {
-  fs.readFile("./settings.json", "utf8", (err, data) => {
-    let settings = JSON.parse(data);
-
-    if (peer && settings[peer])
-      return settings[peer][name];
-    if (peer && !settings[peer]) {
-      settings[peer] = {};
-
-      // Write
-      fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
-        if (err) return console.log(err);
-      });
-
-      return settings[peer][name];
-    } else
-      return settings[name];
-  });
-}
-
-module.exports.pushRole = (id, role, peer) => {
-  let settings = JSON.parse(fs.readFileSync("./settings.json", "utf8"));
-
-  if (settings[peer] && settings[peer][id]) {
-    settings[peer][id].roles.push(role);
-  } else if (settings[peer] && !settings[peer][id]) {
-    settings[peer][id] = {};
-    settings[peer][id].roles = [];
-
-    // Write
-    fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
-      if (err) return console.log(err);
-    });
-
-    settings[peer][id].roles.push(role);
-  } else {
-    settings[peer][id].roles.push(role);
-  }
-
-  // Write
-  fs.writeFile("./settings.json", JSON.stringify(settings, null, 2), (err) => {
-    if (err) return console.log(err);
-  });
-}*/

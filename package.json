@@ -4,16 +4,21 @@
   "description": "VK bot",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest --verbose"
   },
   "dependencies": {
+    "@grpc/proto-loader": "^0.4.0",
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "firebase": "^5.8.2",
+    "firebase": "^5.8.3",
     "fs": "^0.0.2",
-    "mathjs": "^5.4.2",
+    "jest": "^23.6.0",
+    "mathjs": "^5.5.0",
     "node-cmd": "^3.0.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
     "vk-io": "^4.0.0-rc.14"
   },
   "engines": {

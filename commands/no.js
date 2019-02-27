@@ -1,22 +1,27 @@
-const { handleError } = require("../utils")
+const {
+  handleError
+} = require("../utils")
 
-const fs = require("fs");
-const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
+const DBDialog = require("../lib/DBDialog")
 
-exports.run = (api, update, args) => {
+exports.run = async (api, update, args) => {
   try {
+    const dialog = new DBDialog(update.peerId)
 
-    if (no[update.peerId]) {
-      no[update.peerId] = false;
+    let state = await dialog.checkData()
+    state = state.no
+
+    if (state) {
+      state = false;
       update.send("Теперь отсюда бот будет брать сообщения")
     } else {
-      no[update.peerId] = true;
-      update.send("Теперь сюда бот не будет смотреть")
+      state = true;
+      update.send("Теперь отсюда бот не будет брать сообщения")
     }
 
-    fs.writeFile("./no.json", JSON.stringify(no, null, 2), (err) => {
-      if (err) return console.log("> [ERROR] In no.js: \n", err)
-    });
+    dialog.update({
+      auto: state
+    })
 
   } catch (e) {
     handleError(update, e)

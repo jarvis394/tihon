@@ -2,61 +2,76 @@ const {
   handleError
 } = require("../utils")
 
-const {
-  dbSet,
-  dbUpdate,
-  dbDialogGet,
-  dbDialogSet
-} = require("../utils");
+const DBDialog = require("../lib/DBDialog")
+
+const emptyUserData = {
+  "roles": [],
+  "warns": [],
+  "settings": {}
+}
 
 exports.run = async (api, update, args) => {
+  const dialog = new DBDialog(update.peerId)
+
   try {
 
     // Return if group mentioned (usually that's bot)
-    if (args.includes(el => el.startsWith("[club"))) return update.send("Группам роли не даю");
+    if (args.some(el => el.startsWith("[club"))) return update.send("Группам роли не даю")
 
-    // Add role if a first argument is "add"
-    if (args[0] == "add") return addRole();
+    // Return if in dialog, not multidialog
+    if (update.peerType === "user") return update.send("Мы с тобой тут с глазу на глаз")
 
-    // Remove role if a first argument is "remove"
-    else if (args[0] == "remove") return removeRole();
+    if (args[0] && args[0].startsWith("[id")) {
 
-    // Show mentioned user's roles
-    else if (args[0] && args[0].startsWith("[id")) return showRoles(args[0].slice(1, -1).split("|")[0])
+      let id = args[0].slice(1, -1).split("|")[0].slice(2)
+      if (args[1] == "add") return await addRole(id, 2)
+      else if (args[1] == "remove" || args[1] == "delete") return await removeRole(id, 2)
+      else if (args[0]) return await showRoles(id)
+      else return update.send("Не опознал")
 
-    // Show user's roles
-    else if (!args[0]) return showRoles(update.senderId);
+    } else {
 
-    // Error if nothing mathcing
-    else return update.send("Не опознал");
+      let id = update.senderId
+
+      // Add role if a first argument is "add"
+      if (args[0] == "add") return await addRole(id, 1)
+
+      // Remove role if a first argument is "remove"
+      else if (args[0] == "remove" || args[0] == "delete") return await removeRole(id, 1)
+
+      // Show user's roles
+      else if (!args[0]) return await showRoles(id)
+
+      // Error if nothing mathcing
+      else return update.send("Не опознал")
+    }
 
     /**
      * Add role
      */
-    async function addRole() {
-      let roleName = args[1]; // Role name is the second argument
-      let userId = args[2] && args[2].startsWith("[id") ? // If there is a third argument
-        args[2].slice(1, -1).split("|")[0] : // User ID is the third argument
-        update.senderId; // but if there isn't, userID is sender's ID
+    async function addRole(id, index) {
+      await dialog.checkData()
+
+      let sliceLen = index == 1 ?
+        args[0].length + 1 :
+        args[0].length + args[1].length + 1
+      let roleName = args.join(" ").slice(sliceLen)
+      let userId = id
 
       // If no role name
-      if (!roleName) return update.send("⭕️ Не указана роль");
+      if (!roleName) return update.send("⭕️ Не указана роль")
 
       // Get data
-      let user = await dbDialogGet(userId, update.peerId);
+      let user = await dialog.getUser(userId);
 
+      // No user fetched
       if (!user) {
-        await dbDialogSet(userId, update.peerId, {
-          "roles": [
-            false
-          ]
-        });
-        user = await dbDialogGet(userId, update.peerId);
+        await dialog.setUser(userId, emptyUserData);
+        user = emptyUserData;
       }
 
-      user.roles = user.roles ? user.roles : [];
-      user.roles.push(roleName);
-      await dbDialogSet(userId, update.peerId, user);
+      user.roles.push(roleName)
+      await dialog.updateRoles(userId, user.roles)
 
       let name = await api.users.get({
         user_ids: userId,
@@ -67,7 +82,7 @@ exports.run = async (api, update, args) => {
       if (user && user.roles) {
         let c = 0;
         user.roles.forEach(el => {
-          if (el) res += "🔸 " + el + "\n", c++;
+          if (el) res += "🔸 " + el + "\n", c++
         });
         if (!c) res = "🔸 Пока ничего!";
       }
@@ -81,32 +96,63 @@ exports.run = async (api, update, args) => {
     /**
      * Remove role
      */
-    async function removeRole() {
-      let roleName = args[1]; // Role name is the second argument
-      let userId = args[2] && args[2].startsWith("[id") ? // If there is a third argument
-        args[2].slice(1, -1).split("|")[0] : // User ID is the third argument
-        update.senderId; // but if there isn't, userID is sender's ID
+    async function removeRole(id, index) {
+      await dialog.checkData()
+
+      let sliceLen = index == 1 ?
+        args[0].length + 1 :
+        args[0].length + args[1].length + 1
+      let roleName = args.join(" ").slice(sliceLen)
+      let userId = id
 
       // If no role name
-      if (!roleName) return update.send("⭕️ Не указана роль");
+      if (!roleName) return update.send("⭕️ Не указана роль")
 
       // Get data
-      let user = await dbDialogGet(userId, update.peerId);
+      let user = await dialog.getUser(userId);
 
+      // No user fetched
       if (!user) {
-        await dbDialogSet(userId, update.peerId, {
-          "roles": [
-            false
-          ]
-        });
-        user = await dbDialogGet(userId, update.peerId);
+        await dialog.setUser(userId, emptyUserData);
+        user = emptyUserData;
       }
 
-      let i = user.roles.findIndex(el => el === roleName);
-      if (i !== -1) user.roles.splice(i, 1);
-      else return update.send("⭕️ Такой роли нет");
+      let i = user.roles.findIndex(el => el === roleName)
+      if (i !== -1) user.roles.splice(i, 1)
+      else return update.send("⭕️ Такой роли нет")
 
-      await dbDialogSet(userId, update.peerId, user);
+      await dialog.updateRoles(userId, user.roles)
+
+      let name = await api.users.get({
+        user_ids: userId,
+        name_case: "gen"
+      })
+
+      let res = ""
+      if (user && user.roles) {
+        let c = 0
+        user.roles.forEach(el => {
+          if (el) res += "🔸 " + el + "\n", c++
+        });
+        if (!c) res = "🔸 Пока ничего!"
+      }
+
+      return await update.send(
+        `Удалена роль '${roleName}'\n
+         Теперь роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`
+      )
+    }
+
+    async function showRoles(userId) {
+      await dialog.checkData()
+
+      let user = await dialog.getUser(userId)
+
+      // No user fetched
+      if (!user) {
+        await dialog.setUser(userId, emptyUserData)
+        user = emptyUserData
+      }
 
       let name = await api.users.get({
         user_ids: userId,
@@ -117,44 +163,12 @@ exports.run = async (api, update, args) => {
       if (user && user.roles) {
         let c = 0;
         user.roles.forEach(el => {
-          if (el) res += "🔸 " + el + "\n", c++;
-        });
-        if (!c) res = "🔸 Пока ничего!";
+          if (el) res += "🔸 " + el + "\n", c++
+        })
+        if (!c) res = "🔸 Пока ничего!"
       }
 
-      return await update.send(
-        `Удалена роль '${roleName}'\n
-         Теперь роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`
-      );
-    }
-
-    async function showRoles(id) {
-      let user = await dbDialogGet(id, update.peerId);
-
-      if (!user) {
-        await dbDialogSet(id, update.peerId, {
-          "roles": [
-            false
-          ]
-        });
-        user = await dbDialogGet(id, update.peerId);
-      }
-
-      let name = await api.users.get({
-        user_ids: id,
-        name_case: "gen"
-      });
-
-      let res = "";
-      if (user && user.roles) {
-        let c = 0;
-        user.roles.forEach(el => {
-          if (el) res += "🔸 " + el + "\n", c++;
-        });
-        if (!c) res = "🔸 Пока ничего!";
-      }
-
-      return await update.send(`Роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`);
+      return await update.send(`Роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`)
     }
 
   } catch (e) {
@@ -163,7 +177,7 @@ exports.run = async (api, update, args) => {
 }
 
 exports.command = {
-  "name": "role",
+  "name": "roles",
   "arguments": "(add)/(remove) *user|(add)/(remove) *user",
   "description": {
     "en": "Adds or removes role at specific user. Without add/remove shows only user's roles",

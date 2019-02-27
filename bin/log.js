@@ -3,18 +3,23 @@ const {
   cooldown
 } = require("../config");
 
-module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message', async (context, next) => {
+const {
+  log,
+  handleError
+} = require("../utils")
+
+module.exports = (updates, memoryStorage, talkedRecently, cmds) => updates.on('message', async (context, next) => {
+  try {
   let {
     peerId,
     text,
-    senderId,
-    isOutbox
+    senderId
   } = context;
 
   if (talkedRecently.has(senderId)) return;
 
-  if (text && text.startsWith(prefix)) {
-    console.log("> [LOG]", text, "|", peerId);
+  if (text && text.startsWith(prefix) && cmds.some(el => el.name.startsWith(text.split(" ")[0].slice(prefix.length)))) {
+    log(text, peerId);
 
     talkedRecently.add(senderId);
     setTimeout(() => {
@@ -31,4 +36,8 @@ module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message
   await next();
 
   memoryStorage.set(peerId, session);
+  } catch(e) {
+    handleError(context, e)
+    console.log("@")
+  }
 });

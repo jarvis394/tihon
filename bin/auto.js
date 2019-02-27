@@ -1,6 +1,4 @@
-const fs = require("fs");
-const no = JSON.parse(fs.readFileSync("./no.json", "utf8"))
-const blacklist = JSON.parse(fs.readFileSync("./blacklist.json", "utf8"));
+const DBDialog = require("../lib/DBDialog")
 const {
   random,
   randomMessage
@@ -16,8 +14,11 @@ module.exports = (api, vk) => {
 
     Dialogs.items.forEach(async (dialog) => {
 
+      const Dialog = new DBDialog(dialog.conversation.peer.id)
+      const data = await Dialog.checkData()
+
       // If dialog is blacklisted then return
-      if (blacklist[dialog.conversation.peer.id]) return;
+      if (!data.auto) return;
 
       var res = "";
       var options = {};
@@ -44,16 +45,17 @@ module.exports = (api, vk) => {
             "attachment": options.attachments,
             "peer_id": dialog.conversation.peer.id
           })
-        else
+        else if (res !== "")
           vk.api.messages.send({
             "message": res,
             "peer_id": dialog.conversation.peer.id
           });
+        else return
       }, random(1000, 100 * 1000))
 
     });
 
-    console.log("> [AUTO] SENT");
+    console.log("> [LOG] Auto has been sent");
 
   }, 3600 * 1000);
 
