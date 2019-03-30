@@ -4,7 +4,7 @@ const {
 
 const DBDialog = require("../lib/DBDialog")
 
-exports.run = async (api, update, args) => {
+exports.run = async (api, update) => {
   try {
     const dialog = new DBDialog(update.peerId)
 
@@ -12,10 +12,10 @@ exports.run = async (api, update, args) => {
     state = state.auto
 
     if (state) {
-      state = false;
+      state = false
       update.send("Теперь здесь не будет отправляться рассылка")
     } else {
-      state = true;
+      state = true
       update.send("Теперь тут будет отправляться рассылка")
     }
 

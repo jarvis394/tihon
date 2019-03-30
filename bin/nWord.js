@@ -1,4 +1,4 @@
-const { randomArray } = require("../utils");
+const { randomArray } = require("../utils")
 const stops = {
   "сука": [/сук[а]/, "Сам ты сука", "Скука", "Срука", "Слыш э", "Я кобель"],
   "ебал": [/ебал[а]/, "Ебли себя лучше", "Ебло", "Ебалка))", "Да сам ебись куда подальше", "Солидарен, ебал тоже"],
@@ -11,26 +11,24 @@ const stops = {
 function findPropertyNameByRegex(o, s) {
   for (var key in o) {
     if (s.match(o[key][0])) {
-      return key;
+      return key
     }
   }
   
-  return undefined;
-};
+  return undefined
+}
 
-module.exports = (updates) => updates.on('message', async (context, next) => {
+module.exports = (updates) => updates.on("message", async (context, next) => {
   let {
     text
-  } = context;
+  } = context
 
   text && text.split(" ").forEach(async (el) => {
     let k = findPropertyNameByRegex(stops, el.toLowerCase())
     if (!k) return
-    
-    let n = stops[k].shift()
-    // console.log(stops)
+
     return await context.send(randomArray(stops[k]))
   })
 
   await next()
-});
+})

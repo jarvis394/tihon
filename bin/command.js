@@ -1,7 +1,7 @@
 const { prefix } = require("../config")
 const { error } = require("../utils")
 
-module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message', async (context, next) => {
+module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message", async (context, next) => {
   let text, args, cmd
   
   if (context.state.mentioned) {
@@ -11,7 +11,7 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message'
     cmd = args.shift()
   } else {
     text = context.text
-    args = text.slice(prefix.length).trim().split(' ')
+    args = text.slice(prefix.length).trim().split(" ")
     cmd = args.shift()
   }
   
@@ -24,12 +24,12 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message'
   }))
   
   try {
-    let commandFile = require(`../commands/${cmd}.js`);
-    commandFile.run(api, context, args, randomStorage, vk);
+    let commandFile = require(`../commands/${cmd}.js`)
+    commandFile.run(api, context, args, randomStorage, vk)
   } catch (e) { 
-    if (e.code === "MODULE_NOT_FOUND") return;
+    if (e.code === "MODULE_NOT_FOUND") return
     error(e)
   }
   
   await next()
-});
+})

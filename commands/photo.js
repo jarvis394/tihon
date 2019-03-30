@@ -2,49 +2,49 @@ const { handleError } = require("../utils")
 
 const {
   randomArray
-} = require("../utils");
+} = require("../utils")
 
 const DBDialog = require("../lib/DBDialog")
 
-exports.run = async (api, update, args) => {
+exports.run = async (api, update) => {
   try {
 
     // Get dialogs
     var Dialogs = await api.messages.getConversations({
       count: 200
-    });
+    })
 
     async function getMsg() {
-      var Dialog = randomArray(Dialogs.items);
+      var Dialog = randomArray(Dialogs.items)
 
       const dialog = new DBDialog(Dialog.conversation.peer.id)
       const data = dialog.checkData()
 
       while (data.no) {
-        Dialog = randomArray(Dialogs.items);
+        Dialog = randomArray(Dialogs.items)
       }
 
       var Photos = await api.messages.getHistoryAttachments({
         peer_id: Dialog.conversation.peer.id,
         count: 200,
         media_type: "photo"
-      });
+      })
       
       // Return false if no photos in dialog
       if (!Photos.items) return false
       
-      var Photo = randomArray(Photos.items);
+      var Photo = randomArray(Photos.items)
 
-      return Photo;
+      return Photo
     }
 
-    let ph = await getMsg();
+    let ph = await getMsg()
 
     while (!ph) {
-      ph = await getMsg();
+      ph = await getMsg()
     }
 
-    var access = ph.attachment.photo.access_key ? "_" + ph.attachment.photo.access_key : "";
+    var access = ph.attachment.photo.access_key ? "_" + ph.attachment.photo.access_key : ""
 
     await update.send("", {
       "attachment": `photo${ph.attachment.photo.owner_id}_${ph.attachment.photo.id}${access}`

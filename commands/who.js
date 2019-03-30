@@ -8,7 +8,7 @@ const replies = [
 ]
 const {
   randomArray
-} = require("../utils");
+} = require("../utils")
 
 exports.run = async (api, update, args) => {
   try {

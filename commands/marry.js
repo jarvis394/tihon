@@ -1,7 +1,7 @@
-const { handleError } = require("../utils");
+const { handleError } = require("../utils")
 
-const firebase = require("firebase");
-const db = firebase.firestore();
+const firebase = require("firebase")
+const db = firebase.firestore()
 
 exports.run = async (api, update, args) => {
   try {

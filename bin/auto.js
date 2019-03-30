@@ -2,7 +2,7 @@ const DBDialog = require("../lib/DBDialog")
 const {
   random,
   randomMessage
-} = require("../utils");
+} = require("../utils")
 
 module.exports = (api, vk) => {
 
@@ -10,7 +10,7 @@ module.exports = (api, vk) => {
 
     var Dialogs = await api.messages.getConversations({
       count: 200
-    });
+    })
 
     Dialogs.items.forEach(async (dialog) => {
 
@@ -18,24 +18,24 @@ module.exports = (api, vk) => {
       const data = await Dialog.checkData()
 
       // If dialog is blacklisted then return
-      if (!data.auto) return;
+      if (!data.auto) return
 
-      var res = "";
-      var options = {};
+      var res = ""
+      var options = {}
 
-      var msg = await randomMessage(api);
+      var msg = await randomMessage(api)
 
       if (msg.text !== "")
-        res = msg.text;
+        res = msg.text
       if (msg.attachments.length !== 0) {
         msg.attachments.forEach(attachment => {
           if (attachment.type === "photo") {
-            var access = attachment.photo.access_key ? "_" + attachment.photo.access_key : "";
+            var access = attachment.photo.access_key ? "_" + attachment.photo.access_key : ""
             options.attachments += options.attachments ? 
               "photo" + attachment.photo.owner_id + "_" + attachment.photo.id + access :
               ", photo" + attachment.photo.owner_id + "_" + attachment.photo.id + access
           }
-        });
+        })
       }
 
       setTimeout(() => {
@@ -49,14 +49,14 @@ module.exports = (api, vk) => {
           vk.api.messages.send({
             "message": res,
             "peer_id": dialog.conversation.peer.id
-          });
+          })
         else return
       }, random(1, 100) * 1000)
 
-    });
+    })
 
-    console.log("> [LOG] Auto has been sent");
+    console.log("> [LOG] Auto has been sent")
 
-  }, 3600 * 1000);
+  }, 3600 * 1000)
 
 }

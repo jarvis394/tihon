@@ -62,12 +62,12 @@ exports.run = async (api, update, args) => {
       if (!roleName) return update.send("⭕️ Не указана роль")
 
       // Get data
-      let user = await dialog.getUser(userId);
+      let user = await dialog.getUser(userId)
 
       // No user fetched
       if (!user) {
-        await dialog.setUser(userId, emptyUserData);
-        user = emptyUserData;
+        await dialog.setUser(userId, emptyUserData)
+        user = emptyUserData
       }
 
       user.roles.push(roleName)
@@ -76,21 +76,21 @@ exports.run = async (api, update, args) => {
       let name = await api.users.get({
         user_ids: userId,
         name_case: "gen"
-      });
+      })
 
-      let res = "";
+      let res = ""
       if (user && user.roles) {
-        let c = 0;
+        let c = 0
         user.roles.forEach(el => {
           if (el) res += "🔸 " + el + "\n", c++
-        });
-        if (!c) res = "🔸 Пока ничего!";
+        })
+        if (!c) res = "🔸 Пока ничего!"
       }
 
       return await update.send(
         `Добавлена роль '${roleName}'\n
          Теперь роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`
-      );
+      )
     }
 
     /**
@@ -109,12 +109,12 @@ exports.run = async (api, update, args) => {
       if (!roleName) return update.send("⭕️ Не указана роль")
 
       // Get data
-      let user = await dialog.getUser(userId);
+      let user = await dialog.getUser(userId)
 
       // No user fetched
       if (!user) {
-        await dialog.setUser(userId, emptyUserData);
-        user = emptyUserData;
+        await dialog.setUser(userId, emptyUserData)
+        user = emptyUserData
       }
 
       let i = user.roles.findIndex(el => el === roleName)
@@ -133,7 +133,7 @@ exports.run = async (api, update, args) => {
         let c = 0
         user.roles.forEach(el => {
           if (el) res += "🔸 " + el + "\n", c++
-        });
+        })
         if (!c) res = "🔸 Пока ничего!"
       }
 
@@ -157,11 +157,11 @@ exports.run = async (api, update, args) => {
       let name = await api.users.get({
         user_ids: userId,
         name_case: "gen"
-      });
+      })
 
-      let res = "";
+      let res = ""
       if (user && user.roles) {
-        let c = 0;
+        let c = 0
         user.roles.forEach(el => {
           if (el) res += "🔸 " + el + "\n", c++
         })

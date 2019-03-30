@@ -2,7 +2,7 @@ const { handleError } = require("../utils")
 
 const {
   randomArray
-} = require("../utils");
+} = require("../utils")
 
 const responds = [
   "ЗаебOK!",
@@ -36,7 +36,7 @@ const responds = [
   "это не фотошоп, я это видел в горах Краснодарского края."
 ]
 
-exports.run = async (api, update, args) => {
+exports.run = async (api, update) => {
   try {
     await update.send(randomArray(responds))
   } catch (e) {

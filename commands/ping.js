@@ -9,9 +9,9 @@ const replies = [
 ]
 const {
   randomArray
-} = require("../utils");
+} = require("../utils")
 
-exports.run = async (api, update, args) => {
+exports.run = async (api, update) => {
   try {
     await update.send(randomArray(replies))
   } catch (e) {

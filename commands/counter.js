@@ -1,8 +1,8 @@
 const { handleError } = require("../utils")
 
-exports.run = async (api, update, args) => {
+exports.run = async (api, update) => {
   try {
-    await update.send(`Счётчик: (${update.state.session.counter})`);
+    await update.send(`Счётчик: (${update.state.session.counter})`)
   } catch (e) {
     handleError(update, e)
   }

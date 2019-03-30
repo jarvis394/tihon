@@ -2,9 +2,7 @@ const {
   handleError
 } = require("../utils")
 
-const DBDialog = require("../lib/DBDialog")
-
-exports.run = async (api, update, args) => {
+exports.run = async (api, update) => {
   try {
     update.send("> не готово пока")
   } catch (e) {

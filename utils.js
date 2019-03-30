@@ -10,7 +10,7 @@ const db = firebase.firestore()
  * @returns {any} Item from array
  */
 const randomArray = (array) => {
-  return array[Math.floor(Math.random() * array.length)];
+  return array[Math.floor(Math.random() * array.length)]
 }
 
 /**
@@ -22,8 +22,8 @@ const randomArray = (array) => {
  */
 const random = (min, max) => {
   var rand = min - 0.5 + Math.random() * (max - min + 1)
-  rand = Math.round(rand);
-  return rand;
+  rand = Math.round(rand)
+  return rand
 }
 
 /**
@@ -36,7 +36,7 @@ const randomMessage = async (api) => {
   // Get dialogs
   var Dialogs = await api.messages.getConversations({
     count: 200
-  });
+  })
 
   async function getMsg() {
     var Dialog = randomArray(Dialogs.items)
@@ -50,17 +50,17 @@ const randomMessage = async (api) => {
 
     var Messages = await api.messages.getHistory({
       peer_id: Dialog.conversation.peer.id
-    });
+    })
     var Message = randomArray(Messages.items)
 
-    return Message;
+    return Message
   }
 
-  let msg = await getMsg();
+  let msg = await getMsg()
   let ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
   let flag = 0
 
-  ir.forEach(d => {
+  ir.forEach(() => {
     flag = true
   })
 
@@ -77,25 +77,26 @@ const randomMessage = async (api) => {
 
     flag
   ) {
-    msg = await getMsg();
+    msg = await getMsg()
 
     ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
     flag = 0
 
-    ir.forEach(d => {
+    ir.forEach(() => {
       flag = true
     })
   }
 
-  return msg;
+  return msg
 }
 
 const log = async (msg, peer) => {
+  // eslint-ignore-no-console
   console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
 }
 
 const error = async (msg, path) => {
-  console.error(`> [ERR] ${path ? `In ${path}: ` : ''}${msg}`)
+  console.error(`> [ERR] ${path ? `In ${path}: ` : ""}${msg}`)
 }
 
 const captcha = async (msg) => {
@@ -108,9 +109,9 @@ const captcha = async (msg) => {
  * @param {object} e Error object
  */
 const handleError = (update, e) => {
-  error("Error with command '" + update.text + "': " + e);
+  error("Error with command '" + update.text + "': " + e)
 
-  update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
+  update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message)
 }
 
 module.exports = {

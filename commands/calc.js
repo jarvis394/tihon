@@ -1,19 +1,19 @@
 const { handleError } = require("../utils")
 
-const math = require('mathjs');
+const math = require("mathjs")
 
 exports.run = (api, update, args) => {
   try {
-    var resp;
-    var calc = args.join(' ');
+    var resp
+    var calc = args.join(" ")
 
     try {
-      resp = math.eval(calc);
+      resp = math.eval(calc)
     } catch (e) {
-      return update.send("Похоже, я слишком тупой для таких примеров");
+      return update.send("Похоже, я слишком тупой для таких примеров")
     }
 
-    update.send(`📥 Ввод: ${calc}\n📤 Вывод: ${resp}`);
+    update.send(`📥 Ввод: ${calc}\n📤 Вывод: ${resp}`)
   } catch (e) {
     handleError(update, e)
   }
