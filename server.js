@@ -12,6 +12,7 @@ const fs = require("fs")
 
 const memoryStorage = new Map(); // Saves counter to every dialog
 const talkedRecently = new Set(); // Saves users that talked recently
+const randomStorage = new Map(); // Saves previous random messages
 
 const {
   TOKEN,
@@ -37,7 +38,8 @@ let config = {
 firebase.initializeApp(config);
 
 vk.setOptions({
-  token: TOKEN
+  token: TOKEN,
+  authScope: "all"
 });
 
 let cmds = []
@@ -55,25 +57,26 @@ const {
   log,
   error,
   captcha
-} = require("./utils.js")
-
-// Auto send messages
+} = require("./utils.js")// Auto send messages
 require("./bin/auto")(api, vk);
 
 // Log incoming messages
 require("./bin/log")(updates, memoryStorage, talkedRecently, cmds);
 
 // Count them
-require("./bin/counter")(updates, api);
+require("./bin/counter")(updates, api, randomStorage);
 
 // Check if user mentioned bot
 require("./bin/mention")(updates);
+
+// Find n-word
+require("./bin/nWord")(updates);
 
 // Check for prefix
 require("./bin/prefixCheck")(updates);
 
 // Run command
-require("./bin/command")(updates, api);
+require("./bin/command")(updates, api, randomStorage, cmds, vk);
 
 async function run() {
   await vk.updates.startPolling();
@@ -82,6 +85,7 @@ async function run() {
 
 // Run
 run().catch(e => {
+  if (e.code == 100) return console.log("> [WARN] Api Error: 100")
   error(e);
 });
 
