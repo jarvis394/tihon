@@ -4,9 +4,6 @@ const {
   randomArray
 } = require("../utils");
 
-const firebase = require("firebase");
-const db = firebase.firestore();
-
 const DBDialog = require("../lib/DBDialog")
 
 exports.run = async (api, update, args) => {
