@@ -58,6 +58,7 @@ const {
   error,
   captcha
 } = require("./utils.js")// Auto send messages
+
 require("./bin/auto")(api, vk);
 
 // Log incoming messages
