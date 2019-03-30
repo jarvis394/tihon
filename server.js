@@ -57,7 +57,7 @@ const {
   log,
   error,
   captcha
-} = require("./utils.js")// Auto send messages
+} = require("./utils.js") // Auto send messages
 
 require("./bin/auto")(api, vk);
 
