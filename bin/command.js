@@ -1,22 +1,22 @@
-const { prefix, mentionPrefix } = require("../config");
-const { error } = require("../utils");
+const { prefix } = require("../config")
+const { error } = require("../utils")
 
 module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message', async (context, next) => {
   let text, args, cmd
   
   if (context.state.mentioned) {
-    text = context.text;
+    text = context.text
     args = text.split(" ")
     args.shift()
-    cmd = args.shift();
+    cmd = args.shift()
   } else {
-    text = context.text;
-    args = text.slice(prefix.length).trim().split(' ');
-    cmd = args.shift();
+    text = context.text
+    args = text.slice(prefix.length).trim().split(' ')
+    cmd = args.shift()
   }
   
   if (context.hasForwards || context.hasAttachments()) {
-    await context.loadMessagePayload();
+    await context.loadMessagePayload()
   }
   
   cmds.map(c => c.alias && c.alias.map(el => {
@@ -28,9 +28,8 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message'
     commandFile.run(api, context, args, randomStorage, vk);
   } catch (e) { 
     if (e.code === "MODULE_NOT_FOUND") return;
-    error(e);
-    console.error(e)
+    error(e)
   }
   
-  await next();
+  await next()
 });
