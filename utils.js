@@ -1,12 +1,3 @@
-const fs = require("fs");
-const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
-
-const firebase = require("firebase");
-const db = firebase.firestore();
-
-const errorRef = db.collection("log").doc("errors");
-const captchaRef = db.collection("log").doc("captcha");
-
 const DBDialog = require("./lib/DBDialog")
 
 /**
@@ -45,148 +36,66 @@ const randomMessage = async (api) => {
   });
 
   async function getMsg() {
-    var Dialog = Dialogs.items[Math.floor(Math.random() * Dialogs.items.length)]
+    var Dialog = randomArray(Dialogs.items)
 
     const dialog = new DBDialog(Dialog.conversation.peer.id)
     const data = dialog.checkData()
 
     while (data.no) {
-      Dialog = Dialogs.items[Math.floor(Math.random() * Dialogs.items.length)]
+      Dialog = randomArray(Dialogs.items)
     }
 
     var Messages = await api.messages.getHistory({
       peer_id: Dialog.conversation.peer.id
     });
-    var Message = Messages.items[Math.floor(Math.random() * Messages.items.length)]
+    var Message = randomArray(Messages.items)
 
     return Message;
   }
 
-  var msg = await getMsg();
+  let msg = await getMsg();
+  let ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+  let flag = 0
+
+  ir.forEach(d => {
+    flag = true
+  })
 
   while (
     (
       msg.attachments.length === 0 &&
-      msg.text === ""
+      (msg.text === "" || !msg.text)
     ) ||
     msg.text.split(" ").some(t => t.startsWith("http") || t.startsWith("+7")) ||
     msg.text.startsWith("/") ||
+    msg.text.startsWith("АШИБКА РИП.") ||
     msg.text.length > 500 ||
-    msg.from_id === process.env.ID
+    msg.from_id.toString() === process.env.ID.toString() ||
+
+    flag
   ) {
     msg = await getMsg();
+
+    ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+    flag = 0
+
+    ir.forEach(d => {
+      flag = true
+    })
   }
 
   return msg;
 }
 
-// /**
-//  * Set data to database
-//  * @param {string} path Path
-//  * @param {any} data Data to set
-//  */
-// const dbSet = async (path, data) => {
-//   await db.ref(path).set(data);
-// }
-
-// /**
-//  * Update data in database
-//  * @param {string} path Path
-//  * @param {any} data Data to update
-//  */
-// const dbUpdate = async (path, data) => {
-//   await db.ref(path).update(data);
-// }
-
-// /**
-//  * Get data from database
-//  * @param {string} path Path
-//  */
-// const dbGet = async (path) => {
-//   let data;
-//   await db.ref(path).once("value", (d) => data = d.val());
-
-//   return data;
-// }
-
-// /**
-//  * Get data from dialogs in database
-//  * @param {string} path Path
-//  * @param {string} peer PeerID of the dialog
-//  */
-// const dbDialogGet = async (path, peer) => {
-//   let data;
-//   await db.ref("dialogs/" + peer + "/" + path).once("value", (d) => data = d.val());
-
-//   return data;
-// }
-
-// /**
-//  * Set data to dialogs in database
-//  * @param {string} path Path
-//  * @param {string} peer PeerID of the dialog
-//  * @param {any} data Data to set
-//  */
-// const dbDialogSet = async (path, peer, data) => {
-//   await db.ref("dialogs/" + peer + "/" + path).set(data)
-// }
-
-// /**
-//  * Update data in dialogs in database
-//  * @param {string} path Path
-//  * @param {string} peer PeerID of the dialog
-//  * @param {any} data Data to update
-//  */
-// const dbDialogUpdate = async (path, peer, data) => {
-//   await db.ref("dialogs/" + peer + "/" + path).update(data)
-// }
-
 const log = async (msg, peer) => {
-  let date = Date();
-
-  await db
-    .collection("dialogs")
-    .doc(peer.toString())
-    .collection("log")
-    .doc("messages")
-    .update({
-      [date]: msg
-    }).catch(async () => {
-      const dialog = new DBDialog(peer)
-
-      await dialog.checkData()
-      await db
-        .collection("dialogs")
-        .doc(peer.toString())
-        .collection("log")
-        .doc("messages")
-        .set({
-          [date]: msg
-        })
-    })
-
   console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
 }
 
-const error = async (msg) => {
-  let date = Date();
-
-  await errorRef.update({
-    [date]: msg
-  }).catch(async () => {
-    await errorRef.set({})
-  })
-
-  console.error("> [ERROR] " + msg)
+const error = async (msg, path) => {
+  console.error(`> [ERR] ${path ? `In ${path}: ` : ''}${msg}`)
 }
 
 const captcha = async (msg) => {
-  await db.runTransaction(d => {
-    d.get(captchaRef).then(async doc => await d.update(captchaRef, doc.data() + 1).catch(async () => {
-      await d.set(captchaRef, 0)
-    }));
-  })
-
   console.warn(msg)
 }
 
@@ -196,7 +105,8 @@ const captcha = async (msg) => {
  * @param {object} e Error object
  */
 const handleError = (update, e) => {
-  error("Error with command '" + update.text + "': " + e.stack.split(" ")[0] + " " + e.message);
+  error("Error with command '" + update.text + "': " + e);
+
   update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message);
 }
 
