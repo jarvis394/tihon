@@ -134,9 +134,9 @@ app.post('/git', (req, res) => {
       if (err) error(err);
     });
 
-  }
+    return res.sendStatus(200);
 
-  return res.sendStatus(200);
+  } else return res.sendStatus(400);
 });
 
 // Home
