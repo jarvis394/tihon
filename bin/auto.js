@@ -45,12 +45,13 @@ module.exports = (api, vk) => {
             "attachment": options.attachments,
             "peer_id": dialog.conversation.peer.id
           })
-        else
+        else if (res !== "")
           vk.api.messages.send({
             "message": res,
             "peer_id": dialog.conversation.peer.id
           });
-      }, random(1000, 100 * 1000))
+        else return
+      }, random(1, 100) * 1000)
 
     });
 

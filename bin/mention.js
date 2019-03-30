@@ -1,4 +1,4 @@
-const { ID } = require("../config");
+const { mentionPrefix } = require("../config");
 const { randomArray } = require("../utils");
 const answers = [
   "a?",
@@ -18,7 +18,7 @@ module.exports = (updates) => updates.on('message', async (context, next) => {
     text
   } = context;
 
-  if (text && !text.startsWith("/") && text.split(" ").some(el => el.startsWith("[id" + ID))) {
+  if (text && text.split(" ").some(el => el.startsWith(mentionPrefix)) && !text.split(" ")[1]) {
     context.send(randomArray(answers));
   }
 
