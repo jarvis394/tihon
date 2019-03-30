@@ -1,6 +1,7 @@
 const {
   prefix,
-  cooldown
+  cooldown,
+  ID
 } = require("../config");
 
 const {
@@ -18,12 +19,12 @@ module.exports = (updates, memoryStorage, talkedRecently, cmds) => updates.on('m
 
   if (talkedRecently.has(senderId)) return;
 
-  if (text && text.startsWith(prefix) && cmds.some(el => el.name.startsWith(text.split(" ")[0].slice(prefix.length)))) {
+  if (text && (text.startsWith(prefix) || text.startsWith("[id" + ID))) {
     log(text, peerId);
 
     talkedRecently.add(senderId);
     setTimeout(() => {
-      // Removes the user from the set after 2.5 seconds
+      // Removes the user from the set after delay
       talkedRecently.delete(senderId);
     }, cooldown);
   }
@@ -38,6 +39,6 @@ module.exports = (updates, memoryStorage, talkedRecently, cmds) => updates.on('m
   memoryStorage.set(peerId, session);
   } catch(e) {
     handleError(context, e)
-    console.log("@")
+    console.log("log.js")
   }
 });

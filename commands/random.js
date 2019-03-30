@@ -50,7 +50,7 @@ exports.run = async (api, update, args, rs) => {
       
     }
     
-    let date = Math.floor(Date.now() / 1000)
+    let date = await api.utils.getServerTime()
     
     if (!flag) await update.send(res, options);
     
@@ -67,5 +67,10 @@ exports.command = {
   "description": {
     "en": "Sends random message from other multidialogs",
     "ru": "Отправить рандомное сообщение из других бесед"
-  }
+  },
+  alias: [
+    "рандом",
+    "что",
+    "сообщение"
+  ]
 }

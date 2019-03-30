@@ -25,5 +25,10 @@ exports.command = {
   "description": {
     "en": "Pong!",
     "ru": "Понг!"
-  }
+  },
+  "alias": [
+    "пинг",
+    "ку",
+    "привет"
+  ]
 }

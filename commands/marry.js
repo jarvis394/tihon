@@ -37,7 +37,7 @@ exports.command = {
   "name": "marry",
   "arguments": false,
   "description": {
-    "en": "",
-    "ru": ""
+    "en": "Marry with someone",
+    "ru": "Пожениться с человеком (или нет)"
   }
 }

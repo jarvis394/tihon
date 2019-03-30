@@ -61,5 +61,8 @@ exports.command = {
   "description": {
     "en": "Sends random video from other multidialogs",
     "ru": "Отправить рандомное видео из других бесед"
-  }
+  },
+  "alias": [
+    "видео"
+  ]
 }

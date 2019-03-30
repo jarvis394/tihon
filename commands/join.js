@@ -18,5 +18,8 @@ exports.command = {
   "description": {
     "en": "Join to multidialog by an invite link",
     "ru": "Войти в беседу по приглашению"
-  }
+  },
+  "alias": [
+    "войти"
+  ]
 }

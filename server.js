@@ -16,6 +16,7 @@ const randomStorage = new Map(); // Saves previous random messages
 
 const {
   TOKEN,
+  ID,
   SECRET,
   FIREBASE_TOKEN,
   FIREBASE_AUTH_DOMAIN,
@@ -38,7 +39,8 @@ let config = {
 firebase.initializeApp(config);
 
 vk.setOptions({
-  token: TOKEN
+  token: "2ddf8c4b809c2affda74aa562131c7047e82112255777b1a5467d01cf00b4a1b95e9ce58594fce63fe7d4",
+  authScope: "all"
 });
 
 let cmds = []
@@ -56,9 +58,7 @@ const {
   log,
   error,
   captcha
-} = require("./utils.js")
-
-// Auto send messages
+} = require("./utils.js")// Auto send messages
 require("./bin/auto")(api, vk);
 
 // Log incoming messages
@@ -70,11 +70,14 @@ require("./bin/counter")(updates, api, randomStorage);
 // Check if user mentioned bot
 require("./bin/mention")(updates);
 
+// Find n-word
+require("./bin/nWord")(updates);
+
 // Check for prefix
 require("./bin/prefixCheck")(updates);
 
 // Run command
-require("./bin/command")(updates, api, randomStorage);
+require("./bin/command")(updates, api, randomStorage, cmds, vk);
 
 async function run() {
   await vk.updates.startPolling();

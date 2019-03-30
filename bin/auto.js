@@ -51,7 +51,7 @@ module.exports = (api, vk) => {
             "peer_id": dialog.conversation.peer.id
           });
         else return
-      }, random(1000, 100 * 1000))
+      }, random(1, 100) * 1000)
 
     });
 

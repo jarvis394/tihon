@@ -64,5 +64,8 @@ exports.command = {
   "description": {
     "en": "Sends random photo from other multidialogs",
     "ru": "Отправить рандомное фото из других бесед"
-  }
+  },
+  "alias": [
+    "фото"
+  ]
 }

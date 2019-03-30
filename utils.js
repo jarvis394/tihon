@@ -99,7 +99,7 @@ const randomMessage = async (api) => {
 const log = async (msg, peer) => {
   let date = Date();
 
-  await db
+  /*await db
     .collection("dialogs")
     .doc(peer.toString())
     .collection("log")
@@ -118,7 +118,7 @@ const log = async (msg, peer) => {
         .set({
           [date]: msg
         })
-    })
+    })*/
 
   console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
 }
@@ -126,13 +126,13 @@ const log = async (msg, peer) => {
 const error = async (msg, path) => {
   let date = Date();
 
-  await errorRef.update({
+  /*await errorRef.update({
     [date]: msg
   }).catch(async () => {
     await errorRef.set({
       [date]: msg
     })
-  })
+  })*/
 
   console.error(`> [ERR] ${path ? `In ${path}: ` : ''}${msg}`)
 }
