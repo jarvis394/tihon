@@ -36,5 +36,8 @@ exports.command = {
   "description": {
     "en": "Set interval of auto-sending (seconds)",
     "ru": "Установить время интервала автоматической рассылки сообщений (секунды)"
-  }
+  },
+  "alias": [
+    "интервал"
+  ]
 }

@@ -25,5 +25,12 @@ exports.command = {
   "description": {
     "en": "Calculate something",
     "ru": "Посчитать матан"
-  }
+  },
+  "alias": [
+    "калк",
+    "калькулятор",
+    "калкулятор",
+    "счет",
+    "счёт"
+  ]
 }

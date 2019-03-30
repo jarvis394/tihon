@@ -6,42 +6,56 @@ const {
 const fs = require("fs");
 const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
 
-exports.run = async (api, update, args) => {
+exports.run = async (api, update, args, rs) => {
   try {
-    var res;
-    var options = {};
+    let res;
+    let options = {};
+    let flag = false;
 
-    var msg = await randomMessage(api);
+    let msg = await randomMessage(api);
 
     if (msg.text !== "")
       res = msg.text;
-    else
-      res = "";
-    if (msg.attachments.length !== 0)
-      attachments(msg.attachments);
-
-    await update.send(res, options);
-
-    function attachments(arr) {
-      arr.forEach(async (attachment, i) => {
+    
+    if (msg.attachments.length !== 0) {
+      msg.attachments.forEach(async (attachment, i) => {
 
         if (attachment.type === "photo") {
-          var access = attachment.photo.access_key ?
+          let access = attachment.photo.access_key ?
             "_" + attachment.photo.access_key : "";
-          options.attachment = `photo${attachment.photo.owner_id}_${attachment.photo.id}${access}`;
-        } else if (attachment.type === "sticker")
+          options.attachment += options.attachment ? 
+            `photo${attachment.photo.owner_id}_${attachment.photo.id}${access}` : 
+            `, photo${attachment.photo.owner_id}_${attachment.photo.id}${access}`;
+        } 
+        
+        else if (attachment.type === "sticker") {
+          flag = true;
           return await update.sendSticker(attachment.sticker.sticker_id);
-        else if (attachment.type === "audio_message")
+        } 
+        
+        else if (attachment.type === "audio_message") {
+          flag = true;
           return await update.sendAudioMessage(attachment.audio_message.link_ogg);
+        }
+        
         else if (attachment.type === "video") {
-          var access = attachment.video.access_key ?
+          let access = attachment.video.access_key ?
             "_" + attachment.video.access_key : "";
-          options.attachment = `video${attachment.video.owner_id}_${attachment.video.id}${access}`;
+          options.attachment = options.attachment ? 
+            `video${attachment.video.owner_id}_${attachment.video.id}${access}` :
+            `, video${attachment.video.owner_id}_${attachment.video.id}${access}`;
         }
 
       });
+      
     }
-
+    
+    let date = await api.utils.getServerTime()
+    
+    if (!flag) await update.send(res, options);
+    
+    rs.set(date, msg.id)
+    
   } catch (e) {
     handleError(update, e)
   }
@@ -53,5 +67,10 @@ exports.command = {
   "description": {
     "en": "Sends random message from other multidialogs",
     "ru": "Отправить рандомное сообщение из других бесед"
-  }
+  },
+  alias: [
+    "рандом",
+    "что",
+    "сообщение"
+  ]
 }

@@ -19,7 +19,7 @@ exports.run = async (api, update, args) => {
       var Dialog = randomArray(Dialogs.items);
 
       while (no[Dialog.conversation.peer.id]) {
-        Dialog = randomArray(Dialog.items);
+        Dialog = randomArray(Dialogs.items);
       }
 
       var Videos = await api.messages.getHistoryAttachments({
@@ -27,6 +27,10 @@ exports.run = async (api, update, args) => {
         count: 200,
         media_type: "video"
       });
+      
+      // Return false if no videos in dialog
+      if (!Videos.items) return false
+      
       var Video = randomArray(Videos.items);
 
       return Video;
@@ -57,5 +61,8 @@ exports.command = {
   "description": {
     "en": "Sends random video from other multidialogs",
     "ru": "Отправить рандомное видео из других бесед"
-  }
+  },
+  "alias": [
+    "видео"
+  ]
 }

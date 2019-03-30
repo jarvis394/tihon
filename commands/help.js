@@ -40,5 +40,10 @@ exports.command = {
   "description": {
     "en": "Helps you find a description of the command you need",
     "ru": "Помогает найти нужную тебе команду"
-  }
+  },
+  "alias": [
+    "помощь",
+    "справка",
+    "начать"
+  ]
 }

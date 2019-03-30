@@ -9,11 +9,11 @@ const options = {
 exports.run = async (api, update, args) => {
   try {
 
-    let data = await get(options);
+    /*let data = await get(options);
     let url = data.neko;
 
-    return await update.sendPhoto(url);
-
+    return await update.sendPhoto(url);*/  
+  
   } catch (e) {
     handleError(update, e)
   }

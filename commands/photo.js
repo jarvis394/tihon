@@ -3,8 +3,11 @@ const { handleError } = require("../utils")
 const {
   randomArray
 } = require("../utils");
-const fs = require("fs");
-const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
+
+const firebase = require("firebase");
+const db = firebase.firestore();
+
+const DBDialog = require("../lib/DBDialog")
 
 exports.run = async (api, update, args) => {
   try {
@@ -17,8 +20,11 @@ exports.run = async (api, update, args) => {
     async function getMsg() {
       var Dialog = randomArray(Dialogs.items);
 
-      while (no[Dialog.conversation.peer.id]) {
-        Dialog = randomArray(Dialog.items);
+      const dialog = new DBDialog(Dialog.conversation.peer.id)
+      const data = dialog.checkData()
+
+      while (data.no) {
+        Dialog = randomArray(Dialogs.items);
       }
 
       var Photos = await api.messages.getHistoryAttachments({
@@ -26,6 +32,10 @@ exports.run = async (api, update, args) => {
         count: 200,
         media_type: "photo"
       });
+      
+      // Return false if no photos in dialog
+      if (!Photos.items) return false
+      
       var Photo = randomArray(Photos.items);
 
       return Photo;
@@ -54,5 +64,8 @@ exports.command = {
   "description": {
     "en": "Sends random photo from other multidialogs",
     "ru": "Отправить рандомное фото из других бесед"
-  }
+  },
+  "alias": [
+    "фото"
+  ]
 }

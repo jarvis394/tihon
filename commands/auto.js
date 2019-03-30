@@ -33,5 +33,8 @@ exports.command = {
   "description": {
     "en": "Disable/Enable auto-sending messages",
     "ru": "Отключить/Включить автоматическую рассылку сообщений"
-  }
+  },
+  alias: [
+    "авто"
+  ]
 }
