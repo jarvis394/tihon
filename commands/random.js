@@ -3,8 +3,6 @@ const { handleError } = require("../utils")
 const {
   randomMessage
 } = require('../utils.js');
-const fs = require("fs");
-const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
 
 exports.run = async (api, update, args, rs) => {
   try {

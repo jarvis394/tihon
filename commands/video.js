@@ -1,8 +1,7 @@
 const { handleError } = require("../utils")
 
 const {
-  randomArray,
-  randomMessage
+  randomArray
 } = require("../utils");
 const fs = require("fs");
 const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
