@@ -1,7 +1,7 @@
 const DBDialog = require("./lib/DBDialog")
 
 const firebase = require("firebase")
-const db = firebase.app().database()
+const db = firebase.firestore()
 
 /**
  * Returns random item from array
