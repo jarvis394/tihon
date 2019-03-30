@@ -2,9 +2,9 @@ const { handleError } = require("../utils")
 
 const {
   randomArray
-} = require("../utils");
-const fs = require("fs");
-const no = JSON.parse(fs.readFileSync("./no.json", "utf8"));
+} = require("../utils")
+
+const DBDialog = require("../lib/DBDialog")
 
 exports.run = async (api, update, args) => {
   try {
@@ -17,7 +17,10 @@ exports.run = async (api, update, args) => {
     async function getMsg() {
       var Dialog = randomArray(Dialogs.items);
 
-      while (no[Dialog.conversation.peer.id]) {
+      const dialog = new DBDialog(Dialog.conversation.peer.id)
+      const data = dialog.checkData()
+
+      while (data.no) {
         Dialog = randomArray(Dialogs.items);
       }
 
