@@ -20,7 +20,7 @@ exports.run = async (api, update) => {
     }
 
     dialog.update({
-      auto: state
+      no: state
     })
 
   } catch (e) {
