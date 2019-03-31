@@ -28,7 +28,7 @@
 <body>
 
   <div class="navbar-fixed hide-on-large-only">
-    <nav style="transition: 0.1s ease" class="white z-depth-0" role="navigation">
+    <nav style="transition: 0.1s ease; background: rgba(255, 255, 255, 0.97)" class="z-depth-0" role="navigation">
       <div class="nav-wrapper container">
         <a href="#" data-target="nav-mobile" class="sidenav-trigger left">
           <i class="material-icons black-text">menu</i>
@@ -76,7 +76,7 @@
 
     <div class="col s12 l10">
 
-      <h1 class="center" style="font-weight: 700">Дед Тихон</h1>
+      <h1 class="center" style="font-weight: 500">Дед Тихон</h1>
       <blockquote class="flow-text grey-text text-darken-3">
         Бот, который шлёт непонятную хрень в конфу, да ещё и рандомно.
         <br />С села мужик, чо сказать.
@@ -93,9 +93,9 @@
        
       <% commands.forEach(item => { %>
         <div id=<%= item.name %> class="scrollspy">
-          <h5 class="cmd-name">
+          <a href="#<%= item.name%>"><h5 class="cmd-name">
             /<%= item.name %>
-          </h5>
+        </h5></a>
           <p>
             <b>Аргументы:</b> <%= item.arguments ? item.arguments.split("|")[1] : "*пусто*" %>
           </p>
