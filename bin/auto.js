@@ -5,9 +5,9 @@ const {
 } = require("../utils")
 const { interval } = require("../config")
 
-module.exports = async (api, vk) => {
-
-  //setInterval(async () => {
+module.exports = (api, vk) => {
+  
+  setInterval(async () => {
   
     let Dialogs = await api.messages.getConversations({ count: 200 })
     let dialogs = Dialogs.items
@@ -26,7 +26,7 @@ module.exports = async (api, vk) => {
     console.log(dialogs.length, count)
     dialogs.forEach(async dialog => await messageService(dialog))
 
-  //}, interval)
+  }, interval)
     
   /**
    * Installs service for a dialog to auto send messages
