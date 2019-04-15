@@ -23,6 +23,7 @@ module.exports = (updates) => updates.on("message", async (context, next) => {
     text
   } = context
 
+  // TODO: Fix this
   /*text && context.isInbox && text.split(" ").forEach(async (el) => {
     let k = findPropertyNameByRegex(stops, el.toLowerCase())
     if (!k) return
