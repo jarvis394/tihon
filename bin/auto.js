@@ -60,39 +60,44 @@ module.exports = async (api, vk) => {
 
   }, 3600 * 1000)*/
   
-  let Dialogs = await api.messages.getConversations({
-    count: 200
-  })
+  setInterval(async () => {
+  
+  let Dialogs = await api.messages.getConversations({ count: 200 })
   let dialogs = Dialogs.items
-  let count = Dialogs.count - 200
+  let count = Dialogs.count
   let offset = 200
   
-  while (count > 0) {
+  while (offset < count) {
     let offsetDialogs = await api.messages.getConversations({
       count: 200,
       offset: offset
     })
-    offsetDialogs.forEach(d => dialogs.push(d))
+    offsetDialogs.items.forEach(d => dialogs.push(d))
     
     offset += 200
-    count -= 200
   }
   
   dialogs.forEach(dialog => messageService(dialog))
 
+  }, interval)
+    
   /**
    * Installs service for a dialog to auto send messages
    * @param {Object} dialog Dialog object
    */
-  function messageService(dialog) {
+  async function messageService(dialog) {
+    
+    const Dialog = new DBDialog(dialog.conversation.peer.id)
+    const data = await Dialog.checkData()
+
+    // If dialog is blacklisted then return
+    if (!data.auto) return
+      
+    // If bot was kicked from dialog then return
+    if (!dialog.conversation.can_write.allowed) return
+    
     setInterval(async () => {
       
-      const Dialog = new DBDialog(dialog.conversation.peer.id)
-      const data = await Dialog.checkData()
-
-      // If dialog is blacklisted then return
-      if (!data.auto) return
-
       var res = ""
       var options = {}
 
@@ -133,6 +138,6 @@ module.exports = async (api, vk) => {
       // Fuck this message in any other situation
       else return
       
-    }, random(interval, interval * 2))
+    }, random(0, 60) * 1000)
   }
 }
