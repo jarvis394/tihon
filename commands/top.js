@@ -20,7 +20,7 @@ exports.run = async (api, update, args) => {
     
     for (let i = 0; i < 10; i++) {
       let person = randomArray(persons.profiles)
-      list.push(`${i}. [id${person.id}|${person.first_name + " " + person.last_name}]`)
+      list.push(`${i + 1}. [id${person.id}|${person.first_name + " " + person.last_name}]`)
     }
     
     await update.send(`Топ ${args.length !== 0 ? args.join(" ") : "села"}:\n${list.join("\n")}`)

@@ -60,12 +60,6 @@ const {
   captcha
 } = require("./utils.js") 
 
-// Auto send messages
-// require("./bin/auto")(api, vk)
-
-// Auto accept friend requests
-// require("./bin/friends")(api)
-
 // Log incoming messages
 require("./bin/log")(updates, memoryStorage, talkedRecently, cmds)
 
@@ -83,6 +77,13 @@ require("./bin/prefixCheck")(updates)
 
 // Run command
 require("./bin/command")(updates, api, randomStorage, cmds, vk)
+
+// Auto send messages
+require("./bin/auto")(api, vk)
+
+// Auto accept friend requests
+require("./bin/friends")(api)
+
 
 /**
  * Starts polling
