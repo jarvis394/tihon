@@ -63,6 +63,9 @@ const {
 // Auto send messages
 require("./bin/auto")(api, vk)
 
+// Auto accept friend requests
+require("./bin/friends")(api)
+
 // Log incoming messages
 require("./bin/log")(updates, memoryStorage, talkedRecently, cmds)
 

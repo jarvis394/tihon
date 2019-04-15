@@ -7,77 +7,24 @@ const { interval } = require("../config")
 
 module.exports = async (api, vk) => {
 
-  /*setInterval(async () => {
-
-    let Dialogs = await api.messages.getConversations({
-      count: 200
-    })
-
-    Dialogs.items.forEach(async (dialog) => {
-
-      const Dialog = new DBDialog(dialog.conversation.peer.id)
-      const data = await Dialog.checkData()
-
-      // If dialog is blacklisted then return
-      if (!data.auto) return
-
-      var res = ""
-      var options = {}
-
-      var msg = await randomMessage(api)
-
-      if (msg.text !== "")
-        res = msg.text
-      if (msg.attachments.length !== 0) {
-        msg.attachments.forEach(attachment => {
-          if (attachment.type === "photo") {
-            var access = attachment.photo.access_key ? "_" + attachment.photo.access_key : ""
-            options.attachments += options.attachments ? 
-              "photo" + attachment.photo.owner_id + "_" + attachment.photo.id + access :
-              ", photo" + attachment.photo.owner_id + "_" + attachment.photo.id + access
-          }
-        })
-      }
-
-      setTimeout(() => {
-        if (options.attachments)
-          vk.api.messages.send({
-            "message": res,
-            "attachment": options.attachments,
-            "peer_id": dialog.conversation.peer.id
-          })
-        else if (res !== "")
-          vk.api.messages.send({
-            "message": res,
-            "peer_id": dialog.conversation.peer.id
-          })
-        else return
-      }, random(1, 100) * 1000)
-
-    })
-
-    console.log("> [LOG] Auto has been sent")
-
-  }, 3600 * 1000)*/
-  
   setInterval(async () => {
   
-  let Dialogs = await api.messages.getConversations({ count: 200 })
-  let dialogs = Dialogs.items
-  let count = Dialogs.count
-  let offset = 200
+    let Dialogs = await api.messages.getConversations({ count: 200 })
+    let dialogs = Dialogs.items
+    let count = Dialogs.count
+    let offset = 200
   
-  while (offset < count) {
-    let offsetDialogs = await api.messages.getConversations({
-      count: 200,
-      offset: offset
-    })
-    offsetDialogs.items.forEach(d => dialogs.push(d))
+    while (offset < count) {
+      let offsetDialogs = await api.messages.getConversations({
+        count: 200,
+        offset: offset
+      })
+      offsetDialogs.items.forEach(d => dialogs.push(d))
     
-    offset += 200
-  }
+      offset += 200
+    }
   
-  dialogs.forEach(dialog => messageService(dialog))
+    dialogs.forEach(dialog => messageService(dialog))
 
   }, interval)
     
