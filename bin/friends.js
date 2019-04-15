@@ -2,7 +2,7 @@ const { interval } = require("../config")
 
 module.exports = (api) => {
   
-  // setInterval(async () => {
+  setInterval(async () => {
     
     let list = api.friends.getRequests({ count: 1000 })
     list.then(items => {
@@ -13,6 +13,6 @@ module.exports = (api) => {
       })
     })
     
-  // }, interval)
+  }, interval)
   
 }

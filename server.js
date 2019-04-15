@@ -79,10 +79,10 @@ require("./bin/prefixCheck")(updates)
 require("./bin/command")(updates, api, randomStorage, cmds, vk)
 
 // Auto send messages
-// require("./bin/auto")(api, vk)
+require("./bin/auto")(api, vk)
 
 // Auto accept friend requests
-// r/ require("./bin/friends")(api)
+require("./bin/friends")(api)
 
 
 /**
