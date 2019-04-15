@@ -3,12 +3,13 @@ const {
   random,
   randomMessage
 } = require("../utils")
+const { interval } = require("../config")
 
-module.exports = (api, vk) => {
+module.exports = (api, vk, dialogs) => {
 
-  setInterval(async () => {
+  /*setInterval(async () => {
 
-    var Dialogs = await api.messages.getConversations({
+    let Dialogs = await api.messages.getConversations({
       count: 200
     })
 
@@ -57,6 +58,17 @@ module.exports = (api, vk) => {
 
     console.log("> [LOG] Auto has been sent")
 
-  }, 3600 * 1000)
+  }, 3600 * 1000)*/
+  
+  dialogs.forEach(dialog => messageService(dialog))
 
+  /**
+   * Installs service for a dialog to auto send messages
+   * @param {Object} dialog Dialog object
+   */
+  function messageService(dialog) {
+    setTimeout(() => {
+      
+    }, interval)
+  }
 }

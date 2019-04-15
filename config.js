@@ -11,6 +11,7 @@ const FIREBASE_SENDER_ID = process.env.FIREBASE_SENDER_ID
 const prefix = "/"
 const mentionPrefix = "[id" + ID + "|"
 const cooldown = 2500
+const interval = 3600 * 1000
 
 module.exports = {
   TOKEN,

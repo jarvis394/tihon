@@ -17,4 +17,3 @@ const { TOKEN } = require("../config")
 vk.setOptions({
   token: TOKEN
 })
-

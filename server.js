@@ -44,6 +44,7 @@ vk.setOptions({
 
 let cmds = []
 
+// Init commands list
 fs.readdir(__dirname + "/commands", async (err, items) => {
   if (err) return error("On getting commands list: " + err)
 
@@ -57,8 +58,9 @@ const {
   log,
   error,
   captcha
-} = require("./utils.js") // Auto send messages
+} = require("./utils.js") 
 
+// Auto send messages
 require("./bin/auto")(api, vk)
 
 // Log incoming messages
@@ -79,6 +81,9 @@ require("./bin/prefixCheck")(updates)
 // Run command
 require("./bin/command")(updates, api, randomStorage, cmds, vk)
 
+/**
+ * Starts polling
+ */
 async function run() {
   await vk.updates.startPolling()
   console.log("> [LOG] Polling started")
