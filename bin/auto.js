@@ -67,8 +67,64 @@ module.exports = (api, vk, dialogs) => {
    * @param {Object} dialog Dialog object
    */
   function messageService(dialog) {
-    setTimeout(() => {
+    setTimeout(async () => {
       
-    }, interval)
+      const Dialog = new DBDialog(dialog.conversation.peer.id)
+      const data = await Dialog.checkData()
+
+      // If dialog is blacklisted then return
+      if (!data.auto) return
+
+      var res = ""
+      var options = {}
+
+      var msg = await randomMessage(api)
+
+      if (msg.text !== "") {
+        res = msg.text
+      }
+      
+      if (msg.attachments.length !== 0) {
+        
+        // For every attachment
+        msg.attachments.forEach(attachment => {
+          let { type } = attachment
+          
+          // If photo
+          if (type === "photo") {
+            let { photo } = attachment
+            let { owner_id, id } = photo
+            let access = photo.access_key ? "_" + photo.access_key : ""
+            
+            options.attachments += options.attachments ? ", " : ""
+            options.attachments += "photo" + owner_id + "_" + id + access
+          }
+          
+          options.attachments += options.attachments ? ", " : ""
+          options.attachments += 
+        })
+      }
+      
+      // If some attachments
+      if (options.attachments) {
+        return vk.api.messages.send({
+          "message": res,
+          "attachment": options.attachments,
+          "peer_id": dialog.conversation.peer.id
+        })
+      }
+      
+      // If no attachment and there is a texf
+      else if (res !== "") {
+        return vk.api.messages.send({
+          "message": res,
+          "peer_id": dialog.conversation.peer.id
+        })
+      }
+      
+      // Fuck this message in any other situation
+      else return
+      
+    }, random(interval, interval * 2))
   }
 }
