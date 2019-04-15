@@ -5,7 +5,7 @@ const {
 } = require("../utils")
 const { interval } = require("../config")
 
-module.exports = (api, vk, dialogs) => {
+module.exports = async (api, vk) => {
 
   /*setInterval(async () => {
 
@@ -60,6 +60,24 @@ module.exports = (api, vk, dialogs) => {
 
   }, 3600 * 1000)*/
   
+  let Dialogs = await api.messages.getConversations({
+    count: 200
+  })
+  let dialogs = Dialogs.items
+  let count = Dialogs.count - 200
+  let offset = 200
+  
+  while (count > 0) {
+    let offsetDialogs = await api.messages.getConversations({
+      count: 200,
+      offset: offset
+    })
+    offsetDialogs.forEach(d => dialogs.push(d))
+    
+    offset += 200
+    count -= 200
+  }
+  
   dialogs.forEach(dialog => messageService(dialog))
 
   /**
@@ -67,7 +85,7 @@ module.exports = (api, vk, dialogs) => {
    * @param {Object} dialog Dialog object
    */
   function messageService(dialog) {
-    setTimeout(async () => {
+    setInterval(async () => {
       
       const Dialog = new DBDialog(dialog.conversation.peer.id)
       const data = await Dialog.checkData()
@@ -85,23 +103,13 @@ module.exports = (api, vk, dialogs) => {
       }
       
       if (msg.attachments.length !== 0) {
-        
-        // For every attachment
         msg.attachments.forEach(attachment => {
           let { type } = attachment
-          
-          // If photo
-          if (type === "photo") {
-            let { photo } = attachment
-            let { owner_id, id } = photo
-            let access = photo.access_key ? "_" + photo.access_key : ""
-            
-            options.attachments += options.attachments ? ", " : ""
-            options.attachments += "photo" + owner_id + "_" + id + access
-          }
+          let { owner_id, id } = attachment[type]
+          let access = attachment[type].access_key ? "_" + attachment[type].access_key : ""
           
           options.attachments += options.attachments ? ", " : ""
-          options.attachments += 
+          options.attachments += type + owner_id + "_" + id + access
         })
       }
       
