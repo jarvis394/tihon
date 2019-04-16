@@ -8,20 +8,27 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message"
     text = context.text
     args = text.split(" ")
     args.shift()
-    cmd = cmds[cmds.findIndex(el => el.name === args.shift())]
   } else {
     text = context.text
     args = text.slice(prefix.length).trim().split(" ")
-    cmd = cmds[cmds.findIndex(el => el.name === args.shift())]
   }
   
   if (context.hasForwards || context.hasAttachments()) {
     await context.loadMessagePayload()
   }
   
-  cmds.map(c => c.alias && c.alias.map(el => {
-    if (el.startsWith(cmd)) return cmd = c
-  }))
+  let cName = args.shift()
+  cmds.forEach(c => {
+    if (c.name === cName || (c.alias && c.alias.some(e => e.startsWith(cName)))) return cmd = c
+  })
+  
+  //if (!cmd) {
+    //cmds.forEach(c => c.alias && c.alias.map(el => {
+      //if (el.startsWith(cmd)) return cmd = c
+    //}))
+  //}
+  
+  console.log(cmd)
   
   try {
     let commandFile = require(`../commands/${cmd.group}/${cmd.name}.js`)
