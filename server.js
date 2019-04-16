@@ -82,7 +82,7 @@ require("./bin/command")(updates, api, randomStorage, cmds, vk)
 // require("./bin/auto")(api, vk)
 
 // Auto accept friend requests
-// require("./bin/friends")(api)
+require("./bin/friends")(api)
 
 
 /**
