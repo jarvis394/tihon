@@ -35,5 +35,6 @@ exports.command = {
   "alias": [
     "кто",
     "назови"
-  ]
+  ],
+  "group": "utils"
 }

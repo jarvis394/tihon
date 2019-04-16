@@ -30,5 +30,6 @@ exports.command = {
   "description": {
     "en": "Play russian roulette",
     "ru": "Сыграть в русскую рулетку"
-  }
+  },
+  "group": "random"
 }

@@ -66,5 +66,6 @@ exports.command = {
   },
   "alias": [
     "видео"
-  ]
+  ],
+  "group": "random"
 }

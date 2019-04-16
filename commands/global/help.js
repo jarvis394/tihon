@@ -46,5 +46,5 @@ exports.command = {
     "справка",
     "начать"
   ],
-  "group": "utils"
+  "group": "global"
 }

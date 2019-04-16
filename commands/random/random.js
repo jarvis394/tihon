@@ -70,5 +70,6 @@ exports.command = {
     "рандом",
     "что",
     "сообщение"
-  ]
+  ],
+  "group": "random"
 }

@@ -35,5 +35,6 @@ exports.command = {
   "description": {
     "en": "Changes settings of the dialog",
     "ru": "Изменяет настройки диалога"
-  }
+  },
+  "group": "settings"
 }

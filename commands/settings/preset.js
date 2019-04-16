@@ -17,5 +17,5 @@ exports.command = {
     "en": "Set roles preset",
     "ru": "Установить пресет ролей"
   },
-  "
+  "group": "utils"
 }

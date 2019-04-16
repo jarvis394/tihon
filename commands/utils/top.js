@@ -39,5 +39,6 @@ exports.command = {
   "alias": [
     "топ",
     "все"
-  ]
+  ],
+  "group": "utils"
 }

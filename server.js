@@ -46,11 +46,18 @@ let cmds = []
 
 // Init commands list
 fs.readdir(__dirname + "/commands", async (err, items) => {
-  if (err) return error("On getting commands list: " + err)
+  if (err) return error(err, "getting commands list")
 
   items.forEach((item) => {
-    let i = require("./commands/" + item).command
-    cmds.push(i)
+    fs.readdir(__dirname + "/commands/" + item, async(error, commands) => {
+      if (error) return error(err, "getting command list")
+      
+      commands.forEach(cmd => {
+        let i = require("./commands/" + item + "/" + cmd).command
+        cmds.push(i)
+      })
+      
+    })
   })
 })
 

@@ -49,5 +49,6 @@ exports.command = {
   "description": {
     "en": "Report forwarded message",
     "ru": "Зарепортить пересланное сообщение"
-  }
+  },
+  "group": "global"
 }
