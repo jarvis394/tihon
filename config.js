@@ -20,6 +20,7 @@ module.exports = {
   prefix,
   mentionPrefix,
   cooldown,
+  interval,
   FIREBASE_TOKEN,
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL,

@@ -49,7 +49,7 @@ fs.readdir(__dirname + "/commands", async (err, items) => {
   if (err) return error("On getting commands list: " + err)
 
   items.forEach((item) => {
-    var i = require("./commands/" + item).command
+    let i = require("./commands/" + item).command
     cmds.push(i)
   })
 })
@@ -79,10 +79,10 @@ require("./bin/prefixCheck")(updates)
 require("./bin/command")(updates, api, randomStorage, cmds, vk)
 
 // Auto send messages
-// require("./bin/auto")(api, vk)
+require("./bin/auto")(api, vk)
 
 // Auto accept friend requests
-// require("./bin/friends")(api)
+require("./bin/friends")(api)
 
 
 /**

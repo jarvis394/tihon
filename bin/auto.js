@@ -45,10 +45,10 @@ module.exports = (api, vk) => {
     
     setInterval(async () => {
       
-      var res = ""
-      var options = {}
+      let res = ""
+      let options = {}
 
-      var msg = await randomMessage(api)
+      let msg = await randomMessage(api)
 
       if (msg.text !== "") {
         res = msg.text
