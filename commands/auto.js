@@ -36,5 +36,6 @@ exports.command = {
   },
   alias: [
     "авто"
-  ]
+  ],
+  "group": "settings"
 }

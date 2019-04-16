@@ -34,5 +34,6 @@ exports.command = {
   "description": {
     "en": "Will your chat be in random.js?",
     "ru": "Будет или нет диалог попадать в random.js?"
-  }
+  },
+  "group": "settings"
 }

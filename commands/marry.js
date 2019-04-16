@@ -39,5 +39,6 @@ exports.command = {
   "description": {
     "en": "Marry with someone",
     "ru": "Пожениться с человеком (или нет)"
-  }
+  },
+  "group": "roleplay"
 }

@@ -30,5 +30,6 @@ exports.command = {
     "пинг",
     "ку",
     "привет"
-  ]
+  ],
+  "group": "utils"
 }

@@ -50,5 +50,6 @@ exports.command = {
   },
   alias: [
     "бан"
-  ]
+  ],
+  "group": "utils"
 }

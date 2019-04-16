@@ -20,15 +20,15 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message"
   }
   
   cmds.map(c => c.alias && c.alias.map(el => {
-    if (el.startsWith(cmd)) return cmd = c.name
+    if (el.startsWith(cmd)) return cmd = c
   }))
   
   try {
-    let commandFile = require(`../commands/${cmd}.js`)
+    let commandFile = require(`../commands/${cmd.group}/${cmd.name}.js`)
     commandFile.run(api, context, args, randomStorage, vk)
   } catch (e) { 
     if (e.code === "MODULE_NOT_FOUND") return
-    error(e)
+    error(e, cmd.name)
   }
   
   await next()

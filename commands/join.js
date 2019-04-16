@@ -21,5 +21,6 @@ exports.command = {
   },
   "alias": [
     "войти"
-  ]
+  ],
+  "group": "utils"
 }

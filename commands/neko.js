@@ -25,5 +25,6 @@ exports.command = {
   "description": {
     "en": "Catch up neko-chan!~~",
     "ru": "Поймать кошко-дiвочку!~~"
-  }
+  },
+  "group": "random"
 }

@@ -39,5 +39,6 @@ exports.command = {
   },
   "alias": [
     "интервал"
-  ]
+  ],
+  "group": "settings"
 }
