@@ -23,7 +23,7 @@ module.exports = (api, vk) => {
     
       offset += 200
     }
-    console.log(dialogs.length, count)
+    
     dialogs.forEach(async dialog => await messageService(dialog))
 
   }, interval)

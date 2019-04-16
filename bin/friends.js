@@ -7,13 +7,12 @@ module.exports = (api) => {
     let list = api.friends.getRequests({ count: 1000 })
     list.then(items => {
       items.items.forEach(friend => {
-        console.log
         api.friends.add({
-          user_id: friend.id
+          user_id: friend
         })
       })
     })
     
-  }, 100000)
+  }, interval)
   
 }
