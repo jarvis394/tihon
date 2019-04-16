@@ -22,13 +22,7 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message"
     if (c.name === cName || (c.alias && c.alias.some(e => e.startsWith(cName)))) return cmd = c
   })
   
-  //if (!cmd) {
-    //cmds.forEach(c => c.alias && c.alias.map(el => {
-      //if (el.startsWith(cmd)) return cmd = c
-    //}))
-  //}
-  
-  console.log(cmd)
+  if (!cmd) return
   
   try {
     let commandFile = require(`../commands/${cmd.group}/${cmd.name}.js`)
