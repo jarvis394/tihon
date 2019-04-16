@@ -1,4 +1,4 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 exports.run = async (api, update) => {
   try {

@@ -1,5 +1,5 @@
 const { get } = require("request-promise-native")
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const options = {
   url: "https://nekos.life/api/neko",

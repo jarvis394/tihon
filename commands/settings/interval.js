@@ -1,9 +1,9 @@
 const {
   handleError,
   random
-} = require("../utils")
+} = require("../../utils")
 
-const DBDialog = require("../lib/DBDialog")
+const DBDialog = require("../../lib/DBDialog")
 
 exports.run = async (api, update, args) => {
   try {

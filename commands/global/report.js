@@ -1,10 +1,10 @@
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
 const { 
   ID 
-} = require ("../config")
+} = require ("../../config")
 
 const firebase = require("firebase")
 const db = firebase.firestore()

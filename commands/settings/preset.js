@@ -1,6 +1,6 @@
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
 exports.run = async (api, update) => {
   try {

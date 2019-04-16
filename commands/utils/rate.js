@@ -1,8 +1,8 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const {
   randomArray
-} = require("../utils")
+} = require("../../utils")
 
 const responds = [
   "ЗаебOK!",

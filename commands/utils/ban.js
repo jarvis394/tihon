@@ -1,11 +1,11 @@
-const { ID } = require("../config")
+const { ID } = require("../../config")
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
 const {
   dbDialogGet
-} = require("../utils")
+} = require("../../utils")
 
 exports.run = async (api, update, args) => {
   try {

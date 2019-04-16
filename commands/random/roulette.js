@@ -1,7 +1,7 @@
 const {
   handleError,
   random
-} = require("../utils")
+} = require("../../utils")
 
 exports.run = async (api, update) => {
   try {

@@ -1,4 +1,4 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const fs = require("fs")
 

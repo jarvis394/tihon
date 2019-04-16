@@ -1,8 +1,8 @@
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
-const DBDialog = require("../lib/DBDialog")
+const DBDialog = require("../../lib/DBDialog")
 
 const emptyUserData = {
   "roles": [],
