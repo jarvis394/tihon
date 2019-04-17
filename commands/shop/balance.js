@@ -7,7 +7,7 @@ exports.run = async (api, update) => {
     
     await update.send(
       "⠀⠀⠀Твой баланс:" +
-      "💵 " + await store[update.senderId].getAmount() + "T"
+      "💵 " + store[update.senderId].getAmount() + "T"
     )
     
   } catch (e) {
