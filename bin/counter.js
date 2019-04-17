@@ -16,11 +16,14 @@ module.exports = (updates, api, rs) => updates.on("message", async (context, nex
   
   let stData = store.get(context.senderId)
   if (stData) {
-    console.log("there is a data:", stData)
+   /* stData.data.amount++
+    store.set(context.senderId.toString(), stData)
+    */
+    console.log("there is a data for", context.senderId, ":", stData)
   }
   else {
     console.log("no data for", context.senderId)
-    store.
+    store.set(context.senderId.toString(), new CoinUser(context.senderId))
   }
   
   /*if (store.get(context.senderId)) {
