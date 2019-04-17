@@ -9,7 +9,7 @@ module.exports = (updates, api, rs) => updates.on("message", async (context, nex
   if (!("counter" in session)) session.counter = 0
   session.counter += 1
   
-  let user = new CoinUser(context.from_id)
+  let user = new CoinUser(context.senderId)
   user.add(1)
   store.each((v, k) => console.log(k, '=>', v))
   

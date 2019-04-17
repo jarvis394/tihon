@@ -9,7 +9,7 @@ const {
   updates
 } = vk
 const fs = require("fs")
-bhhhhjj
+
 const memoryStorage = new Map() // Saves counter to every dialog
 const talkedRecently = new Set() // Saves users that talked recently
 const randomStorage = new Map() // Saves previous random messages
