@@ -1,13 +1,13 @@
 exports.command = {
   "name": "shop",
-  "arguments": "(user)|(пользователь)",
+  "arguments": false,
   "description": {
-    "en": "BAN USER (but only if you have special role)",
-    "ru": "ЗАБАНИТЬ! Но только если у тебя есть специальная роль"
+    "en": "Gog to the supermarket :p",
+    "ru": "Сходить в супермаркет :p"
   },
   alias: [
     "шоп",
     "магазин"
   ],
-  "group": "utils"
+  "group": "shop"
 }
