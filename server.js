@@ -64,6 +64,9 @@ require("./bin/log")(updates, memoryStorage, talkedRecently, cmds)
 // Count them
 require("./bin/counter")(updates, api, randomStorage)
 
+// Add coins
+require("./bin/coins")(updates)
+
 // Check if user mentioned bot
 require("./bin/mention")(updates)
 

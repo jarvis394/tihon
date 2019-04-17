@@ -14,5 +14,5 @@
       "\\.sqlite"
     ]
   },
-  "throttle": 20000
+  "throttle": 10000
 }
