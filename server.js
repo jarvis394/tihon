@@ -49,8 +49,8 @@ fs.readdir(__dirname + "/commands", async (err, items) => {
   if (err) return error(err, "getting commands list")
 
   items.forEach((item) => {
-    fs.readdir(__dirname + "/commands/" + item, async(error, commands) => {
-      if (error) return error(err, "getting command list")
+    fs.readdir(__dirname + "/commands/" + item, async(errr, commands) => {
+      if (errr) return error(errr, "getting command list")
       
       commands.forEach(cmd => {
         let i = require("./commands/" + item + "/" + cmd).command
@@ -59,6 +59,8 @@ fs.readdir(__dirname + "/commands", async (err, items) => {
       
     })
   })
+  
+  console.log(cmds, items)
 })
 
 const {
