@@ -45,7 +45,7 @@
       <li>
         <ul>
           <% commands.forEach(item => { %>
-            <li class="link n"><a href=<%= "#" + item %>>/<%= item %></a></li>
+            <li class="link n"><a href=<%= "#" + item.name %>>/<%= item.name %></a></li>
           <% }) %>
         </ul>
       </li>
@@ -64,7 +64,7 @@
           <a href="#usage">#usage</a>
           <ul class="links">
             <% commands.forEach(item => { %>
-              <li class="link"><a href=<%= "#" + item %>>/<%= item %></a></li>
+              <li class="link"><a href=<%= "#" + item.name %>>/<%= item.name %></a></li>
             <% }) %>
           </ul>
         </li>
@@ -93,8 +93,8 @@
        
       <% commands.forEach(item => { %>
         <div id=<%= item %> class="scrollspy">
-          <a href="#<%= item%>"><h5 class="cmd-name">
-            /<%= item %>
+          <a href="#<%= item.name%>"><h5 class="cmd-name">
+            /<%= item.name %>
         </h5></a>
           <p>
             <b>Аргументы:</b> <%= item.arguments ? item.arguments.split("|")[1] : "*пусто*" %>

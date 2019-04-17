@@ -149,7 +149,7 @@ app.post("/git", (req, res) => {
 
 // Home
 app.get("/", (req, res) => {
-  console.log(cmds.length)
+  cmds.forEach(c => console.log(c.name))
 
   ejs.renderFile(__dirname + "/views/index.html", {
     "commands": cmds
