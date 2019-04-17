@@ -12,12 +12,15 @@ module.exports = (updates, api, rs) => updates.on("message", async (context, nex
   session.counter += 1
   
   if (store.get(context.senderId)) {
-    store[context.senderId].add(1)
+    console.log(store.get(context.senderId).getAmount())
+    store.get(context.senderId).add(1)
   } else {
     store.set(context.senderId, new CoinUser(context.senderId))
   }
-  
-  console.log(store)
+  /*
+  let j = {}
+  store.each((v, k) => j[k] = v)
+  console.log(j)*/
   
   if (session.counter % 50 === 0) {
     try {
