@@ -42,25 +42,26 @@ vk.setOptions({
   authScope: "all"
 })
 
-let cmds = []
+let cmds = [], _itemList = []
 
 // Init commands list
 fs.readdir(__dirname + "/commands", async (err, items) => {
   if (err) return error(err, "getting commands list")
 
   items.forEach((item) => {
-    fs.readdir(__dirname + "/commands/" + item, async(errr, commands) => {
-      if (errr) return error(errr, "getting command list")
-      
-      commands.forEach(cmd => {
-        let i = require("./commands/" + item + "/" + cmd).command
-        cmds.push(i)
-      })
-      
-    })
+    _itemList.push(item)
   })
+})
+
+_itemList.forEach(item => {
+fs.readdir(__dirname + "/commands/" + item, async(errr, commands) => {
+  if (errr) return error(errr, "getting command list")
   
-  console.log(cmds, items)
+  commands.forEach(cmd => {
+    let i = require("./commands/" + item + "/" + cmd).command
+    cmds.push(i)
+  })
+})
 })
 
 const {
