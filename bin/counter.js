@@ -13,7 +13,7 @@ module.exports = (updates, api, rs) => updates.on("message", async (context, nex
   
   if (store.get(context.senderId)) {
     let a = store.get(context.senderId)
-    console.log(a)
+    
     store.get(context.senderId).add(1)
   } else {
     store.set(context.senderId, new CoinUser(context.senderId))
