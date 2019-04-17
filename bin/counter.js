@@ -1,5 +1,3 @@
-'use strict'
-
 const { error } = require("../utils")
 
 const store = require("store")
