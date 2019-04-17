@@ -3,6 +3,9 @@
 const { error } = require("../utils")
 
 const store = require("store")
+const s = require("data-store")
+const st = new s("store")
+console.log(st.json())
 const CoinUser = require("../lib/CoinUser")
 
 module.exports = (updates, api, rs) => updates.on("message", async (context, next) => {

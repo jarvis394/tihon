@@ -21,7 +21,8 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "vk-io": "^4.0.0-rc.14",
-    "store": "^2.0.12"
+    "store": "^2.0.12",
+    "data-store": "^3.1.0"
   },
   "engines": {
     "node": "8.x"

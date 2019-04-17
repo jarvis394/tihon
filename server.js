@@ -14,6 +14,10 @@ const memoryStorage = new Map() // Saves counter to every dialog
 const talkedRecently = new Set() // Saves users that talked recently
 const randomStorage = new Map() // Saves previous random messages
 
+const Store = require("data-store")
+const store = new Store("store")
+store.a = "abc"
+console.log(store.json())
 const {
   TOKEN,
   SECRET,
@@ -42,7 +46,7 @@ vk.setOptions({
   authScope: "all"
 })
 
-let cmds = [], _itemList = []
+let cmds = []
 
 // Init commands list
 fs.readdirSync(__dirname + "/commands").forEach(group => {
