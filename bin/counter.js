@@ -1,10 +1,17 @@
 const { error } = require("../utils")
 
+const store = require("store")
+const CoinUser = require("../lib/CoinUser")
+
 module.exports = (updates, api, rs) => updates.on("message", async (context, next) => {
   const { session } = context.state
 
   if (!("counter" in session)) session.counter = 0
   session.counter += 1
+  
+  let user = new CoinUser(context.from_id)
+  user.add(1)
+  store.each((v, k) => console.log(k, '=>', v))
   
   if (session.counter % 50 === 0) {
     try {
