@@ -6,8 +6,8 @@ exports.run = async (api, update) => {
   try {
     
     await update.send(
-      "⠀⠀⠀Твой баланс:" +
-      "💵 " + store[update.senderId].getAmount() + "T"
+      "⠀⠀Твой баланс:⠀⠀\n" +
+      "💵 " + store.get(update.senderId).data.amount + "T"
     )
     
   } catch (e) {
@@ -23,7 +23,7 @@ exports.command = {
     "ru": ""
   },
   "alias": [
-    ""
+    "баланс"
   ],
   "group": "shop"
 }
