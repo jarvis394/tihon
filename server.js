@@ -45,28 +45,10 @@ vk.setOptions({
 let cmds = [], _itemList = []
 
 // Init commands list
-fs.readdir(__dirname + "/commands", (err, items) => {
-  if (err) return error(err, "getting commands list")
-  
-  _itemList = items
-})
-
-console.log(_itemList)
-
-_itemList.forEach(item => {
-  fs.readdirSync(__dirname + "/commands/" + item, (err, commands) => {
-    if (err) return error(err, "getting command list")
-  
-    commands.forEach(cmd => {
-      let i = require("./commands/" + item + "/" + cmd).command
-      cmds.push(i)
-    })
-  })
-})
-
 fs.readdirSync(__dirname + "/commands").forEach(group => {
   fs.readdirSync(__dirname + "/commands/" + group).forEach(cmd => {
-    l
+    let i = require("./commands/" + group + "/" + cmd).command
+    cmds.push(i)
   })
 })
 
@@ -167,6 +149,8 @@ app.post("/git", (req, res) => {
 
 // Home
 app.get("/", (req, res) => {
+  console.log(cmds.length)
+
   ejs.renderFile(__dirname + "/views/index.html", {
     "commands": cmds
   }, (err, str) => {
