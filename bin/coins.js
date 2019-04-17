@@ -3,13 +3,7 @@ const { error } = require("../utils")
 const store = require("store")
 const Coins = require("../lib/Coins")
 
-process.on('exit', () => {
-  
-  let st = {}
-  store.each((v, k) => st[k] = v)
-  Coins.flush(st)
-  
-})
+process.on('exit', () => store.each(async (v, k) => await Coins.flush(k, v)))
 
 module.exports = (updates) => {
   updates.on("message", async (context, next) => {
