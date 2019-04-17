@@ -14,13 +14,23 @@ module.exports = (updates, api, rs) => updates.on("message", async (context, nex
   if (!("counter" in session)) session.counter = 0
   session.counter += 1
   
-  if (store.get(context.senderId)) {
+  let stData = store.get(context.senderId)
+  if (stData) {
+    console.log("there is a data:", stData)
+  }
+  else {
+    console.log("no data for", context.senderId)
+    store.
+  }
+  
+  /*if (store.get(context.senderId)) {
     let a = store.get(context.senderId)
     a.add(1)
     // store.get(context.senderId).add(1)
   } else {
     store.set(context.senderId, new CoinUser(context.senderId))
-  }
+  }*/
+  
   /*
   let j = {}
   store.each((v, k) => j[k] = v)
@@ -28,7 +38,7 @@ module.exports = (updates, api, rs) => updates.on("message", async (context, nex
   
   if (session.counter % 50 === 0) {
     try {
-      let commandFile = require("../commands/random.js")
+      let commandFile = require("../commands/random/random.js")
       commandFile.run(api, context, [], rs)
     } catch (e) { 
       error(e, "bin/counter")
