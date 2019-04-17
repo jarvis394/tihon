@@ -45,7 +45,7 @@ vk.setOptions({
 let cmds = [], _itemList = []
 
 // Init commands list
-fs.readdir(__dirname + "/commands", async (err, items) => {
+fs.readdir(__dirname + "/commands", (err, items) => {
   if (err) return error(err, "getting commands list")
 
   items.forEach((item) => {
