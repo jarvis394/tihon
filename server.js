@@ -89,6 +89,7 @@ const store = require("store")
 const Coins = require("./lib/Coins")
 
 function flush() {
+  console.log("entering...")
   store.each(async (v, k) => await Coins.flush(k, v))
 }
 
