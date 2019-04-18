@@ -44,8 +44,6 @@ vk.setOptions({
 
 let cmds = []
 
-const store = require("store")
-const Coins = require("./lib/Coins")
 
 // Init commands list
 fs.readdirSync(__dirname + "/commands").forEach(group => {
