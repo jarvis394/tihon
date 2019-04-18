@@ -89,13 +89,13 @@ const store = require("store")
 const Coins = require("./lib/Coins")
 
 function flush() {
-  console.log("entering...")
-  store.each(async (v, k) => await Coins.flush(k, v))
+  log("Flushing coins to DB...")
+  store.each(async (v, k) => await Coins.flush(k, v.data))
 }
 
 process.on("SIGTERM", function () {
   flush()
-  process.exit(0) // THIS IS IMPORTANT!
+  process.exit(0) 
 })
 
 
