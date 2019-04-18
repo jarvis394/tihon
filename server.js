@@ -94,7 +94,7 @@ function flush() {
 
 process.on("SIGTERM", function () {
   flush()
-  // process.exit(0) // THIS IS IMPORTANT!
+  process.exit(0) // THIS IS IMPORTANT!
 })
 
 
