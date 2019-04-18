@@ -8,8 +8,12 @@ const Coins = require("../lib/Coins")
  */
 function flush() {
   console.log("\n\n      Flushing coins to DB...\n\n")
-  store.each(async (v, k) => await Coins.flush(k, v.data))
-  process.exit(0)
+  store.each((v, k) => {
+    Coins.flush(k, v.data)
+    console.log(k ,v)
+  })
+  
+  // process.exit(0)
 }
 
 module.exports = (updates) => {
