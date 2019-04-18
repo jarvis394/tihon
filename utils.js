@@ -109,7 +109,7 @@ const captcha = async (msg) => {
  * @param {object} e Error object
  */
 const handleError = (update, e) => {
-  process.env.MODE === "PRODUCTION" && error("Error with command '" + update.text + "': " + e)
+  error("Error with command '" + update.text + "': " + e)
   
   process.env.MODE === "PRODUCTION" && update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message)
 }
