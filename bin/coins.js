@@ -32,6 +32,6 @@ module.exports = (updates) => {
       })
     }
 
-    await next()
+    next()
   })
 }
