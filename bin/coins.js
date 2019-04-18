@@ -7,12 +7,12 @@ function flush() {
   store.each(async (v, k) => await Coins.flush(k, v))
 }
 
-process.on('SIGUSR1', () => flush())
-process.on('SIGUSR2', () => flush())
-process.on('exit', () => flush())
-process.on('SIGINT', () => flush())
-
 module.exports = (updates) => {
+  process.on('SIGUSR1', () => flush())
+  process.on('SIGUSR2', () => flush())
+  process.on('exit', () => flush())
+  process.on('SIGINT', () => flush())
+  
   updates.on("message", async (context, next) => {
     const { senderId } = context
   

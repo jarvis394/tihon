@@ -85,6 +85,17 @@ require("./bin/auto")(api, vk)
 // Auto accept friend requests
 require("./bin/friends")(api)
 
+const store = require("store")
+const Coins = require("./lib/Coins")
+function flush() {
+  store.each(async (v, k) => await Coins.flush(k, v))
+}
+
+process.on("SIGTERM", function () {
+  flush()
+  process.exit(0) // THIS IS IMPORTANT!
+})
+
 
 /**
  * Starts polling
