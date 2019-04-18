@@ -3,15 +3,17 @@ const { error } = require("../utils")
 const store = require("store")
 const Coins = require("../lib/Coins")
 
+ /**
+ * Flushes coins to database
+ */
 function flush() {
+  console.log("\n\n      Flushing coins to DB...\n\n")
   store.each(async (v, k) => await Coins.flush(k, v))
+  process.exit(0)
 }
 
 module.exports = (updates) => {
-  process.on('SIGUSR1', () => flush())
-  process.on('SIGUSR2', () => flush())
-  process.on('exit', () => flush())
-  process.on('SIGINT', () => flush())
+  process.on('SIGTERM', () => flush())
   
   updates.on("message", async (context, next) => {
     const { senderId } = context

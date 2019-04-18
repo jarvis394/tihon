@@ -44,6 +44,9 @@ vk.setOptions({
 
 let cmds = []
 
+const store = require("store")
+const Coins = require("./lib/Coins")
+
 // Init commands list
 fs.readdirSync(__dirname + "/commands").forEach(group => {
   fs.readdirSync(__dirname + "/commands/" + group).forEach(cmd => {
@@ -84,20 +87,6 @@ require("./bin/auto")(api, vk)
 
 // Auto accept friend requests
 require("./bin/friends")(api)
-
-const store = require("store")
-const Coins = require("./lib/Coins")
-
-function flush() {
-  log("Flushing coins to DB...")
-  store.each(async (v, k) => await Coins.flush(k, v.data))
-}
-
-process.on("SIGTERM", function () {
-  flush()
-  process.exit(0) 
-})
-
 
 /**
  * Starts polling
