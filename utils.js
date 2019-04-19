@@ -48,19 +48,19 @@ const randomMessage = async (api) => {
       Dialog = randomArray(Dialogs.items)
     }
 
-    var Messages = await api.messages.getHistory({
+    let Messages = await api.messages.getHistory({
       peer_id: Dialog.conversation.peer.id
     })
-    var Message = randomArray(Messages.items)
+    let Message = randomArray(Messages.items)
 
     return Message
   }
 
   let msg = await getMsg()
-  let ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+  let isReported = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
   let flag = 0
 
-  ir.forEach(() => {
+  isReported.forEach(() => {
     flag = true
   })
 
@@ -79,15 +79,19 @@ const randomMessage = async (api) => {
   ) {
     msg = await getMsg()
 
-    ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+    isReported = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
     flag = 0
 
-    ir.forEach(() => {
+    isReported.forEach(() => {
       flag = true
     })
   }
 
   return msg
+  
+  // Testing functions //
+  const isEmpty = (t) => t.attachments.length === 0 && (t.text === "" || !t.text)
+  const is
 }
 
 const log = async (msg, peer) => {

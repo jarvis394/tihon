@@ -44,7 +44,6 @@ vk.setOptions({
 
 let cmds = []
 
-
 // Init commands list
 fs.readdirSync(__dirname + "/commands").forEach(group => {
   fs.readdirSync(__dirname + "/commands/" + group).forEach(cmd => {
@@ -58,6 +57,7 @@ const {
   error,
   captcha
 } = require("./utils.js") 
+
 
 // Log incoming messages
 require("./bin/log")(updates, memoryStorage, talkedRecently, cmds)
@@ -86,12 +86,13 @@ require("./bin/auto")(api, vk)
 // Auto accept friend requests
 require("./bin/friends")(api)
 
+
 /**
  * Starts polling
  */
 async function run() {
   await vk.updates.startPolling()
-  console.log("> [LOG] Polling started")
+  log("Polling started")
 }
 
 // Run
@@ -106,6 +107,7 @@ vk.captchaHandler = async ({
 }) => {
   captcha("> [LOG] Needed captcha: " + src)
 }
+
 
 ////////////// WEB //////////////
 
