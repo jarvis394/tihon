@@ -33,6 +33,27 @@ const random = (min, max) => {
  * @returns {object} Message object
  */
 const randomMessage = async (api) => {
+  
+  // Testing functions //
+  const isEmpty = (m) => m.attachments.length === 0 && (m.text === "" || !m.text)
+  const startsWithLink = (m) => m.text.split(" ").some(t => t.startsWith("http"))
+  const startsWithPhone = (m) => m.text.split(" ").some(t => t.startsWith("+7"))
+  const isCommandMessage = (m) => m.text.split(" ").some(t => t.startsWith("/"))
+  const isErrorMessage = (m) => m.text.split(" ").some(t => t.startsWith("АШИБКА РИП"))
+  const isLong = (m) => m.text.length > 200
+  const isSelf = (m) => m.from_id.toString() === process.env.ID.toString()
+  
+  function testMessage(m) {
+    return isEmpty(m) || 
+      startsWithLink(m) || 
+      startsWithPhone(m) || 
+      isCommandMessage(m) || 
+      isErrorMessage(m) || 
+      isLong(m) || 
+      isSelf(m) || 
+      flag
+  }
+  
   // Get dialogs
   let Dialogs = await api.messages.getConversations({
     count: 200
@@ -76,26 +97,6 @@ const randomMessage = async (api) => {
   }
 
   return msg
-  
-  // Testing functions //
-  const isEmpty = (m) => m.attachments.length === 0 && (m.text === "" || !m.text)
-  const startsWithLink = (m) => m.text.split(" ").some(t => t.startsWith("http"))
-  const startsWithPhone = (m) => m.text.split(" ").some(t => t.startsWith("+7"))
-  const isCommandMessage = (m) => m.text.split(" ").some(t => t.startsWith("/"))
-  const isErrorMessage = (m) => m.text.split(" ").some(t => t.startsWith("АШИБКА РИП"))
-  const isLong = (m) => m.text.length > 200
-  const isSelf = (m) => m.from_id.toString() === process.env.ID.toString()
-  
-  function testMessage(m) {
-    return isEmpty(m) || 
-      startsWithLink(m) || 
-      startsWithPhone(m) || 
-      isCommandMessage(m) || 
-      isErrorMessage(m) || 
-      isLong(m) || 
-      isSelf(m) || 
-      flag
-  }
 }
 
 const log = async (msg, peer) => {
