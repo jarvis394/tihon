@@ -78,22 +78,22 @@ const randomMessage = async (api) => {
   return msg
   
   // Testing functions //
-  const isEmpty = (t) => t.attachments.length === 0 && (t.text === "" || !t.text)
-  const startsWithLink = (t) => msg.text.split(" ").some(t => t.startsWith("http"))
-  const startsWithPhone = (t) => msg.text.split(" ").some(t => t.startsWith("+7"))
-  const isCommandMessage = (t) => msg.text.split(" ").some(t => t.startsWith("/"))
-  const isErrorMessage = (t) => msg.text.split(" ").some(t => t.startsWith("АШИБКА РИП"))
-  const isLong = (t) => msg.text.length > 200
-  const isSelf = (t) => t.from_id.toString() === process.env.ID.toString()
+  const isEmpty = (m) => m.attachments.length === 0 && (m.text === "" || !m.text)
+  const startsWithLink = (m) => m.text.split(" ").some(t => t.startsWith("http"))
+  const startsWithPhone = (m) => m.text.split(" ").some(t => t.startsWith("+7"))
+  const isCommandMessage = (m) => m.text.split(" ").some(t => t.startsWith("/"))
+  const isErrorMessage = (m) => m.text.split(" ").some(t => t.startsWith("АШИБКА РИП"))
+  const isLong = (m) => m.text.length > 200
+  const isSelf = (m) => m.from_id.toString() === process.env.ID.toString()
   
-  const testMessage = (t) => {
-    return isEmpty(t) || 
-      startsWithLink(t) || 
-      startsWithPhone(t) || 
-      isCommandMessage(t) || 
-      isErrorMessage(t) || 
-      isLong(t) || 
-      isSelf(t) || 
+  function testMessage(m) {
+    return isEmpty(m) || 
+      startsWithLink(m) || 
+      startsWithPhone(m) || 
+      isCommandMessage(m) || 
+      isErrorMessage(m) || 
+      isLong(m) || 
+      isSelf(m) || 
       flag
   }
 }
