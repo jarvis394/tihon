@@ -2,33 +2,27 @@ const { handleError } = require("../../utils")
 
 const fs = require("fs")
 
-exports.run = async (api, update, args) => {
+exports.run = async (api, update, args, _, __, cmds) => {
   try {
-    fs.readdir(__dirname, async (err, items) => {
-      if (err) return await update.send("Ошибочка вышла:\n", err)
+    let helpText = args[0] === "en" ? "
+    let res = ""
+    cmds.forEach(i => {
 
-      var res = []
-      var helpText = args && args[0] === "en" ? "Help:\n" : "Помощь:\n"
+    let a
 
-      items.forEach(item => {
-        var i = require("./" + item).command
-        var lang = args
-        var a
+    if (lang && lang[0] === "en" && i.arguments)
+      a = i.arguments.split("|")[0] + " "
+    else if (i.arguments)
+      a = i.arguments.split("|")[1] + " "
+    else
+      a = ""
 
-        if (lang && lang[0] === "en" && i.arguments)
-          a = i.arguments.split("|")[0] + " "
-        else if (i.arguments)
-          a = i.arguments.split("|")[1] + " "
-        else
-          a = ""
+    var desc = lang[0] ? i.description.en : i.description.ru
 
-        var desc = lang[0] ? i.description.en : i.description.ru
-
-        res += `▫️ /${i.name} ${a}- ${desc}\n`
-      })
-
-      return await update.send("📃 " + helpText + res)
+    res += `▫️ /${i.name} ${a}- ${desc}\n`
     })
+
+    await update.send("📃 " + helpText + res)
   } catch (e) {
     handleError(update, e)
   }

@@ -26,7 +26,7 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message"
   
   try {
     let commandFile = require(`../commands/${cmd.group}/${cmd.name}.js`)
-    commandFile.run(api, context, args, randomStorage, vk)
+    commandFile.run(api, context, args, randomStorage, vk, cmds)
   } catch (e) { 
     if (e.code === "MODULE_NOT_FOUND") return 
     error(e)
