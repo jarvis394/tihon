@@ -19,7 +19,7 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message"
   
   let cName = args.shift()
   cmds.forEach(c => {
-    if (c.name === cName || (c.alias && c.alias.some(e => e.startsWith(cName)))) return cmd = c
+    if (c.name === cName || (c.alias && c.alias.some(e => cName.startsWith(e)))) return cmd = c
   })
   
   if (!cmd) return
