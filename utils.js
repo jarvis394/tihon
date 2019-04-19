@@ -34,12 +34,12 @@ const random = (min, max) => {
  */
 const randomMessage = async (api) => {
   // Get dialogs
-  var Dialogs = await api.messages.getConversations({
+  let Dialogs = await api.messages.getConversations({
     count: 200
   })
 
   async function getMsg() {
-    var Dialog = randomArray(Dialogs.items)
+    let Dialog = randomArray(Dialogs.items)
 
     const dialog = new DBDialog(Dialog.conversation.peer.id)
     const data = dialog.checkData()
@@ -64,19 +64,7 @@ const randomMessage = async (api) => {
     flag = true
   })
 
-  while (
-    (
-      msg.attachments.length === 0 &&
-      (msg.text === "" || !msg.text)
-    ) ||
-    msg.text.split(" ").some(t => t.startsWith("http") || t.startsWith("+7")) ||
-    msg.text.startsWith("/") ||
-    msg.text.startsWith("АШИБКА РИП.") ||
-    msg.text.length > 500 ||
-    msg.from_id.toString() === process.env.ID.toString() ||
-
-    flag
-  ) {
+  while (testMessage(msg)) {
     msg = await getMsg()
 
     isReported = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
@@ -91,7 +79,23 @@ const randomMessage = async (api) => {
   
   // Testing functions //
   const isEmpty = (t) => t.attachments.length === 0 && (t.text === "" || !t.text)
-  const is
+  const startsWithLink = (t) => msg.text.split(" ").some(t => t.startsWith("http"))
+  const startsWithPhone = (t) => msg.text.split(" ").some(t => t.startsWith("+7"))
+  const isCommandMessage = (t) => msg.text.split(" ").some(t => t.startsWith("/"))
+  const isErrorMessage = (t) => msg.text.split(" ").some(t => t.startsWith("АШИБКА РИП"))
+  const isLong = (t) => msg.text.length > 200
+  const isSelf = (t) => t.from_id.toString() === process.env.ID.toString()
+  
+  const testMessage = (t) => {
+    return isEmpty(t) || 
+      startsWithLink(t) || 
+      startsWithPhone(t) || 
+      isCommandMessage(t) || 
+      isErrorMessage(t) || 
+      isLong(t) || 
+      isSelf(t) || 
+      flag
+  }
 }
 
 const log = async (msg, peer) => {
