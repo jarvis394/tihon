@@ -5,7 +5,8 @@ const {
 } = require("../../utils")
 
 const aliases = {
-  buy: [ 'buy', 'купить', 'купитт', 'купля', 'ку
+  buy: [ 'buy', 'купить', 'купитт', 'купля', 'куплч' ],
+  sell: [ 'sell', 'продать', 'продат', 'продатб', 'продажа' ]
 }
 
 exports.run = async (api, update, args) => {
@@ -17,7 +18,13 @@ exports.run = async (api, update, args) => {
     if (option in aliases.buy) return sendBuyMenu()
     if (option in aliases.sell) return sendSellMenu()
     
-    function sendMenu() {}
+    return update.send("🧐 Опция не найдена")
+    
+    function sendMenu() {
+      let res = []
+      
+      return update.send(res)
+    }
     
     function sendBuyMenu() {}
     
