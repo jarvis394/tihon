@@ -4,22 +4,22 @@ const fs = require("fs")
 
 exports.run = async (api, update, args, _, __, cmds) => {
   try {
-    let helpText = args[0] === "en" ? "
+    let helpText = args[0] === "en" ? "Help\n" : "Помощь\n"
     let res = ""
+    
     cmds.forEach(i => {
+      let a
 
-    let a
+      if (args && args[0] === "en" && i.arguments)
+        a = i.arguments.split("|")[0] + " "
+      else if (i.arguments)
+        a = i.arguments.split("|")[1] + " "
+      else
+        a = ""
 
-    if (lang && lang[0] === "en" && i.arguments)
-      a = i.arguments.split("|")[0] + " "
-    else if (i.arguments)
-      a = i.arguments.split("|")[1] + " "
-    else
-      a = ""
+      let desc = args[0] ? i.description.en : i.description.ru
 
-    var desc = lang[0] ? i.description.en : i.description.ru
-
-    res += `▫️ /${i.name} ${a}- ${desc}\n`
+      res += `▫️ /${i.name} ${a}- ${desc}\n`
     })
 
     await update.send("📃 " + helpText + res)
