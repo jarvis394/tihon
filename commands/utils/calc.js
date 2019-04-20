@@ -1,4 +1,4 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const math = require("mathjs")
 
@@ -32,5 +32,6 @@ exports.command = {
     "калкулятор",
     "счет",
     "счёт"
-  ]
+  ],
+  "group": "utils"
 }

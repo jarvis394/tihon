@@ -79,3 +79,7 @@ blockquote {
   font-family: monospace;
   color: #006a9e;
 }
+
+b {
+  font-weight: 500;
+}

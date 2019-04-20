@@ -1,6 +1,6 @@
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
 exports.run = async (api, update) => {
   try {
@@ -16,5 +16,6 @@ exports.command = {
   "description": {
     "en": "Set roles preset",
     "ru": "Установить пресет ролей"
-  }
+  },
+  "group": "utils"
 }

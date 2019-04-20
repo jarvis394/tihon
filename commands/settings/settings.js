@@ -1,8 +1,8 @@
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
-const DBDialog = require("../lib/DBDialog")
+const DBDialog = require("../../lib/DBDialog")
 
 exports.run = async (api, update, args) => {
   const dialog = new DBDialog(update.peerId)
@@ -35,5 +35,6 @@ exports.command = {
   "description": {
     "en": "Changes settings of the dialog",
     "ru": "Изменяет настройки диалога"
-  }
+  },
+  "group": "settings"
 }

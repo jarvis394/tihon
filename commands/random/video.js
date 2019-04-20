@@ -1,10 +1,10 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const {
   randomArray
-} = require("../utils")
+} = require("../../utils")
 
-const DBDialog = require("../lib/DBDialog")
+const DBDialog = require("../../lib/DBDialog")
 
 exports.run = async (api, update) => {
   async function getMsg() {
@@ -66,5 +66,6 @@ exports.command = {
   },
   "alias": [
     "видео"
-  ]
+  ],
+  "group": "random"
 }

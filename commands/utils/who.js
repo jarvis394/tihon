@@ -1,4 +1,4 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const replies = [
   "Я думаю, что",
@@ -8,7 +8,7 @@ const replies = [
 ]
 const {
   randomArray
-} = require("../utils")
+} = require("../../utils")
 
 exports.run = async (api, update, args) => {
   try {
@@ -35,5 +35,6 @@ exports.command = {
   "alias": [
     "кто",
     "назови"
-  ]
+  ],
+  "group": "utils"
 }

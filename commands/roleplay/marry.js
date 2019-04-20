@@ -1,4 +1,4 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const firebase = require("firebase")
 const db = firebase.firestore()
@@ -39,5 +39,6 @@ exports.command = {
   "description": {
     "en": "Marry with someone",
     "ru": "Пожениться с человеком (или нет)"
-  }
+  },
+  "group": "roleplay"
 }

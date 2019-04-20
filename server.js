@@ -44,11 +44,10 @@ vk.setOptions({
 
 let cmds = []
 
-fs.readdir(__dirname + "/commands", async (err, items) => {
-  if (err) return error("On getting commands list: " + err)
-
-  items.forEach((item) => {
-    var i = require("./commands/" + item).command
+// Init commands list
+fs.readdirSync(__dirname + "/commands").forEach(group => {
+  fs.readdirSync(__dirname + "/commands/" + group).forEach(cmd => {
+    let i = require("./commands/" + group + "/" + cmd).command
     cmds.push(i)
   })
 })
@@ -57,15 +56,17 @@ const {
   log,
   error,
   captcha
-} = require("./utils.js") // Auto send messages
+} = require("./utils.js") 
 
-require("./bin/auto")(api, vk)
 
 // Log incoming messages
 require("./bin/log")(updates, memoryStorage, talkedRecently, cmds)
 
 // Count them
 require("./bin/counter")(updates, api, randomStorage)
+
+// Add coins
+require("./bin/coins")(updates)
 
 // Check if user mentioned bot
 require("./bin/mention")(updates)
@@ -79,9 +80,19 @@ require("./bin/prefixCheck")(updates)
 // Run command
 require("./bin/command")(updates, api, randomStorage, cmds, vk)
 
+// Auto send messages
+require("./bin/auto")(api, vk)
+
+// Auto accept friend requests
+require("./bin/friends")(api)
+
+
+/**
+ * Starts polling
+ */
 async function run() {
   await vk.updates.startPolling()
-  console.log("> [LOG] Polling started")
+  log("Polling started")
 }
 
 // Run
@@ -96,6 +107,7 @@ vk.captchaHandler = async ({
 }) => {
   captcha("> [LOG] Needed captcha: " + src)
 }
+
 
 ////////////// WEB //////////////
 

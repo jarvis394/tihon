@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const { randomArray } = require("../utils")
 const stops = {
   "сука": [/сук[а]/, "Сам ты сука", "Скука", "Срука", "Слыш э", "Я кобель"],
@@ -23,12 +25,13 @@ module.exports = (updates) => updates.on("message", async (context, next) => {
     text
   } = context
 
-  text && text.split(" ").forEach(async (el) => {
+  // TODO: Fix this
+  /*text && context.isInbox && text.split(" ").forEach(async (el) => {
     let k = findPropertyNameByRegex(stops, el.toLowerCase())
     if (!k) return
 
     return await context.send(randomArray(stops[k]))
-  })
+  })*/
 
   await next()
 })

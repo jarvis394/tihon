@@ -8,7 +8,7 @@ module.exports = (updates, api, rs) => updates.on("message", async (context, nex
   
   if (session.counter % 50 === 0) {
     try {
-      let commandFile = require("../commands/random.js")
+      let commandFile = require("../commands/random/random.js")
       commandFile.run(api, context, [], rs)
     } catch (e) { 
       error(e, "bin/counter")

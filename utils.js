@@ -33,13 +33,34 @@ const random = (min, max) => {
  * @returns {object} Message object
  */
 const randomMessage = async (api) => {
+  
+  // Testing functions //
+  const isEmpty = (m) => m.attachments.length === 0 && (m.text === "" || !m.text)
+  const startsWithLink = (m) => m.text.split(" ").some(t => t.startsWith("http"))
+  const startsWithPhone = (m) => m.text.split(" ").some(t => t.startsWith("+7"))
+  const isCommandMessage = (m) => m.text.split(" ").some(t => t.startsWith("/"))
+  const isErrorMessage = (m) => m.text.split(" ").some(t => t.startsWith("АШИБКА РИП"))
+  const isLong = (m) => m.text.length > 200
+  const isSelf = (m) => m.from_id.toString() === process.env.ID.toString()
+  
+  function testMessage(m) {
+    return isEmpty(m) || 
+      startsWithLink(m) || 
+      startsWithPhone(m) || 
+      isCommandMessage(m) || 
+      isErrorMessage(m) || 
+      isLong(m) || 
+      isSelf(m) || 
+      flag
+  }
+  
   // Get dialogs
-  var Dialogs = await api.messages.getConversations({
+  let Dialogs = await api.messages.getConversations({
     count: 200
   })
 
   async function getMsg() {
-    var Dialog = randomArray(Dialogs.items)
+    let Dialog = randomArray(Dialogs.items)
 
     const dialog = new DBDialog(Dialog.conversation.peer.id)
     const data = dialog.checkData()
@@ -48,41 +69,29 @@ const randomMessage = async (api) => {
       Dialog = randomArray(Dialogs.items)
     }
 
-    var Messages = await api.messages.getHistory({
+    let Messages = await api.messages.getHistory({
       peer_id: Dialog.conversation.peer.id
     })
-    var Message = randomArray(Messages.items)
+    let Message = randomArray(Messages.items)
 
     return Message
   }
 
   let msg = await getMsg()
-  let ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+  let isReported = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
   let flag = 0
 
-  ir.forEach(() => {
+  isReported.forEach(() => {
     flag = true
   })
 
-  while (
-    (
-      msg.attachments.length === 0 &&
-      (msg.text === "" || !msg.text)
-    ) ||
-    msg.text.split(" ").some(t => t.startsWith("http") || t.startsWith("+7")) ||
-    msg.text.startsWith("/") ||
-    msg.text.startsWith("АШИБКА РИП.") ||
-    msg.text.length > 500 ||
-    msg.from_id.toString() === process.env.ID.toString() ||
-
-    flag
-  ) {
+  while (testMessage(msg)) {
     msg = await getMsg()
 
-    ir = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+    isReported = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
     flag = 0
 
-    ir.forEach(() => {
+    isReported.forEach(() => {
       flag = true
     })
   }
@@ -110,8 +119,8 @@ const captcha = async (msg) => {
  */
 const handleError = (update, e) => {
   error("Error with command '" + update.text + "': " + e)
-
-  update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message)
+  
+  process.env.MODE === "PRODUCTION" && update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message)
 }
 
 module.exports = {

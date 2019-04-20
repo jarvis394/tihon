@@ -1,4 +1,4 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 exports.run = (api, update, args) => {
   try {
@@ -21,5 +21,6 @@ exports.command = {
   },
   "alias": [
     "войти"
-  ]
+  ],
+  "group": "utils"
 }

@@ -1,8 +1,8 @@
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
-const DBDialog = require("../lib/DBDialog")
+const DBDialog = require("../../lib/DBDialog")
 
 exports.run = async (api, update) => {
   try {
@@ -20,7 +20,7 @@ exports.run = async (api, update) => {
     }
 
     dialog.update({
-      auto: state
+      no: state
     })
 
   } catch (e) {
@@ -34,5 +34,6 @@ exports.command = {
   "description": {
     "en": "Will your chat be in random.js?",
     "ru": "Будет или нет диалог попадать в random.js?"
-  }
+  },
+  "group": "settings"
 }

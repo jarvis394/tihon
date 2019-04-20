@@ -1,10 +1,10 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const {
   randomArray
-} = require("../utils")
+} = require("../../utils")
 
-const DBDialog = require("../lib/DBDialog")
+const DBDialog = require("../../lib/DBDialog")
 
 exports.run = async (api, update) => {
   try {
@@ -63,6 +63,8 @@ exports.command = {
     "ru": "Отправить рандомное фото из других бесед"
   },
   "alias": [
-    "фото"
-  ]
+    "фото",
+    "фотка"
+  ],
+  "group": "random"
 }

@@ -1,7 +1,7 @@
 const {
   handleError,
   random
-} = require("../utils")
+} = require("../../utils")
 
 exports.run = async (api, update) => {
   try {
@@ -30,5 +30,6 @@ exports.command = {
   "description": {
     "en": "Play russian roulette",
     "ru": "Сыграть в русскую рулетку"
-  }
+  },
+  "group": "random"
 }

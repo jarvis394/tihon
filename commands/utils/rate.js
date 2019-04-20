@@ -1,8 +1,8 @@
-const { handleError } = require("../utils")
+const { handleError } = require("../../utils")
 
 const {
   randomArray
-} = require("../utils")
+} = require("../../utils")
 
 const responds = [
   "ЗаебOK!",
@@ -62,5 +62,6 @@ exports.command = {
     "что думаешь",
     "ну как",
     "ну как?"
-  ]
+  ],
+  "group": "utils"
 }

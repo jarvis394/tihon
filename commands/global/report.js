@@ -1,10 +1,10 @@
 const {
   handleError
-} = require("../utils")
+} = require("../../utils")
 
 const { 
   ID 
-} = require ("../config")
+} = require ("../../config")
 
 const firebase = require("firebase")
 const db = firebase.firestore()
@@ -49,5 +49,6 @@ exports.command = {
   "description": {
     "en": "Report forwarded message",
     "ru": "Зарепортить пересланное сообщение"
-  }
+  },
+  "group": "global"
 }
