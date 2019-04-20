@@ -14,9 +14,13 @@ function flush() {
   // process.exit(0)
 }
 
+process.on("SIGTERM", () => flush())
+process.on("SIGINT", () => flush())
+process.on("SIGUSR1", () => flush())
+process.on("SIGUSR2", () => flush())
+process.on("exit", () => flush())
+
 module.exports = (updates) => {
-  process.on("SIGTERM", () => flush())
-  
   updates.on("message", async (context, next) => {
     const { senderId } = context
   
