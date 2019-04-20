@@ -1,11 +1,5 @@
 const { handleError } = require("../../utils")
 
-const replies = [
-  "Я думаю, что",
-  "Мб",
-  "Хз, но",
-  "Наверное"
-]
 const {
   randomArray
 } = require("../../utils")

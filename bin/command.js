@@ -2,7 +2,7 @@ const { prefix } = require("../config")
 const { error } = require("../utils")
 
 module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message", async (context, next) => {
-  let text = context.text, args, cmd, er = 0
+  let text = context.text, args, cmd
   
   if (context.state.mentioned) {
     text = context.text

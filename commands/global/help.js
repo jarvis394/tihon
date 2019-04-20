@@ -1,7 +1,5 @@
 const { handleError } = require("../../utils")
 
-const fs = require("fs")
-
 exports.run = async (api, update, args, _, __, cmds) => {
   try {
     let helpText = args[0] === "en" ? "Help\n" : "Помощь\n"

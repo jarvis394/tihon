@@ -1,9 +1,7 @@
-const { error } = require("../utils")
-
 const store = require("store")
 const Coins = require("../lib/Coins")
 
- /**
+/**
  * Flushes coins to database
  */
 function flush() {
@@ -17,7 +15,7 @@ function flush() {
 }
 
 module.exports = (updates) => {
-  process.on('SIGTERM', () => flush())
+  process.on("SIGTERM", () => flush())
   
   updates.on("message", async (context, next) => {
     const { senderId } = context

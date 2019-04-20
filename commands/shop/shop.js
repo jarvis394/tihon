@@ -1,12 +1,8 @@
 const { handleError } = require("../../utils")
 
-const {
-  random
-} = require("../../utils")
-
 const aliases = {
-  buy: [ 'buy', 'купить', 'купитт', 'купля', 'куплч' ],
-  sell: [ 'sell', 'продать', 'продат', 'продатб', 'продажа' ]
+  buy: [ "buy", "купить", "купитт", "купля", "куплч" ],
+  sell: [ "sell", "продать", "продат", "продатб", "продажа" ]
 }
 
 exports.run = async (api, update, args) => {

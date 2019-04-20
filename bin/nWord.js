@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const { randomArray } = require("../utils")
 const stops = {
   "сука": [/сук[а]/, "Сам ты сука", "Скука", "Срука", "Слыш э", "Я кобель"],
