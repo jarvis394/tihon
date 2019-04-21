@@ -52,6 +52,18 @@ fs.readdirSync(__dirname + "/commands").forEach(group => {
   })
 })
 
+// Flush temp data from last reload
+fs.readFile(".temp/coinsData.json", (err, data) => {
+  if (err) return
+  
+  const db = firebase.firestore()
+  data = data.length ? JSON.parse(data) : {}
+  
+  for (let id in data) {
+    db.collection("coins").doc(id).set(data[id])
+  }
+})
+
 const {
   log,
   error,

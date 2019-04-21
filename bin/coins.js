@@ -1,24 +1,29 @@
 const store = require("store")
 const Coins = require("../lib/Coins")
+const fs = require("fs")
+const { error } = require("../utils")
 
 /**
  * Flushes coins to database
  */
 function flush() {
-  console.log("\n\n      Flushing coins to DB...\n\n")
-  store.each((v, k) => {
-    Coins.flush(k, v.data)
-    console.log(k ,v)
+  console.log("\n\n      Flushing coins to DB...      \n\n")
+
+  let res = {}
+  store.each((data, id) => res[id] = data)
+
+  fs.writeFile(".temp/coinsData.json", JSON.stringify(res), (err) => {
+    if (err) {
+      error(err)
+    } else {
+      console.log("      Successfully saved temporary data!      \n\n")
+      process.exit(0)
+    }
   })
-  
-  // process.exit(0)
 }
 
 process.on("SIGTERM", () => flush())
 process.on("SIGINT", () => flush())
-process.on("SIGUSR1", () => flush())
-process.on("SIGUSR2", () => flush())
-process.on("exit", () => flush())
 
 module.exports = (updates) => {
   updates.on("message", async (context, next) => {
@@ -29,11 +34,9 @@ module.exports = (updates) => {
       stData.data.amount++
       store.set(senderId, stData)
     } else {
-      store.set(senderId, {
-        data: await Coins.data(senderId)
-      })
+      store.set(senderId, await Coins.data(senderId))
     }
 
-    next()
+    await next()
   })
 }

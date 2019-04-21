@@ -19,7 +19,7 @@ module.exports = (updates) => updates.on("message", async (context, next) => {
   } = context
 
   if (text && text.split(" ").some(el => el.startsWith(mentionPrefix)) && !text.split(" ")[1]) {
-    context.send(randomArray(answers))
+    return context.send(randomArray(answers))
   }
 
   await next()
