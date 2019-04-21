@@ -95,8 +95,8 @@ async function run() {
   log("Polling started")
 }
 
-// Run
-run().catch(e => {
+// Run if not disabled
+!process.env.MODE === "DISABLED" && run().catch(e => {
   if (e.code == 100) return console.log("> [WARN] Api Error: 100")
   error(e)
 })
