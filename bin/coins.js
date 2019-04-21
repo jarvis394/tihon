@@ -31,7 +31,7 @@ module.exports = (updates) => {
   
     let stData = store.get(senderId)
     if (stData) {
-      stData.data.amount++
+      stData.amount++
       store.set(senderId, stData)
     } else {
       store.set(senderId, await Coins.data(senderId))
