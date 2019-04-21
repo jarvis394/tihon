@@ -96,7 +96,7 @@ async function run() {
 }
 
 // Run if not disabled
-!process.env.MODE === "DISABLED" && run().catch(e => {
+process.env.MODE !== "DISABLED" && run().catch(e => {
   if (e.code == 100) return console.log("> [WARN] Api Error: 100")
   error(e)
 })
