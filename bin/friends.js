@@ -1,4 +1,5 @@
 const { interval } = require("../config")
+const { log, error } = require("../utils")
 
 module.exports = (api) => {
   
@@ -8,9 +9,11 @@ module.exports = (api) => {
     list.items.forEach(friend => {
       api.friends.add({
         user_id: friend
-      })
+      }).catch(e => error(e))
+      
+      log("Added " + friend + " as friend")
     })
     
-  }, interval)
+  }, interval * 2)
   
 }

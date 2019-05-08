@@ -18,7 +18,7 @@ module.exports = (updates, memoryStorage, talkedRecently) => updates.on("message
     } = context
 
     if (talkedRecently.has(senderId)) return
-
+    
     if (text && (text.startsWith(prefix) || text.startsWith("[id" + ID))) {
       log(text, peerId)
 
