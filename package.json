@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.4.0",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "ejs": "^2.6.1",
     "eslint": "^5.16.0",
     "express": "^4.16.4",
-    "firebase": "^5.9.2",
+    "firebase": "^5.11.1",
     "fs": "^0.0.2",
     "jest": "^24.7.1",
     "mathjs": "^5.9.0",
@@ -22,7 +22,7 @@
     "request-promise-native": "^1.0.7",
     "vk-io": "^4.0.0-rc.14",
     "store": "^2.0.12",
-    "data-store": "^3.1.0"
+    "canvas": "^2.5.0"
   },
   "engines": {
     "node": "8.x"
