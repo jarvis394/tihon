@@ -48,6 +48,9 @@ let cmds = []
 fs.readdirSync(__dirname + "/commands").forEach(group => {
   fs.readdirSync(__dirname + "/commands/" + group).forEach(cmd => {
     let i = require("./commands/" + group + "/" + cmd).command
+    i.group = group
+    i.name = cmd.split(".")[0]
+    
     cmds.push(i)
   })
 })
@@ -60,7 +63,7 @@ fs.readFile(".temp/coinsData.json", (err, data) => {
   data = data.length ? JSON.parse(data) : {}
   
   for (let id in data) {
-    db.collection("coins").doc(id).set(data[id])
+    db.collection("coins").doc(id).update(data[id])
   }
 })
 
@@ -119,6 +122,10 @@ vk.captchaHandler = async ({
 }) => {
   captcha("> [LOG] Needed captcha: " + src)
 }
+
+// Log memory leaks
+const os = require("os")
+setInterval(() => console.log(os.totalmem() / 8388608 - os.freemem() / 8388608 + " MB / " + os.totalmem() / 8388608 + " MB"), 10 * 1000 * 60)
 
 
 ////////////// WEB //////////////
