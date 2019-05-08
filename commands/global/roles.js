@@ -183,5 +183,8 @@ exports.command = {
     "en": "Adds or removes role at specific user. Without add/remove shows only user's roles",
     "ru": "Добавляет или удаляет роль у пользователя. Без аргументов возвращает роли пользователя"
   },
-  "group": "global"
+  "group": "global",
+  "alias": [
+    "роли"
+  ]
 }
