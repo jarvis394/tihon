@@ -1,8 +1,8 @@
-const { handleError } = require("../../utils")
+const { handleError } = require('../../utils')
 
 const {
   random
-} = require("../../utils")
+} = require('../../utils')
 
 exports.run = async (api, update, args) => {
   try {
@@ -22,11 +22,11 @@ exports.run = async (api, update, args) => {
 }
 
 exports.command = {
-  "name": "roll",
-  "arguments": "(min) (max)|(min) (max)",
-  "description": {
-    "en": "Roll from 0 (or min) to 100 (or max)",
-    "ru": "Ролл от 0 (или min) до 100 (или max)"
+  'name': 'roll',
+  'arguments': '(min) (max)|(min) (max)',
+  'description': {
+    'en': 'Roll from 0 (or min) to 100 (or max)',
+    'ru': 'Ролл от 0 (или min) до 100 (или max)'
   },
-  "group": "utils"
+  'group': 'utils'
 }

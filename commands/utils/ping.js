@@ -1,15 +1,15 @@
-const { handleError } = require("../../utils")
+const { handleError } = require('../../utils')
 
 const replies = [
-  "Шо ты меня пингуешь братец",
-  "А?",
-  "Я С СЕЛА",
-  "Чавой?",
-  "Пинг-понг"
+  'Шо ты меня пингуешь братец',
+  'А?',
+  'Я С СЕЛА',
+  'Чавой?',
+  'Пинг-понг'
 ]
 const {
   randomArray
-} = require("../../utils")
+} = require('../../utils')
 
 exports.run = async (api, update) => {
   try {
@@ -20,16 +20,16 @@ exports.run = async (api, update) => {
 }
 
 exports.command = {
-  "name": "ping",
-  "arguments": false,
-  "description": {
-    "en": "Pong!",
-    "ru": "Понг!"
+  'name': 'ping',
+  'arguments': false,
+  'description': {
+    'en': 'Pong!',
+    'ru': 'Понг!'
   },
-  "alias": [
-    "пинг",
-    "ку",
-    "привет"
+  'alias': [
+    'пинг',
+    'ку',
+    'привет'
   ],
-  "group": "utils"
+  'group': 'utils'
 }

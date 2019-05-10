@@ -2,14 +2,14 @@ const {
   prefix,
   cooldown,
   ID
-} = require("../config")
+} = require('../config')
 
 const {
   log,
   handleError
-} = require("../utils")
+} = require('../utils')
 
-module.exports = (updates, memoryStorage, talkedRecently) => updates.on("message", async (context, next) => {
+module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message', async (context, next) => {
   try {
     let {
       peerId,
@@ -18,8 +18,13 @@ module.exports = (updates, memoryStorage, talkedRecently) => updates.on("message
     } = context
 
     if (talkedRecently.has(senderId)) return
+<<<<<<< Updated upstream
 
     if (text && (text.startsWith(prefix) || text.startsWith("[id" + ID))) {
+=======
+    
+    if (text && (text.startsWith(prefix) || text.startsWith('[id' + ID))) {
+>>>>>>> Stashed changes
       log(text, peerId)
 
       talkedRecently.add(senderId)

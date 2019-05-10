@@ -1,8 +1,8 @@
 const {
   handleError
-} = require("../../utils")
+} = require('../../utils')
 
-const DBDialog = require("../../lib/DBDialog")
+const DBDialog = require('../../lib/DBDialog')
 
 exports.run = async (api, update) => {
   try {
@@ -13,10 +13,10 @@ exports.run = async (api, update) => {
 
     if (state) {
       state = false
-      update.send("Теперь отсюда бот будет брать сообщения")
+      update.send('Теперь отсюда бот будет брать сообщения')
     } else {
       state = true
-      update.send("Теперь отсюда бот не будет брать сообщения")
+      update.send('Теперь отсюда бот не будет брать сообщения')
     }
 
     dialog.update({
@@ -29,11 +29,11 @@ exports.run = async (api, update) => {
 }
 
 exports.command = {
-  "name": "no",
-  "arguments": false,
-  "description": {
-    "en": "Will your chat be in random.js?",
-    "ru": "Будет или нет диалог попадать в random.js?"
+  'name': 'no',
+  'arguments': false,
+  'description': {
+    'en': 'Will your chat be in random.js?',
+    'ru': 'Будет или нет диалог попадать в random.js?'
   },
-  "group": "settings"
+  'group': 'settings'
 }

@@ -1,9 +1,9 @@
-const DBDialog = require("../lib/DBDialog")
+const DBDialog = require('../lib/DBDialog')
 const {
   random,
   randomMessage
-} = require("../utils")
-const { interval } = require("../config")
+} = require('../utils')
+const { interval } = require('../config')
 
 module.exports = (api, vk) => {
   
@@ -45,12 +45,12 @@ module.exports = (api, vk) => {
     
     setInterval(async () => {
       
-      let res = ""
+      let res = ''
       let options = {}
 
       let msg = await randomMessage(api)
 
-      if (msg.text !== "") {
+      if (msg.text !== '') {
         res = msg.text
       }
       
@@ -58,27 +58,27 @@ module.exports = (api, vk) => {
         msg.attachments.forEach(attachment => {
           let { type } = attachment
           let { owner_id, id } = attachment[type]
-          let access = attachment[type].access_key ? "_" + attachment[type].access_key : ""
+          let access = attachment[type].access_key ? '_' + attachment[type].access_key : ''
           
-          options.attachments += options.attachments ? ", " : ""
-          options.attachments += type + owner_id + "_" + id + access
+          options.attachments += options.attachments ? ', ' : ''
+          options.attachments += type + owner_id + '_' + id + access
         })
       }
       
       // If some attachments
       if (options.attachments) {
         return vk.api.messages.send({
-          "message": res,
-          "attachment": options.attachments,
-          "peer_id": dialog.conversation.peer.id
+          'message': res,
+          'attachment': options.attachments,
+          'peer_id': dialog.conversation.peer.id
         })
       }
       
       // If no attachment and there is a texf
-      else if (res !== "") {
+      else if (res !== '') {
         return vk.api.messages.send({
-          "message": res,
-          "peer_id": dialog.conversation.peer.id
+          'message': res,
+          'peer_id': dialog.conversation.peer.id
         })
       }
       
