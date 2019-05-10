@@ -64,7 +64,7 @@ exports.run = async (api, update, args) => {
 
       let res = [name[0].first_name + ", раздел '" + group + "':", '']
 
-      group = groups[group].items
+      group = data.groups[group].items
 
       for (let i = 0; i < group.length; i++) {
         res.push(
@@ -103,8 +103,8 @@ exports.run = async (api, update, args) => {
         coins.setData(update.senderId, user)
       }
 
-      let category = categories[args[1]].path
-      let cIndex = categories[args[1]].index
+      let category = data.groups[args[1]].path
+      let cIndex = data.groups[args[1]].index
       let item = parseInt(args[2])
 
       if (!category) return update.send('😖 Ты не ввел нормально категорию')
