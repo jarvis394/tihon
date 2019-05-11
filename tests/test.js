@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-const randomArray = (array) => {
-  return array[Math.floor(Math.random() * array.length)]
-}
+/* eslint-disable */
 
 const {
   VK
@@ -16,4 +13,13 @@ const { TOKEN } = require("../config")
 
 vk.setOptions({
   token: TOKEN
+})
+
+describe("Testing tests", () => {
+
+  test("token should be a string", () => {
+    let t = typeof TOKEN === "string"
+    expect(t).toBeTruthy()
+  })
+  
 })

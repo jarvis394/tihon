@@ -18,13 +18,8 @@ module.exports = (updates, memoryStorage, talkedRecently) => updates.on('message
     } = context
 
     if (talkedRecently.has(senderId)) return
-<<<<<<< Updated upstream
-
-    if (text && (text.startsWith(prefix) || text.startsWith("[id" + ID))) {
-=======
     
     if (text && (text.startsWith(prefix) || text.startsWith('[id' + ID))) {
->>>>>>> Stashed changes
       log(text, peerId)
 
       talkedRecently.add(senderId)
