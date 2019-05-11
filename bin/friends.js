@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
-const { interval } = require("../config")
-=======
 const { interval } = require('../config')
 const { log, error } = require('../utils')
->>>>>>> Stashed changes
 
 module.exports = (api) => {
   
@@ -13,13 +9,9 @@ module.exports = (api) => {
     list.items.forEach(friend => {
       api.friends.add({
         user_id: friend
-<<<<<<< Updated upstream
-      })
-=======
       }).catch(e => error(e))
       
       log('Added ' + friend + ' as friend')
->>>>>>> Stashed changes
     })
     
   }, interval)
