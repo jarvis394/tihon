@@ -1,6 +1,6 @@
 {
   "name": "ded-tihon",
-  "version": "5.0.0",
+  "version": "4.7.0",
   "description": "VK bot",
   "main": "server.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.5.0",
     "body-parser": "^1.19.0",
+    "canvas": "^2.5.0",
     "ejs": "^2.6.1",
     "eslint": "^5.16.0",
     "express": "^4.16.4",
@@ -18,11 +19,11 @@
     "jest": "^24.8.0",
     "mathjs": "^5.10.0",
     "node-cmd": "^3.0.0",
+    "quick.db": "^7.0.0-b22",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "vk-io": "^4.0.0-rc.17",
     "store": "^2.0.12",
-    "data-store": "^3.1.0"
+    "vk-io": "^4.0.0-rc.17"
   },
   "engines": {
     "node": "8.x"
