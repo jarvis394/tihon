@@ -1,8 +1,8 @@
 const {
   handleError
-} = require("../../utils")
+} = require('../../utils')
 
-const DBDialog = require("../../lib/DBDialog")
+const DBDialog = require('../../lib/DBDialog')
 
 exports.run = async (api, update) => {
   try {
@@ -13,10 +13,10 @@ exports.run = async (api, update) => {
 
     if (state) {
       state = false
-      update.send("Теперь здесь не будет отправляться рассылка")
+      update.send('Теперь здесь не будет отправляться рассылка')
     } else {
       state = true
-      update.send("Теперь тут будет отправляться рассылка")
+      update.send('Теперь тут будет отправляться рассылка')
     }
 
     dialog.update({
@@ -28,14 +28,14 @@ exports.run = async (api, update) => {
 }
 
 exports.command = {
-  "name": "auto",
-  "arguments": false,
-  "description": {
-    "en": "Disable/Enable auto-sending messages",
-    "ru": "Отключить/Включить автоматическую рассылку сообщений"
+  'name': 'auto',
+  'arguments': false,
+  'description': {
+    'en': 'Disable/Enable auto-sending messages',
+    'ru': 'Отключить/Включить автоматическую рассылку сообщений'
   },
   alias: [
-    "авто"
+    'авто'
   ],
-  "group": "settings"
+  'group': 'settings'
 }

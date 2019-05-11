@@ -1,12 +1,12 @@
-const { handleError } = require("../../utils")
-const store = require("store")
+const { handleError } = require('../../utils')
+const store = require('store')
 
 exports.run = async (api, update) => {
   try {
     
     update.send(
-      "⠀⠀Твой баланс:⠀⠀\n" +
-      "💵 " + store.get(update.senderId).amount + "T"
+      '⠀⠀Твой баланс:⠀⠀\n' +
+      '💵 ' + store.get(update.senderId).amount + 'T'
     )
     
   } catch (e) {
@@ -15,14 +15,14 @@ exports.run = async (api, update) => {
 }
 
 exports.command = {
-  "name": "balance",
-  "arguments": false,
-  "description": {
-    "en": "Shows balance of user",
-    "ru": "Показывает баланс пользователя"
+  'name': 'balance',
+  'arguments': false,
+  'description': {
+    'en': 'Shows balance of user',
+    'ru': 'Показывает баланс пользователя'
   },
-  "alias": [
-    "баланс"
+  'alias': [
+    'баланс'
   ],
-  "group": "shop"
+  'group': 'shop'
 }

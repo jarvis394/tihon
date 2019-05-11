@@ -1,16 +1,16 @@
-const { prefix } = require("../config")
-const { error } = require("../utils")
+const { prefix } = require('../config')
+const { error } = require('../utils')
 
-module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message", async (context, next) => {
+module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message', async (context, next) => {
   let text = context.text, args, cmd
   
   if (context.state.mentioned) {
     text = context.text
-    args = text.split(" ")
+    args = text.split(' ')
     args.shift()
   } else {
     text = context.text
-    args = text.slice(prefix.length).trim().split(" ")
+    args = text.slice(prefix.length).trim().split(' ')
   }
   
   if (context.hasForwards || context.hasAttachments()) {
@@ -28,7 +28,7 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on("message"
     let commandFile = require(`../commands/${cmd.group}/${cmd.name}.js`)
     commandFile.run(api, context, args, randomStorage, vk, cmds)
   } catch (e) { 
-    if (e.code === "MODULE_NOT_FOUND") return 
+    if (e.code === 'MODULE_NOT_FOUND') return 
     error(e)
   }
   

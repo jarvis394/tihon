@@ -1,6 +1,6 @@
-const DBDialog = require("./lib/DBDialog")
+const DBDialog = require('./lib/DBDialog')
 
-const firebase = require("firebase")
+const firebase = require('firebase')
 const db = firebase.firestore()
 
 /**
@@ -35,11 +35,11 @@ const random = (min, max) => {
 const randomMessage = async (api) => {
   
   // Testing functions //
-  const isEmpty = (m) => m.attachments.length === 0 && (m.text === "" || !m.text)
-  const startsWithLink = (m) => m.text.split(" ").some(t => t.startsWith("http"))
-  const startsWithPhone = (m) => m.text.split(" ").some(t => t.startsWith("+7"))
-  const isCommandMessage = (m) => m.text.split(" ").some(t => t.startsWith("/"))
-  const isErrorMessage = (m) => m.text.split(" ").some(t => t.startsWith("АШИБКА РИП"))
+  const isEmpty = (m) => m.attachments.length === 0 && (m.text === '' || !m.text)
+  const startsWithLink = (m) => m.text.split(' ').some(t => t.startsWith('http'))
+  const startsWithPhone = (m) => m.text.split(' ').some(t => t.startsWith('+7'))
+  const isCommandMessage = (m) => m.text.split(' ').some(t => t.startsWith('/'))
+  const isErrorMessage = (m) => m.text.split(' ').some(t => t.startsWith('АШИБКА РИП'))
   const isLong = (m) => m.text.length > 200
   const isSelf = (m) => m.from_id.toString() === process.env.ID.toString()
   
@@ -78,7 +78,7 @@ const randomMessage = async (api) => {
   }
 
   let msg = await getMsg()
-  let isReported = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+  let isReported = await db.collection('reported').where('id', '==', parseInt(msg.id)).get()
   let flag = 0
 
   isReported.forEach(() => {
@@ -88,7 +88,7 @@ const randomMessage = async (api) => {
   while (testMessage(msg)) {
     msg = await getMsg()
 
-    isReported = await db.collection("reported").where("id", "==", parseInt(msg.id)).get()
+    isReported = await db.collection('reported').where('id', '==', parseInt(msg.id)).get()
     flag = 0
 
     isReported.forEach(() => {
@@ -101,11 +101,11 @@ const randomMessage = async (api) => {
 
 const log = async (msg, peer) => {
   // eslint-ignore-no-console
-  console.log(`> [LOG] ${msg} ${peer ? "| " + peer : ""}`)
+  console.log(`> [LOG] ${msg} ${peer ? '| ' + peer : ''}`)
 }
 
 const error = async (msg, path) => {
-  console.error(`> [ERR] ${path ? `In ${path}: ` : ""}${msg}`)
+  console.error(`> [ERR] ${path ? `In ${path}: ` : ''}${msg}`)
 }
 
 const captcha = async (msg) => {
@@ -118,9 +118,9 @@ const captcha = async (msg) => {
  * @param {object} e Error object
  */
 const handleError = (update, e) => {
-  error("Error with command '" + update.text + "': " + e)
+  error('Error with command \'' + update.text + '\': ' + e)
   
-  process.env.MODE === "PRODUCTION" && update.send("АШИБКА РИП. \n❌ " + e.stack.split(" ")[0] + " " + e.message)
+  process.env.MODE === 'PRODUCTION' && update.send('АШИБКА РИП. \n❌ ' + e.stack.split(' ')[0] + ' ' + e.message)
 }
 
 module.exports = {

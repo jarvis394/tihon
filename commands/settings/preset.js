@@ -1,21 +1,21 @@
 const {
   handleError
-} = require("../../utils")
+} = require('../../utils')
 
 exports.run = async (api, update) => {
   try {
-    update.send("> не готово пока")
+    update.send('> не готово пока')
   } catch (e) {
     handleError(update, e)
   }
 }
 
 exports.command = {
-  "name": "preset",
-  "arguments": "num|num",
-  "description": {
-    "en": "Set roles preset",
-    "ru": "Установить пресет ролей"
+  'name': 'preset',
+  'arguments': 'num|num',
+  'description': {
+    'en': 'Set roles preset',
+    'ru': 'Установить пресет ролей'
   },
-  "group": "utils"
+  'group': 'utils'
 }

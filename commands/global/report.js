@@ -1,12 +1,12 @@
 const {
   handleError
-} = require("../../utils")
+} = require('../../utils')
 
 const { 
   ID 
-} = require ("../../config")
+} = require ('../../config')
 
-const firebase = require("firebase")
+const firebase = require('firebase')
 const db = firebase.firestore()
 
 exports.run = async (api, update, args, rs) => {
@@ -15,9 +15,9 @@ exports.run = async (api, update, args, rs) => {
     let msg = update.payload.reply_message
     
     if (!msg) {
-      return update.send("Пришли мне моё сообщение, чтобы зарепортить его.")
+      return update.send('Пришли мне моё сообщение, чтобы зарепортить его.')
     } else if (msg.from_id.toString() !== ID) {
-      return update.send("Сообщение должно быть от меня")
+      return update.send('Сообщение должно быть от меня')
     }
     
     let date = msg.date
@@ -32,8 +32,8 @@ exports.run = async (api, update, args, rs) => {
     
     let docName = `${res}`
 
-    await db.collection("reported").doc(docName).set({
-      "id": rs.get(res)
+    await db.collection('reported').doc(docName).set({
+      'id': rs.get(res)
     })
     
     return update.send(`Сообщение с ID ${res} помечено как спам.`)
@@ -44,11 +44,11 @@ exports.run = async (api, update, args, rs) => {
 }
 
 exports.command = {
-  "name": "report",
-  "arguments": "(fwd)|(сообщение)",
-  "description": {
-    "en": "Report forwarded message",
-    "ru": "Зарепортить пересланное сообщение"
+  'name': 'report',
+  'arguments': '(fwd)|(сообщение)',
+  'description': {
+    'en': 'Report forwarded message',
+    'ru': 'Зарепортить пересланное сообщение'
   },
-  "group": "global"
+  'group': 'global'
 }

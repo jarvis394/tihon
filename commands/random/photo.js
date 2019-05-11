@@ -1,10 +1,10 @@
-const { handleError } = require("../../utils")
+const { handleError } = require('../../utils')
 
 const {
   randomArray
-} = require("../../utils")
+} = require('../../utils')
 
-const DBDialog = require("../../lib/DBDialog")
+const DBDialog = require('../../lib/DBDialog')
 
 exports.run = async (api, update) => {
   try {
@@ -27,7 +27,7 @@ exports.run = async (api, update) => {
       var Photos = await api.messages.getHistoryAttachments({
         peer_id: Dialog.conversation.peer.id,
         count: 200,
-        media_type: "photo"
+        media_type: 'photo'
       })
       
       // Return false if no photos in dialog
@@ -44,10 +44,10 @@ exports.run = async (api, update) => {
       ph = await getMsg()
     }
 
-    var access = ph.attachment.photo.access_key ? "_" + ph.attachment.photo.access_key : ""
+    var access = ph.attachment.photo.access_key ? '_' + ph.attachment.photo.access_key : ''
 
-    await update.send("", {
-      "attachment": `photo${ph.attachment.photo.owner_id}_${ph.attachment.photo.id}${access}`
+    await update.send('', {
+      'attachment': `photo${ph.attachment.photo.owner_id}_${ph.attachment.photo.id}${access}`
     })
 
   } catch (e) {
@@ -56,15 +56,15 @@ exports.run = async (api, update) => {
 }
 
 exports.command = {
-  "name": "photo",
-  "arguments": false,
-  "description": {
-    "en": "Sends random photo from other multidialogs",
-    "ru": "Отправить рандомное фото из других бесед"
+  'name': 'photo',
+  'arguments': false,
+  'description': {
+    'en': 'Sends random photo from other multidialogs',
+    'ru': 'Отправить рандомное фото из других бесед'
   },
-  "alias": [
-    "фото",
-    "фотка"
+  'alias': [
+    'фото',
+    'фотка'
   ],
-  "group": "random"
+  'group': 'random'
 }

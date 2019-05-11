@@ -1,8 +1,8 @@
-const { get } = require("request-promise-native")
-const { handleError } = require("../../utils")
+const { get } = require('request-promise-native')
+const { handleError } = require('../../utils')
 
 const options = {
-  url: "https://nekos.life/api/neko",
+  url: 'https://nekos.life/api/neko',
   json: true
 }
 
@@ -20,11 +20,11 @@ exports.run = async (api, update) => {
 }
 
 exports.command = {
-  "name": "neko",
-  "arguments": false,
-  "description": {
-    "en": "Catch up neko-chan!~~",
-    "ru": "Поймать кошко-дiвочку!~~"
+  'name': 'neko',
+  'arguments': false,
+  'description': {
+    'en': 'Catch up neko-chan!~~',
+    'ru': 'Поймать кошко-дiвочку!~~'
   },
-  "group": "random"
+  'group': 'random'
 }

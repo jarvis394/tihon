@@ -8,8 +8,8 @@ const FIREBASE_DB_URL = process.env.FIREBASE_DB_URL
 const FIREBASE_STORAGE_BUCKET = process.env.FIREBASE_STORAGE_BUCKET
 const FIREBASE_SENDER_ID = process.env.FIREBASE_SENDER_ID
 
-const prefix = "/"
-const mentionPrefix = "[id" + ID + "|"
+const prefix = '/'
+const mentionPrefix = '[id' + ID + '|'
 const cooldown = 2500
 const interval = 3600 * 1000
 
