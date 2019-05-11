@@ -19,7 +19,10 @@ exports.run = async (api, update, args) => {
     let option = args[0].toLowerCase()
 
     // If matches a group
-    if (option.test(/[0-9]/)) return sendGroup(option)
+    if (!isNaN(option)) {
+      if (parseInt(option) < data.groups.length && parseInt(option) >= 0) return sendGroup(parseInt(option))
+      else return update.send('😟 Нет такой группы! Введи валидный \'groupId\'')
+    }
 
     // If option is 'buy' then send buyMenu
     if (aliases.buy.includes(option)) return sendBuyMenu()
@@ -39,12 +42,12 @@ exports.run = async (api, update, args) => {
       })
 
       let res = [name[0].first_name + ', разделы магазина:', '']
+      
+      for (let category in data.categories) {
+        res.push(data.categories[category].icon + ' ' + data.categories[category].name + ':')
 
-      for (let group in data) {
-        res.push(data[group].icon + ' ' + data[group].name + ':')
-
-        for (let item of data[group].items) {
-          res.push('⠀⠀' + item.icon + ' ' + item.name)
+        for (let group of data.groups.filter(g => g.category === category)) {
+          res.push('⠀⠀' + '[ ' + group.groupId + ' ] ' + group.icon + ' ' + group.name)
         }
 
         res.push('')
@@ -57,28 +60,21 @@ exports.run = async (api, update, args) => {
      * Send group menu
      * @param {string} group Group
      */
-    async function sendGroup(group) {
+    async function sendGroup(groupId) {
       let name = await api.users.get({
         user_ids: update.senderId
       })
+      
+      let group = data.groups.find(g => g.groupId === groupId)
+      let res = [name[0].first_name + ', раздел \'' + group.name + '\':', '']
 
-      let res = [name[0].first_name + ", раздел '" + group + "':", '']
-
-      group = data.groups[group].items
-
-      for (let i = 0; i < group.length; i++) {
-        res.push(
-          i +
-            1 +
-            ') ' +
-            group[i].icon +
-            ' ' +
-            group[i].name +
-            ' - ' +
-            group[i].price +
-            'T'
-        )
-      }
+      data.items.forEach((item, i) => {
+        if (item.groupId === groupId) {
+          res.push(
+            `[ ${item.id} ] ${item.icon} ${item.name} - ${item.price}T`
+          )
+        }
+      })
 
       res.push('')
       res.push('Чтобы купить, напишите "купить" и ID:')
@@ -95,40 +91,83 @@ exports.run = async (api, update, args) => {
         user_ids: update.senderId,
         name_case: 'gen'
       })
-
       let user = await coins.data(update.senderId)
 
-      if (!user.items) {
-        user.items = []
-        coins.setData(update.senderId, user)
-      }
-
-      let category = data.groups[args[1]].path
-      let cIndex = data.groups[args[1]].index
-      let item = parseInt(args[2])
-
-      if (!category) return update.send('😖 Ты не ввел нормально категорию')
-      if (category && !item)
+      if (!args[1]) {
         return update.send(
-          '😕 Ты не ввел нормально предмет, который хочешь купить'
+          '😕 Ты не ввел ID предмета, который хочешь купить'
         )
-
-      let i = data[category].items[cIndex].items[item - 1]
-
-      user.items.push(i)
+      }
+      
+      if (isNaN(args[1])) {
+        return update.send(
+          '😕 ID предмета - это число, знаешь.'
+        )
+      }
+      
+      let id = parseInt(args[1])
+      let item = data.items.find(i => i.id === id)
+      
+      if (user.amount - item.price < 0) {
+        return update.send(
+          '🧮 Недостаточно денег - у тебя ' + user.amount + 'T, а нужно ' + item.price + 'T'
+        )
+      }
+      
+      user.amount -= item.price
+      user.items.push(item.id)
 
       await coins.setData(update.senderId, user)
 
       return update.send(
-        `🎉 Теперь у ${name[0].first_name} есть предмет ${i.name}`
+        `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}`
       )
     }
-
+    
     /**
      * Sends selling menu
      */
-    function sendSellMenu() {
+    async function sendSellMenu() {
+      let name = await api.users.get({
+        user_ids: update.senderId,
+      })
+      let user = await coins.data(update.senderId)
 
+      if (!args[1]) {
+        return update.send(
+          '😕 Ты не ввел номер предмета, который хочешь продать'
+        )
+      }
+      
+      if (isNaN(args[1])) {
+        return update.send(
+          '😕 Номер предмета - это число, знаешь.'
+        )
+      }
+      
+      let id = user.items[parseInt(args[1]) - 1]
+      let item = data.items.find(i => i.id === id)
+      
+      if (!id) {
+        return update.send(
+          '🧮 У тебя нет предмета под таким номером'
+        )
+      }
+      
+      if (!item) {
+        return update.send(
+          '❌ У тебя есть несуществующий предмет'
+        )
+      }
+      
+      user.amount += item.price
+      user.items.splice(parseInt(args[1]) - 1, 1)
+      
+      await coins.setData(update.senderId, user)
+
+      return update.send(
+        `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price}T`
+      )
     }
 
   } catch (e) {
