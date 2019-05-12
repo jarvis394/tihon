@@ -23,7 +23,7 @@ See [bot's website](https://tihon.glitch.me)
 - ~~Make help system better to not write big `exports.command` every time new command created~~
 - ~~Deal with coins pushing before restarting a project~~
 - Try to use Docker, why not :)
-- Learn TypeScript to get rud of some checking. *Types are good*
+- Learn TypeScript to get rid of some checking. *Types are good*
 - Do GitHub commits
 - Make an API and divide frontend and backend to 2 projects
 - Translate everything to English, even `/random`
