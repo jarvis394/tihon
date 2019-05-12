@@ -1,5 +1,5 @@
 const store = require('store')
-const Coins = require('../lib/User')
+const User = require('../lib/User')
 const fs = require('fs')
 const { error } = require('../utils')
 
@@ -28,16 +28,11 @@ process.on('SIGINT', () => flush())
 module.exports = (updates) => {
   updates.on('message', async (context, next) => {
     const { senderId } = context
-  
-    let stData = store.get(senderId)
     
-    if (stData) {
-      stData.amount++
-    } else {
-      stData = await Coins.data(senderId)
-    }
-    
-    store.set(senderId, stData)
+    let user = new User(senderId)
+
+    await user.init()
+    user.add(1)
 
     await next()
   })

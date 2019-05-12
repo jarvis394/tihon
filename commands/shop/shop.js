@@ -2,7 +2,7 @@
 
 const { handleError } = require('../../utils')
 const data = require('../../shopData')
-const coins = require('../../lib/User')
+const User = require('../../lib/User')
 
 const aliases = {
   buy: ['buy', 'купить', 'купитт', 'купля', 'куплч'],
@@ -91,7 +91,7 @@ exports.run = async (api, update, args) => {
         user_ids: update.senderId,
         name_case: 'gen'
       })
-      let user = await coins.data(update.senderId)
+      let user = new User(update.senderId)
 
       if (!args[1]) {
         return update.send(
@@ -104,20 +104,20 @@ exports.run = async (api, update, args) => {
           '😕 ID предмета - это число, знаешь.'
         )
       }
+
+      await user.init()
       
       let id = parseInt(args[1])
       let item = data.items.find(i => i.id === id)
       
-      if (user.amount - item.price < 0) {
+      if (user.notEnoughFor(item.price)) {
         return update.send(
           '🧮 Недостаточно денег - у тебя ' + user.amount + 'T, а нужно ' + item.price + 'T'
         )
       }
       
-      user.amount -= item.price
-      user.items.push(item.id)
-
-      await coins.setData(update.senderId, user)
+      user.subtract(item.price)
+      user.addItem(item.id)
 
       return update.send(
         `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}`
@@ -131,7 +131,7 @@ exports.run = async (api, update, args) => {
       let name = await api.users.get({
         user_ids: update.senderId,
       })
-      let user = await coins.data(update.senderId)
+      let user = new User(update.senderId)
 
       if (!args[1]) {
         return update.send(
@@ -144,9 +144,11 @@ exports.run = async (api, update, args) => {
           '😕 Номер предмета - это число, знаешь.'
         )
       }
+
+      await user.init()
       
-      let id = user.items[parseInt(args[1]) - 1]
-      let item = data.items.find(i => i.id === id)
+      let id = user.data.items[parseInt(args[1]) - 1]
+      let item = user.data.items.find(i => i.id === id)
       
       if (!id) {
         return update.send(
@@ -160,10 +162,8 @@ exports.run = async (api, update, args) => {
         )
       }
       
-      user.amount += item.price
-      user.items.splice(parseInt(args[1]) - 1, 1)
-      
-      await coins.setData(update.senderId, user)
+      user.add(item.price)
+      user.removeItem(parseInt(args[1]) - 1)
 
       return update.send(
         `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price}T`

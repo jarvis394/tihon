@@ -1,39 +1,39 @@
-/* eslint-disable no-unused-vars */
-
-const { handleError } = require('../../utils')
-
 const {
-  data
-} = require('../../lib/User')
-const shopData = require('../../shopData')
+  handleError
+} = require('../../utils')
 
-const store = require('store')
+const User = require('../../lib/User')
+const shopData = require('../../shopData')
 
 exports.run = async (api, update) => {
   try {
-    
+
+    let {
+      senderId
+    } = update
     let name = await api.users.get({
-      user_ids: update.senderId,
+      user_ids: senderId,
       name_case: 'gen'
     })
-    let user = await data(update.senderId)
-    
+    let user = new User(senderId)
     let res = [
       `Профиль ${name[0].first_name}:\n`
     ]
-    
-    if (user.items.length === 0) {
+
+    await user.init()
+
+    if (user.data.items.length === 0) {
       res.push('📜 Пока ничего')
     } else {
-      user.items.forEach((id, i) => {
+      user.data.items.forEach((id, i) => {
         let item = shopData.items.find(i => i.id === parseInt(id))
-      
+
         res.push(` ${i + 1}) ${item.icon} ${item.name}`)
       })
     }
-    
+
     update.send(res.join('\n'))
-    
+
   } catch (e) {
     handleError(update, e)
   }
