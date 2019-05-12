@@ -99,16 +99,17 @@ const randomMessage = async (api) => {
   return msg
 }
 
-const log = async (msg, peer) => {
+const log = (msg, peer) => {
   // eslint-ignore-no-console
   console.log(`> [LOG] ${msg} ${peer ? '| ' + peer : ''}`)
 }
 
-const error = async (msg, path) => {
+const error = (msg, path, e) => {
   console.error(`> [ERR] ${path ? `In ${path}: ` : ''}${msg}`)
+  console.log(e)
 }
 
-const captcha = async (msg) => {
+const captcha = (msg) => {
   console.warn(msg)
 }
 
@@ -118,7 +119,7 @@ const captcha = async (msg) => {
  * @param {object} e Error object
  */
 const handleError = (update, e) => {
-  error('Error with command \'' + update.text + '\': ' + e)
+  error('Error with command \'' + update.text + '\':', false, e)
   
   process.env.MODE === 'PRODUCTION' && update.send('АШИБКА РИП. \n❌ ' + e.stack.split(' ')[0] + ' ' + e.message)
 }
