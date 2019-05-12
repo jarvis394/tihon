@@ -1,5 +1,5 @@
 const { prefix } = require('../config')
-const { error } = require('../utils')
+const { handleError } = require('../utils')
 
 module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message', async (context, next) => {
   let text = context.text, args, cmd
@@ -29,7 +29,7 @@ module.exports = (updates, api, randomStorage, cmds, vk) => updates.on('message'
     commandFile.run(api, context, args, randomStorage, vk, cmds)
   } catch (e) { 
     if (e.code === 'MODULE_NOT_FOUND') return 
-    error(e)
+    handleError(context, e)
   }
   
   await next()
