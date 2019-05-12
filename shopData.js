@@ -4,144 +4,7 @@
 const Item = require('./lib/Item')
 const Category = require('./lib/Category')
 const Group = require('./lib/Group')
-
-/*module.exports = {
-  realty: {
-    name: 'Недвижимость',
-    icon: '🌇',
-    items: [
-      {
-        name: 'Дома',
-        icon: '🏠',
-        items: [
-          {
-            name: 'Коробка',
-            icon: '📦',
-            price: 10
-          },
-          {
-            name: 'Шалаш',
-            icon: '⛺',
-            price: 250
-          },
-          {
-            name: 'Съемная квартира',
-            icon: '🛏️',
-            price: 5000
-          },
-          {
-            name: 'Заброшенный дом',
-            icon: '🏚️',
-            price: 10000
-          },
-          {
-            name: 'Квартира в Нижнем Новгороде',
-            icon: '🏢',
-            price: 50000
-          },
-          {
-            name: 'Пентхаус в Буграх',
-            icon: '🕋',
-            price: 100000
-          }
-        ]
-      }
-    ]
-  },
-  pets: {
-    name: 'Питомцы',
-    icon: '🐌',
-    items: [
-      {
-        name: 'Кот',
-        icon: '🐈',
-        price: 100
-      },
-      {
-        name: 'Шавка',
-        icon: '🐕',
-        price: 100
-      },
-      {
-        name: 'Бабуин',
-        icon: '🦍',
-        price: 100
-      },
-      {
-        name: 'Микробы',
-        icon: '🦠',
-        price: 100
-      },
-      {
-        name: 'Паук',
-        icon: '🕷️',
-        price: 100
-      },
-      {
-        name: 'Комар',
-        icon: '🦟',
-        price: 100
-      },
-      {
-        name: 'Единорог',
-        icon: '🦄',
-        price: 100
-      }
-    ]
-  },
-  other: {
-    name: 'Остальное',
-    icon: '📌',
-    items: [
-      {
-        name: 'Огороды',
-        icon: '🍎',
-        items: [
-          {
-            name: 'Горшок',
-            icon: '⚱️',
-            price: 100
-          },
-          {
-            name: 'Палисадник',
-            icon: '🥒',
-            price: 1000
-          },
-          {
-            name: 'Садик',
-            icon: '🍒',
-            price: 5000
-          },
-          {
-            name: 'Грядка',
-            icon: '🍸',
-            price: 10000
-          },
-          {
-            name: 'Огород',
-            icon: '🍓',
-            price: 25000
-          },
-          {
-            name: 'Плантация',
-            icon: '🍀',
-            price: 50000
-          }
-        ]
-      },
-      {
-        name: 'Одежда',
-        icon: '👙',
-        items: []
-      },
-      {
-        name: 'Гробы',
-        icon: '⚰️',
-        items: []
-      }
-    ]
-  }
-}*/
+const Pet = require('./lib/Pet')
 
 module.exports.categories = {
   realty: new Category({
@@ -225,55 +88,6 @@ module.exports.items = [
     groupId: 1
   }),
   new Item({
-    name: 'Кот',
-    icon: '🐈',
-    price: 100,
-    id: 7,
-    groupId: 999
-  }),
-  new Item({
-    name: 'Шавка',
-    icon: '🐕',
-    price: 100,
-    id: 8,
-    groupId: 999
-  }),
-  new Item({
-    name: 'Бабуин',
-    icon: '🦍',
-    price: 100,
-    id: 9,
-    groupId: 999
-  }),
-  new Item({
-    name: 'Микробы',
-    icon: '🦠',
-    price: 100,
-    id: 10,
-    groupId: 999
-  }),
-  new Item({
-    name: 'Паук',
-    icon: '🕷️',
-    price: 100,
-    id: 11,
-    groupId: 999
-  }),
-  new Item({
-    name: 'Комар',
-    icon: '🦟',
-    price: 100,
-    id: 12,
-    groupId: 999
-  }),
-  new Item({
-    name: 'Единорог',
-    icon: '🦄',
-    price: 100,
-    id: 13,
-    groupId: 999
-  }),
-  new Item({
     name: 'Горшок',
     icon: '⚱️',
     price: 100,
@@ -314,5 +128,50 @@ module.exports.items = [
     price: 50000,
     id: 19,
     groupId: 2
+  })
+]
+
+module.exports.pets = [
+  new Pet({
+    name: 'Кот',
+    icon: '🐈',
+    price: 100,
+    id: 7
+  }),
+  new Pet({
+    name: 'Шавка',
+    icon: '🐕',
+    price: 100,
+    id: 8
+  }),
+  new Pet({
+    name: 'Бабуин',
+    icon: '🦍',
+    price: 100,
+    id: 9
+  }),
+  new Pet({
+    name: 'Микробы',
+    icon: '🦠',
+    price: 100,
+    id: 10
+  }),
+  new Pet({
+    name: 'Паук',
+    icon: '🕷️',
+    price: 100,
+    id: 11
+  }),
+  new Pet({
+    name: 'Комар',
+    icon: '🦟',
+    price: 100,
+    id: 12
+  }),
+  new Pet({
+    name: 'Единорог',
+    icon: '🦄',
+    price: 100,
+    id: 13
   })
 ]
