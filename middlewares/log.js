@@ -18,14 +18,15 @@ updates.on('message', async (update, next) => {
     let {
       peerId,
       text,
-      senderId
+      senderId,
+      id
     } = update
     
     if (talkedRecently.has(senderId)) return
     
     if (text && (text.startsWith(prefix) || text.startsWith('[id' + ID))) {
       log.getLogger('command').info(text.startsWith('[id' + ID) ? '@tihon' + text.slice(('[id' + ID + '|@tihon_bot]').length) : text)
-      log.getLogger('empty').info('         Peer:', peerId, '| User:', senderId)
+      log.getLogger('empty').info('         Peer:', peerId, '| User:', senderId, '| Message:', id)
 
       talkedRecently.add(senderId)
       setTimeout(() => talkedRecently.delete(senderId), cooldown)
