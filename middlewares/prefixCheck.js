@@ -1,18 +1,24 @@
-const { prefix, mentionPrefix } = require('../config')
+const {
+  prefix,
+  mentionPrefix
+} = require('../config')
+const {
+  updates
+} = require('../variables')
 
-module.exports = (updates) => updates.on('message', async (update, next) => {
+updates.on('message', async (update, next) => {
   if (update.isOutbox) return
   else {
-	  let message = update.text
-    
+    let message = update.text
+
     if (message === '' || !message) return
     if (!message.startsWith(prefix) && !message.startsWith(mentionPrefix)) return
-    
-    if (message.startsWith(mentionPrefix)) 
+
+    if (message.startsWith(mentionPrefix))
       update.state.mentioned = true
-    else 
+    else
       update.state.mentioned = false
-    
+
     await next()
   }
 })

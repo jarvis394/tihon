@@ -17,6 +17,7 @@ Then, you can actually start using bot by typing commands below: *(also works in
 # Commands
 
 See [bot's website](https://tihon.glitch.me)
+**NEW!** website on React: [tihon-web.glitch.me](https://tihon-web.glitch.me)
 
 # Todo
 

@@ -1,4 +1,5 @@
 const DBDialog = require('./lib/DBDialog')
+const log = require('loglevel')
 
 const firebase = require('firebase')
 const db = firebase.firestore()
@@ -99,6 +100,7 @@ const randomMessage = async (api) => {
   return msg
 }
 
+/*
 const log = (msg, peer) => {
   // eslint-ignore-no-console
   console.log(`> [LOG] ${msg} ${peer ? '| ' + peer : ''}`)
@@ -112,6 +114,7 @@ const error = (msg, path, e) => {
 const captcha = (msg) => {
   console.warn(msg)
 }
+*/
 
 /**
  * Handles error
@@ -119,7 +122,7 @@ const captcha = (msg) => {
  * @param {object} e Error object
  */
 const handleError = (update, e) => {
-  error('Error with command \'' + update.text + '\':', false, e)
+  log.trace(e)
   
   process.env.MODE === 'PRODUCTION' && update.send('АШИБКА РИП. \n❌ ' + e.stack.split(' ')[0] + ' ' + e.message)
 }
@@ -129,7 +132,7 @@ module.exports = {
   random,
   randomMessage,
   handleError,
-  log,
+  /*log,
   error,
-  captcha
+  captcha*/
 }

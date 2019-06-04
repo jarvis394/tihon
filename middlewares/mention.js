@@ -1,5 +1,13 @@
-const { mentionPrefix } = require('../config')
-const { randomArray } = require('../utils')
+const {
+  mentionPrefix
+} = require('../config')
+const {
+  randomArray
+} = require('../utils')
+const {
+  updates
+} = require('../variables')
+
 const answers = [
   'a?',
   'чо',
@@ -13,13 +21,13 @@ const answers = [
   'да чё'
 ]
 
-module.exports = (updates) => updates.on('message', async (context, next) => {
+updates.on('message', async (update, next) => {
   let {
     text
-  } = context
+  } = update
 
   if (text && text.split(' ').some(el => el.startsWith(mentionPrefix)) && !text.split(' ')[1]) {
-    return context.send(randomArray(answers))
+    return update.send(randomArray(answers))
   }
 
   await next()

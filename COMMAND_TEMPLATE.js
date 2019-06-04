@@ -1,30 +1,27 @@
-/* eslint-disable */
-
-const { handleError } = require("../../utils")
+const { handleError } = require('../../utils')
 
 const {
   random
-} = require("../../utils")
+} = require('../../utils')
 
 exports.run = async (api, update) => {
+  // eslint-disable-next-line
   try {
-    
-    
-    
+
+
+
   } catch (e) {
     handleError(update, e)
   }
 }
 
 exports.command = {
-  "name": "",
-  "arguments": false,
-  "description": {
-    "en": "",
-    "ru": ""
+  'arguments': false,
+  'description': {
+    'en': '',
+    'ru': ''
   },
-  "alias": [
-    ""
-  ],
-  "group": ""
+  'alias': [
+    ''
+  ]
 }

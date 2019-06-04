@@ -1,4 +1,3 @@
-// TODO: Use classes and integrate OOP
 // TODO: Translate to English
 
 const Item = require('./lib/Item')
@@ -27,13 +26,13 @@ module.exports.groups = [
   new Group({
     category: 'other',
     icon: '🍎',
-    name: 'Огороды', 
+    name: 'Огороды',
     groupId: 2
   }),
   new Group({
     category: 'other',
     icon: '👙',
-    name: 'Одежда', 
+    name: 'Одежда',
     groupId: 3
   }),
   new Group({
@@ -92,42 +91,48 @@ module.exports.items = [
     icon: '⚱️',
     price: 100,
     id: 14,
-    groupId: 2
+    groupId: 2,
+    earning: 25
   }),
   new Item({
     name: 'Палисадник',
     icon: '🥒',
     price: 1000,
-    id: 15,
-    groupId: 2
+    id: 16,
+    groupId: 2,
+    earning: 250
   }),
   new Item({
     name: 'Садик',
     icon: '🍒',
     price: 500,
-    id: 16,
-    groupId: 2
+    id: 15,
+    groupId: 2,
+    earning: 125
   }),
   new Item({
     name: 'Грядка',
     icon: '🍸',
     price: 10000,
     id: 17,
-    groupId: 2
+    groupId: 2,
+    earning: 2500
   }),
   new Item({
     name: 'Огород',
     icon: '🍓',
     price: 25000,
     id: 18,
-    groupId: 2
+    groupId: 2,
+    earning: 6250
   }),
   new Item({
     name: 'Плантация',
     icon: '🍀',
     price: 50000,
     id: 19,
-    groupId: 2
+    groupId: 2,
+    earning: 12500
   })
 ]
 

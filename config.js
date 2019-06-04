@@ -1,3 +1,5 @@
+const chalk = require('chalk')
+
 const TOKEN  = process.env.TOKEN
 const ID     = process.env.ID
 const SECRET = process.env.SECRET
@@ -12,6 +14,16 @@ const prefix = '/'
 const mentionPrefix = '[id' + ID + '|'
 const cooldown = 2500
 const interval = 3600 * 1000
+const DAILY_BONUS = 1000
+
+const colors = {
+  TRACE: chalk.magenta,
+  DEBUG: chalk.cyan,
+  INFO: chalk.blue,
+  WARN: chalk.yellow,
+  ERROR: chalk.red,
+  CMD: chalk.cyan
+}
 
 module.exports = {
   TOKEN,
@@ -20,7 +32,9 @@ module.exports = {
   prefix,
   mentionPrefix,
   cooldown,
+  colors,
   interval,
+  DAILY_BONUS,
   FIREBASE_TOKEN,
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL,

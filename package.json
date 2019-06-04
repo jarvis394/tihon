@@ -1,10 +1,11 @@
 {
   "name": "ded-tihon",
-  "version": "4.9.0",
+  "version": "5.0.0-alpha1",
   "description": "VK bot",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node .",
+    "nodemon": "nodemon .",
     "test": "jest --verbose"
   },
   "dependencies": {
@@ -17,13 +18,16 @@
     "firebase": "^6.0.2",
     "fs": "^0.0.2",
     "jest": "^24.8.0",
-    "mathjs": "^5.10.0",
+    "mathjs": "^5.10.3",
     "node-cmd": "^3.0.0",
     "quick.db": "^7.0.0-b22",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "store": "^2.0.12",
-    "vk-io": "^4.0.0-rc.17"
+    "vk-io": "^4.0.0-rc.17",
+    "loglevel": "^1.6.1",
+    "loglevel-plugin-prefix": "^0.8.4",
+    "chalk": "^2.4.2"
   },
   "engines": {
     "node": "8.x"

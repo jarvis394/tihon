@@ -52,6 +52,10 @@ exports.run = async (api, update, args) => {
 
         res.push('')
       }
+      
+      res.push('')
+      res.push('Чтобы посмотреть группу, напишите её [ ID ]:')
+      res.push('@tihon_bot, магазин 2')
 
       return update.send(res.join('\n'))
     }
@@ -73,12 +77,18 @@ exports.run = async (api, update, args) => {
           res.push(
             `[ ${item.id} ] ${item.icon} ${item.name} - ${item.price}T`
           )
+          
+          if (item.earning) {
+            res.push(
+              `⠀⠀⠀⠀- ${item.earning}T/час`
+            )
+          }
         }
       })
 
       res.push('')
-      res.push('Чтобы купить, напишите "купить" и ID:')
-      res.push('/shop buy 3')
+      res.push('Чтобы купить, напишите "купить" и [ ID ]:')
+      res.push('@tihon_bot, магазин купить 16')
 
       return update.send(res.join('\n'))
     }
@@ -112,7 +122,7 @@ exports.run = async (api, update, args) => {
       
       if (user.notEnoughFor(item.price)) {
         return update.send(
-          '🧮 Недостаточно денег - у тебя ' + user.amount + 'T, а нужно ' + item.price + 'T'
+          '🧮 Недостаточно денег - у тебя ' + user.data.amount + 'T, а нужно ' + item.price + 'T'
         )
       }
       
@@ -120,7 +130,8 @@ exports.run = async (api, update, args) => {
       user.addItem(item.id)
 
       return update.send(
-        `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}`
+        `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}\n` + 
+        '\n  Чтобы продать, нужно написать после команды слово "продать" и номер вещи в профиле  '
       )
     }
     
@@ -147,8 +158,9 @@ exports.run = async (api, update, args) => {
 
       await user.init()
       
-      let id = user.data.items[parseInt(args[1]) - 1]
-      let item = user.data.items.find(i => i.id === id)
+      let n = parseInt(args[1]) - 1
+      let id = user.data.items[n]
+      let item = data.items.find(i => i.id === id)
       
       if (!id) {
         return update.send(
@@ -163,7 +175,7 @@ exports.run = async (api, update, args) => {
       }
       
       user.add(item.price)
-      user.removeItem(parseInt(args[1]) - 1)
+      user.removeItem(n)
 
       return update.send(
         `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price}T`
