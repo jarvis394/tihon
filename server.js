@@ -50,14 +50,3 @@ vk.captchaHandler = async ({
 }) => {
   log.warn('> [LOG] Needed captcha: ' + src)
 }
-
-// Log memory leaks
-function getMemoryUsage() {
-  let total_rss = require('fs')
-    .readFileSync('/sys/fs/cgroup/memory/memory.stat', 'utf8')
-    .split('\n')
-    .filter(l => l.startsWith('total_rss'))[0]
-    .split(' ')[1]
-  return Math.round(Number(total_rss) / 1e6) - 60
-}
-setInterval(() => log.debug(getMemoryUsage() + ' MB'), 1000 * 60 * 20)
