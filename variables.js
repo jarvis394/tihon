@@ -10,12 +10,9 @@ const {
   vk,
   api,
   updates,
-  firebase
-} = require('./routine/init')
-const commands = require('./routine/parseCommands')
-
-require('./routine/flushTemp')
-require('./routine/logging')
+  firebase,
+  commands
+} = require('./routine/index')
 
 module.exports = {
   memoryStorage,
