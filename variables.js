@@ -12,7 +12,7 @@ const {
   updates,
   firebase,
   commands
-} = require('./routine/index')
+} = require('./routines/index')
 
 module.exports = {
   memoryStorage,
