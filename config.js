@@ -13,8 +13,11 @@ const FIREBASE_SENDER_ID = process.env.FIREBASE_SENDER_ID
 const prefix = '/'
 const mentionPrefix = '[id' + ID + '|'
 const cooldown = 2500
+const anonCommandCooldown = 1000 * 60
 const interval = 3600 * 1000
 const DAILY_BONUS = 1000
+
+const adminOnly = false
 
 const colors = {
   TRACE: chalk.magenta,
@@ -39,5 +42,7 @@ module.exports = {
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL,
   FIREBASE_STORAGE_BUCKET,
-  FIREBASE_SENDER_ID
+  FIREBASE_SENDER_ID,
+  adminOnly,
+  anonCommandCooldown
 }
