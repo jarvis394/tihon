@@ -14,6 +14,8 @@ const {
   commands
 } = require('./routines/index')
 
+let users = {}
+
 module.exports = {
   memoryStorage,
   talkedRecently,
@@ -24,5 +26,6 @@ module.exports = {
   vk,
   api,
   updates,
-  firebase
+  firebase,
+  users
 }

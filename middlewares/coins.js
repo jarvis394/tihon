@@ -1,17 +1,17 @@
-const store = require('store')
-const User = require('../lib/User')
-const fs = require('fs')
-const log = require('loglevel')
 const {
   updates
 } = require('../variables')
+const store = require('../lib/store')
+const User = require('../lib/User')
+const fs = require('fs')
+const log = require('loglevel')
 
 /**
  * Flushes coins to database
  */
 function flush() {
   let res = {}
-  store.each((data, id) => res[id] = data)
+  store.forEach((data, id) => res[id] = data)
 
   fs.writeFile('.temp/coinsData.json', JSON.stringify(res), (err) => {
     if (err) {
@@ -32,8 +32,7 @@ updates.on('message', async (update, next) => {
   } = update
 
   let user = new User(senderId)
-
-  await user.init()
+  
   user.add(1)
 
   await next()

@@ -1,12 +1,13 @@
 const { handleError } = require('../../utils')
-const store = require('store')
+const store = require('../../lib/store')
+const User = require('../../lib/User')
 
 exports.run = async (api, update) => {
   try {
-    
+    const user = new User(update.senderId)
     update.send(
       '⠀⠀Твой баланс:⠀⠀\n' +
-      '💵 ' + store.get(update.senderId).amount + 'T'
+      '💵 ' + await user.getAmount() + 'T'
     )
     
   } catch (e) {
