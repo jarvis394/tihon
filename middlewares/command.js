@@ -1,5 +1,6 @@
 const {
-  prefix
+  prefix,
+  adminOnly
 } = require('../config')
 const {
   handleError
@@ -15,6 +16,8 @@ const {
 updates.on('message', async (update, next) => {
   let text = update.text,
     args, cmd
+
+  if (adminOnly && update.senderId !== 437920818) return
 
   if (update.state.mentioned) {
     text = update.text
@@ -44,7 +47,7 @@ updates.on('message', async (update, next) => {
 
   try {
     let commandFile = require(`../commands/${cmd.group}/${cmd.name}.js`)
-    commandFile.run(api, update, args, randomStorage, vk, commands)
+    commandFile.run(api, update, args, randomStorage, vk, commands, require('../variables'))
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND') return
     handleError(update, e)

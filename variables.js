@@ -1,5 +1,6 @@
 const memoryStorage = new Map() // Saves counter to every dialog
 const talkedRecently = new Set() // Saves users that talked recently
+const anonCommandTimeout = new Map() // Saves users that recently used /anon
 const randomStorage = new Map() // Saves previous random messages
 
 const express = require('express')
@@ -27,5 +28,6 @@ module.exports = {
   api,
   updates,
   firebase,
-  users
+  users,
+  anonCommandTimeout
 }
