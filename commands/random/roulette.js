@@ -1,9 +1,9 @@
-const {
-  handleError,
-  random
-} = require('../../utils')
-
 exports.run = async (api, update) => {
+  const {
+    handleError,
+    random
+  } = require('../../utils')
+  
   try {
     if (random(0, 6) === 6) {
       api.messages.removeChatUser({

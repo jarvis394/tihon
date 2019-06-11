@@ -1,7 +1,6 @@
-const User = require('../../lib/User')
-const { handleError } = require('../../utils')
-
 exports.run = async (api, update, args) => {
+  const { handleError } = require('../../utils')
+  
   try {
     
     if (update.senderId !== 437920818) return

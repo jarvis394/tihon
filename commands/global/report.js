@@ -1,15 +1,15 @@
-const {
-  handleError
-} = require('../../utils')
-
-const { 
-  ID 
-} = require ('../../config')
-
-const firebase = require('firebase')
-const db = firebase.firestore()
-
 exports.run = async (api, update, args, rs) => {
+  const {
+    handleError
+  } = require('../../utils')
+  
+  const { 
+    ID 
+  } = require ('../../config')
+  
+  const firebase = require('firebase')
+  const db = firebase.firestore()
+  
   try {
     
     let msg = update.payload.reply_message

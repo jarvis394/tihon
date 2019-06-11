@@ -1,3 +1,5 @@
+console.log('r/index.js')
+
 const init = require('./init')
 const commands = require('./parseCommands')
 

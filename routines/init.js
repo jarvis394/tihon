@@ -1,3 +1,5 @@
+console.log('- init')
+
 const {
   VK
 } = require('vk-io')

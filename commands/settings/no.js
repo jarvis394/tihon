@@ -1,10 +1,8 @@
-const {
-  handleError
-} = require('../../utils')
-
-const DBDialog = require('../../lib/DBDialog')
-
 exports.run = async (api, update) => {
+  const { handleError } = require('../../utils')
+
+  const DBDialog = require('../../lib/DBDialog')
+
   try {
     const dialog = new DBDialog(update.peerId)
 
@@ -22,18 +20,17 @@ exports.run = async (api, update) => {
     dialog.update({
       no: state
     })
-
   } catch (e) {
     handleError(update, e)
   }
 }
 
 exports.command = {
-  'name': 'no',
-  'arguments': false,
-  'description': {
-    'en': 'Will your chat be in random.js?',
-    'ru': 'Будет или нет диалог попадать в random.js?'
+  name: 'no',
+  arguments: false,
+  description: {
+    en: 'Will your chat be in random.js?',
+    ru: 'Будет или нет диалог попадать в random.js?'
   },
-  'group': 'settings'
+  group: 'settings'
 }

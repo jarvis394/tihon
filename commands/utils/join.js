@@ -1,6 +1,6 @@
-const { handleError } = require('../../utils')
-
 exports.run = (api, update, args) => {
+  const { handleError } = require('../../utils')
+
   try {
     if (args.length === 0) return update.send('Ссылки нема')
 
@@ -13,14 +13,12 @@ exports.run = (api, update, args) => {
 }
 
 exports.command = {
-  'name': 'join',
-  'arguments': '(link)|(ссылка)',
-  'description': {
-    'en': 'Join to multidialog by an invite link',
-    'ru': 'Войти в беседу по приглашению'
+  name: 'join',
+  arguments: '(link)|(ссылка)',
+  description: {
+    en: 'Join to multidialog by an invite link',
+    ru: 'Войти в беседу по приглашению'
   },
-  'alias': [
-    'войти'
-  ],
-  'group': 'utils'
+  alias: ['войти'],
+  group: 'utils'
 }

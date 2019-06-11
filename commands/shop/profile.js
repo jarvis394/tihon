@@ -1,24 +1,17 @@
-const {
-  handleError
-} = require('../../utils')
-
-const User = require('../../lib/User')
-const shopData = require('../../shopData')
-
 exports.run = async (api, update) => {
-  try {
+  const User = require('../../lib/User')
+  const { handleError } = require('../../utils')
 
-    let {
-      senderId
-    } = update
+  const shopData = require('../../shopData')
+
+  try {
+    let { senderId } = update
     let name = await api.users.get({
       user_ids: senderId,
       name_case: 'gen'
     })
     let user = new User(senderId)
-    let res = [
-      `Профиль ${name[0].first_name}:\n`
-    ]
+    let res = [`Профиль ${name[0].first_name}:\n`]
 
     await user.init()
 
@@ -33,19 +26,16 @@ exports.run = async (api, update) => {
     }
 
     update.send(res.join('\n'))
-
   } catch (e) {
     handleError(update, e)
   }
 }
 
 exports.command = {
-  'arguments': false,
-  'description': {
-    'en': 'Shows user\'s profile',
-    'ru': 'Показывает профиль пользователя'
+  arguments: false,
+  description: {
+    en: 'Shows user\'s profile',
+    ru: 'Показывает профиль пользователя'
   },
-  'alias': [
-    'профиль'
-  ]
+  alias: ['профиль']
 }

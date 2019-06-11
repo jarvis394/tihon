@@ -1,16 +1,16 @@
-const {
-  handleError
-} = require('../../utils')
-
-const DBDialog = require('../../lib/DBDialog')
-
-const emptyUserData = {
-  'roles': [],
-  'warns': [],
-  'settings': {}
-}
-
 exports.run = async (api, update, args) => {
+  const {
+    handleError
+  } = require('../../utils')
+  
+  const DBDialog = require('../../lib/DBDialog')
+  
+  const emptyUserData = {
+    'roles': [],
+    'warns': [],
+    'settings': {}
+  }
+  
   const dialog = new DBDialog(update.peerId)
 
   try {

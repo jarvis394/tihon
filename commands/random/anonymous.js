@@ -1,18 +1,18 @@
-const {
-  handleError
-} = require('../../utils')
-
-const {
-  randomArray
-} = require('../../utils')
-
-const {
-  anonCommandCooldown
-} = require('../../config')
-
-const moment = require('moment')
-
 exports.run = async (api, update, args, _1, _2, _3, variables) => {
+  const {
+    handleError
+  } = require('../../utils')
+  
+  const {
+    randomArray
+  } = require('../../utils')
+  
+  const {
+    anonCommandCooldown
+  } = require('../../config')
+  
+  const moment = require('moment')
+  
   try {
 
     const { anonCommandTimeout } = variables

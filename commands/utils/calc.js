@@ -1,8 +1,8 @@
-const { handleError } = require('../../utils')
-
-const math = require('mathjs')
-
 exports.run = (api, update, args) => {
+  const { handleError } = require('../../utils')
+
+  const math = require('mathjs')
+
   try {
     var resp
     var calc = args.join(' ')
@@ -20,18 +20,12 @@ exports.run = (api, update, args) => {
 }
 
 exports.command = {
-  'name': 'calc',
-  'arguments': '(expression)|(выражение)',
-  'description': {
-    'en': 'Calculate something',
-    'ru': 'Посчитать матан'
+  name: 'calc',
+  arguments: '(expression)|(выражение)',
+  description: {
+    en: 'Calculate something',
+    ru: 'Посчитать матан'
   },
-  'alias': [
-    'калк',
-    'калькулятор',
-    'калкулятор',
-    'счет',
-    'счёт'
-  ],
-  'group': 'utils'
+  alias: ['калк', 'калькулятор', 'калкулятор', 'счет', 'счёт'],
+  group: 'utils'
 }

@@ -1,7 +1,7 @@
 const {
   updates
 } = require('../variables')
-const store = require('../lib/store')
+const { users: store } = require('../variables')
 const User = require('../lib/User')
 const fs = require('fs')
 const log = require('loglevel')

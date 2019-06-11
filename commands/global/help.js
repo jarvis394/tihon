@@ -1,6 +1,6 @@
-const { handleError } = require('../../utils')
-
 exports.run = async (api, update, args, _, __, cmds) => {
+  const { handleError } = require('../../utils')
+  
   try {
     let helpText = args[0] === 'en' ? 'Help\n' : 'Помощь\n'
     let res = ''

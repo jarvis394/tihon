@@ -1,3 +1,5 @@
+console.log('- ft')
+
 const fs = require('fs')
 const {
   firebase

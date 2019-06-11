@@ -1,10 +1,4 @@
-const memoryStorage = new Map() // Saves counter to every dialog
-const talkedRecently = new Set() // Saves users that talked recently
-const anonCommandTimeout = new Map() // Saves users that recently used /anon
-const randomStorage = new Map() // Saves previous random messages
-
-const express = require('express')
-const app = express()
+console.log('variables.js')
 
 const {
   VK,
@@ -15,7 +9,16 @@ const {
   commands
 } = require('./routines/index')
 
-let users = {}
+const memoryStorage = new Map() // Saves counter to every dialog
+const talkedRecently = new Set() // Saves users that talked recently
+const anonCommandTimeout = new Map() // Saves users that recently used /anon
+const randomStorage = new Map() // Saves previous random messages
+const users = new Map()
+
+const express = require('express')
+const app = express()
+
+console.log('> Initialized variables')
 
 module.exports = {
   memoryStorage,

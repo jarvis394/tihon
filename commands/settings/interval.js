@@ -1,11 +1,8 @@
-const {
-  handleError,
-  random
-} = require('../../utils')
-
-const DBDialog = require('../../lib/DBDialog')
-
 exports.run = async (api, update, args) => {
+  const { handleError, random } = require('../../utils')
+
+  const DBDialog = require('../../lib/DBDialog')
+
   try {
     const dialog = new DBDialog(update.peerId)
 
@@ -18,27 +15,29 @@ exports.run = async (api, update, args) => {
           interval: parseInt(args[0]) * 1000
         })
         update.send('Интервал рассылки (в секундах): ' + args[0])
-      } 
-      else if (args[0] && isNaN(args[0])) return update.send('Интервал не число. \nПример: /interval ' + random(1000, 5000))
-      else return update.send('Где интервал? \nПример: /interval ' + random(1000, 5000))
+      } else if (args[0] && isNaN(args[0]))
+        return update.send(
+          'Интервал не число. \nПример: /interval ' + random(1000, 5000)
+        )
+      else
+        return update.send(
+          'Где интервал? \nПример: /interval ' + random(1000, 5000)
+        )
     } else {
       return update.send('Рассылка не включена. \nВключить - /auto')
     }
-
   } catch (e) {
     handleError(update, e)
   }
 }
 
 exports.command = {
-  'name': 'interval',
-  'arguments': 'num|num',
-  'description': {
-    'en': 'Set interval of auto-sending (seconds)',
-    'ru': 'Установить время интервала автоматической рассылки сообщений (секунды)'
+  name: 'interval',
+  arguments: 'num|num',
+  description: {
+    en: 'Set interval of auto-sending (seconds)',
+    ru: 'Установить время интервала автоматической рассылки сообщений (секунды)'
   },
-  'alias': [
-    'интервал'
-  ],
-  'group': 'settings'
+  alias: ['интервал'],
+  group: 'settings'
 }

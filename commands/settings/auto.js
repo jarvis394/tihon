@@ -1,10 +1,8 @@
-const {
-  handleError
-} = require('../../utils')
-
-const DBDialog = require('../../lib/DBDialog')
-
 exports.run = async (api, update) => {
+  const { handleError } = require('../../utils')
+
+  const DBDialog = require('../../lib/DBDialog')
+
   try {
     const dialog = new DBDialog(update.peerId)
 
@@ -28,14 +26,12 @@ exports.run = async (api, update) => {
 }
 
 exports.command = {
-  'name': 'auto',
-  'arguments': false,
-  'description': {
-    'en': 'Disable/Enable auto-sending messages',
-    'ru': 'Отключить/Включить автоматическую рассылку сообщений'
+  name: 'auto',
+  arguments: false,
+  description: {
+    en: 'Disable/Enable auto-sending messages',
+    ru: 'Отключить/Включить автоматическую рассылку сообщений'
   },
-  alias: [
-    'авто'
-  ],
-  'group': 'settings'
+  alias: ['авто'],
+  group: 'settings'
 }
