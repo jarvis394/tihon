@@ -1,5 +1,3 @@
-console.log('- logging')
-
 const log = require('loglevel')
 const prefix = require('loglevel-plugin-prefix')
 const chalk = require('chalk')

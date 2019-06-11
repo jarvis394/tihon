@@ -1,5 +1,3 @@
-console.log('variables.js')
-
 const {
   VK,
   vk,
@@ -17,8 +15,6 @@ const users = new Map()
 
 const express = require('express')
 const app = express()
-
-console.log('> Initialized variables')
 
 module.exports = {
   memoryStorage,

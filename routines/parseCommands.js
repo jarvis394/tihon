@@ -1,5 +1,3 @@
-console.log('- pc')
-
 const fs = require('fs')
 const COMMANDS_PATH = './commands/'
 
