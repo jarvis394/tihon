@@ -28,7 +28,7 @@ require('./middleware/auto')
 require('./middleware/friends')
 
 // Web
-require('./web/index')
+// require('./web/index')
 
 /**
  * Starts polling
