@@ -4,28 +4,28 @@ const {
 } = require('./variables')
 
 // Log incoming messages
-require('./middlewares/log')
+require('./middleware/log')
 
 // Count them
-require('./middlewares/counter')
+require('./middleware/counter')
 
 // Add coins
-require('./middlewares/coins')
+require('./middleware/coins')
 
 // Check if user mentioned bot
-require('./middlewares/mention')
+require('./middleware/mention')
 
 // Check for prefix
-require('./middlewares/prefixCheck')
+require('./middleware/prefixCheck')
 
 // Run command
-require('./middlewares/command')
+require('./middleware/command')
 
 // Auto send messages
-require('./middlewares/auto')
+require('./middleware/auto')
 
 // Auto accept friend requests
-require('./middlewares/friends')
+require('./middleware/friends')
 
 // Web
 require('./web/index')
