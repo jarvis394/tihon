@@ -114,8 +114,6 @@ exports.run = async (api, update, args) => {
         return update.send('😕 ID предмета - это число, знаешь.')
       }
 
-      await user.init()
-
       let id = parseInt(args[1])
       let item = data.items.find(i => i.id === id)
 
@@ -156,8 +154,6 @@ exports.run = async (api, update, args) => {
       if (isNaN(args[1])) {
         return update.send('😕 Номер предмета - это число, знаешь.')
       }
-
-      await user.init()
 
       let n = parseInt(args[1]) - 1
       let id = user.data.items[n]

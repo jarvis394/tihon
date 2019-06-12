@@ -86,7 +86,6 @@ app.get('/api/profile/:id', async (req, res) => {
   }
 
   let user = new User(id)
-  await user.init()
 
   return res.json(user.data)
 })

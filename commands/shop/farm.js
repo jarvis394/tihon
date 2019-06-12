@@ -9,7 +9,6 @@ exports.run = async (api, update) => {
     let res = []
     let all = 0
     let user = new User(update.senderId)
-    await user.init()
 
     if (!user.data.earnings.farms) {
       user.data.earnings.farms = Date.now() - HOUR

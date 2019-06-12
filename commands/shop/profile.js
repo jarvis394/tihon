@@ -13,8 +13,6 @@ exports.run = async (api, update) => {
     let user = new User(senderId)
     let res = [`Профиль ${name[0].first_name}:\n`]
 
-    await user.init()
-
     if (user.data.items.length === 0) {
       res.push('📜 Пока ничего')
     } else {

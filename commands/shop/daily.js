@@ -7,7 +7,6 @@ exports.run = async (api, update) => {
   try {
     let firstTimeFlag = false
     let user = new User(update.senderId)
-    await user.init()
 
     if (!user.data.earnings.dailyBonus) {
       user.data.earnings.dailyBonus = Date.now()

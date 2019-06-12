@@ -21,7 +21,6 @@ exports.run = async (api, update, args) => {
     async function sendPetsMenu() {
       let { senderId: id } = update
       let user = new User(id)
-      await user.init()
 
       let pets = user.data.pets
       let res = ['']
@@ -41,8 +40,6 @@ exports.run = async (api, update, args) => {
       if (isNaN(args[1])) {
         return update.send('😕 ID предмета - это число, знаешь.')
       }
-
-      await user.init()
 
       let id = parseInt(args[1])
       let item = shopData.pets.find(i => i.id === id)
@@ -81,8 +78,6 @@ exports.run = async (api, update, args) => {
       if (isNaN(args[1])) {
         return update.send('😕 Номер предмета - это число, знаешь.')
       }
-
-      await user.init()
 
       let n = parseInt(args[1]) - 1
       let id = user.data.items[n]
