@@ -18,17 +18,20 @@ exports.run = async (api, update) => {
 
     if (now - lastTime > DAY || firstTimeFlag) {
       user.add(DAILY_BONUS)
+
       user.data.earnings.dailyBonus = now
       user.setData(user.data)
 
       return update.send(
-        `😝 Вы получили ежедневный бонус ${DAILY_BONUS}T\nТвой баланс: ${user.getBalance()}`
+        `😝 Вы получили ежедневный бонус ${DAILY_BONUS}T\n` +
+        `💵 Твой баланс: ${await user.getAmount()}T`
       )
     } else {
       let left = new Date(DAY - (now - lastTime))
 
       return update.send(
-        `😕 Ты уже использовал бонус!\nОсталось ждать ${left.getHours()}:${left.getMinutes()}:${left.getSeconds()}`
+        '😕 Ты уже использовал бонус!\n' +
+        `Осталось ждать ${left.getHours()}:${left.getMinutes()}:${left.getSeconds()}`
       )
     }
   } catch (e) {

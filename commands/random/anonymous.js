@@ -74,6 +74,9 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
     if (args.length === 0 && !hasAttachments && !hasReply) 
       return update.send('❌ Нету текста или чего-нибудь, что можно отправить')
 
+    if (args.join(' ').length > 1000) 
+      return update.send('❌ Слишком много текста (>1000), не засоряй чужую беседу')
+
     const Dialogs = await api.messages.getConversations({
       count: 200
     })
@@ -117,7 +120,7 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
 
     if (!flag) await send(peer, args.join(' '), attachments.join(','))
 
-    update.send('✅ Сообщение отправлено в диалог #' + peer)
+    update.reply('✅ Сообщение отправлено в диалог #' + peer)
 
     anonCommandTimeout.set(senderId, Date.now())
     setTimeout(() => anonCommandTimeout.delete(senderId), anonCommandCooldown)

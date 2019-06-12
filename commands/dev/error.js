@@ -6,7 +6,7 @@ exports.run = async (api, update, args) => {
     if (update.senderId !== 437920818) return
     
     update.someRandomFunction()
-    
+      
   } catch (e) {
     handleError(update, e)
   }

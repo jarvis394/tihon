@@ -117,10 +117,14 @@ exports.run = async (api, update, args) => {
       let id = parseInt(args[1])
       let item = data.items.find(i => i.id === id)
 
-      if (user.notEnoughFor(item.price)) {
+      if (!item) return update.send('❌ Такого предмета нет в магазине')
+
+      const { amount, state } = await user.isEnoughFor(item.price)
+
+      if (!state) {
         return update.send(
           '🧮 Недостаточно денег - у тебя ' +
-            user.data.amount +
+             + amount + 
             'T, а нужно ' +
             item.price +
             'T'
