@@ -1,6 +1,6 @@
 {
   "name": "ded-tihon",
-  "version": "5.0.0-alpha1",
+  "version": "5.0.0-alpha3",
   "description": "VK bot",
   "main": "server.js",
   "scripts": {
