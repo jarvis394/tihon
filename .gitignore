@@ -2,3 +2,4 @@ node_modules/
 shrinkwrap.yaml
 .temp/
 .vscode/
+firebaseKeys.json

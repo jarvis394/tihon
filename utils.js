@@ -1,7 +1,7 @@
 const DBDialog = require('./lib/DBDialog')
 const log = require('loglevel')
 
-const firebase = require('firebase')
+const { firebase } = require('./variables')
 const db = firebase.firestore()
 
 /**
