@@ -15,7 +15,10 @@ fs.readFile('.temp/coinsData.json', (err, data) => {
       const userRef = db.collection('coins').doc(id)
 
       return await t.get(userRef).then(async doc => {
-        data[id].amount += doc.data().amount
+        // Fix error on undefined values in DB
+        if (doc.exists) {
+          data[id].amount += doc.data().amount
+        }
 
         return await t.update(userRef, data[id])
       })
