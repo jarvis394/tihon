@@ -12,11 +12,12 @@ exports.run = async (api, update) => {
     })
     let user = new User(senderId)
     let res = [`Профиль ${name[0].first_name}:\n`]
+    let items = await user.fetchInventory()
 
-    if (user.data.items.length === 0) {
+    if (items.length === 0) {
       res.push('📜 Пока ничего')
     } else {
-      user.data.items.forEach((id, i) => {
+      items.forEach((id, i) => {
         let item = shopData.items.find(i => i.id === parseInt(id))
 
         res.push(` ${i + 1}) ${item.icon} ${item.name}`)
