@@ -18,9 +18,10 @@ fs.readFile('.temp/coinsData.json', (err, data) => {
         // Fix error on undefined values in DB
         if (doc.exists) {
           data[id].amount += doc.data().amount
+          return await t.update(userRef, data[id])
+        } else {
+          return await t.set(userRef, data[id])
         }
-
-        return await t.update(userRef, data[id])
       })
     }).catch(e => log.error(e))
   }
