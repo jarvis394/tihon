@@ -61,6 +61,8 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
       senderId
     } = update
 
+    if (senderId === 119528604) return update.send('😉😊Привет Павлу Ямову!👋👋')
+
     const hasAttachments = update.hasAttachments()
     const hasReply = update.hasReplyMessage
 
