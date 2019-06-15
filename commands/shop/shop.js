@@ -19,9 +19,9 @@ exports.run = async (api, update, args) => {
 
     // If matches a group
     if (!isNaN(option)) {
-      if (parseInt(option) < data.groups.length && parseInt(option) >= 0)
+      if (parseInt(option) <= data.groups.length && parseInt(option) >= 0)
         return sendGroup(parseInt(option))
-      else return update.send('😟 Нет такой группы! Введи валидный \'groupId\'')
+      else return update.send('😟 Нет такой группы! Введи валидный [ ID ]')
     }
 
     // If option is 'buy' then send buyMenu
@@ -160,7 +160,8 @@ exports.run = async (api, update, args) => {
       }
 
       let n = parseInt(args[1]) - 1
-      let id = user.data.items[n]
+      let items = await user.fetchInventory()
+      let id = items[n]
       let item = data.items.find(i => i.id === id)
 
       if (!id) {

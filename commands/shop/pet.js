@@ -1,5 +1,3 @@
-/* eslint-diasble */
-
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
   const { handleError } = require('../../utils')
@@ -13,8 +11,8 @@ exports.run = async (api, update, args) => {
   try {
     let option = args[0]
     if (!option) return sendPetsMenu()
-    if (aliases.buy.includes(e => e == option)) return sendBuyMenu(option)
-    if (aliases.sell.includes(e => e == option)) return sendSellMenu(option)
+    if (aliases.buy.some(e => e == option)) return sendBuyMenu(option)
+    if (aliases.sell.some(e => e == option)) return sendSellMenu(option)
 
     return update.send('🤔 Такой опции нет')
 
@@ -24,6 +22,27 @@ exports.run = async (api, update, args) => {
 
       let pets = user.data.pets
       let res = ['']
+      
+      if (!pets) return update.send('Пока ничего')
+    }
+    
+    async function sendMenu() {
+      const name = await api.users.get({
+        user_ids: update.senderId,
+        name_case: 'gen'
+      })
+      let res = [name[0].first_name + ', разделы магазина:', '']
+
+      for (let pet in shopData.pets) {
+        const { name, id, icon } = shopData.pets[pet]
+        res.push(`  [ ${id} ] ${icon} ${name}`)
+      }
+
+      res.push('')
+      res.push('Чтобы купить питомца, напишите его [ ID ]:')
+      res.push('@tihon_bot, питомец купить 7')
+
+      update.send(res.join('\n'))
     }
 
     async function sendBuyMenu() {
@@ -34,32 +53,33 @@ exports.run = async (api, update, args) => {
       let user = new User(update.senderId)
 
       if (!args[1]) {
-        return update.send('😕 Ты не ввел ID предмета, который хочешь купить')
+        return await sendMenu()
       }
 
       if (isNaN(args[1])) {
-        return update.send('😕 ID предмета - это число, знаешь.')
+        return update.send('😕 ID - это число, знаешь.')
       }
 
-      let id = parseInt(args[1])
-      let item = shopData.pets.find(i => i.id === id)
+      const id = parseInt(args[1])
+      const pet = shopData.pets.find(i => i.id === id)
+      const { amount, state } = await user.isEnoughFor(pet.price)
 
-      if (user.notEnoughFor(item.price)) {
+      if (!state) {
         return update.send(
           '🧮 Недостаточно денег - у тебя ' +
-            user.data.amount +
+             + amount + 
             'T, а нужно ' +
-            item.price +
+            pet.price +
             'T'
         )
       }
 
-      user.subtract(item.price)
-      user.addItem(item.id)
+      user.subtract(pet.price)
+      user.addPet(pet.id)
 
       return update.send(
-        `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}\n` +
-          '\n  Чтобы продать, нужно написать после команды слово "продать" и номер вещи в профиле  '
+        `🎉 Теперь у ${name[0].first_name} владеет животным ${pet.name}\n` +
+          '\nЧтобы продать, нужно написать после команды слово "продать" и номер вещи в профиле  '
       )
     }
 
@@ -71,31 +91,31 @@ exports.run = async (api, update, args) => {
 
       if (!args[1]) {
         return update.send(
-          '😕 Ты не ввел номер предмета, который хочешь продать'
+          '😕 Ты не ввел номер питомца, который хочешь продать'
         )
       }
 
       if (isNaN(args[1])) {
-        return update.send('😕 Номер предмета - это число, знаешь.')
+        return update.send('😕 Номер - это число, знаешь.')
       }
 
       let n = parseInt(args[1]) - 1
-      let id = user.data.items[n]
+      let id = user.data.pets[n]
       let item = shopData.pets.find(i => i.id === id)
 
       if (!id) {
-        return update.send('🧮 У тебя нет предмета под таким номером')
+        return update.send('🧮 У тебя нет питомца под таким номером')
       }
 
       if (!item) {
-        return update.send('❌ У тебя есть несуществующий предмет')
+        return update.send('❌ У тебя есть несуществующий питомец')
       }
 
       user.add(item.price)
       user.removeItem(n)
 
       return update.send(
-        `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price}T`
+        `🎉 ${name[0].first_name} продал пмтомца ${item.name} за ${item.price}T`
       )
     }
   } catch (e) {
@@ -110,5 +130,5 @@ exports.command = {
     ru: 'Купить, продать, ебать животное'
   },
   alias: ['животное', 'питомец'],
-  hidden: true
+  hidden: false
 }

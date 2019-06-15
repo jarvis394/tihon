@@ -20,8 +20,10 @@ fs.readFile('.temp/coinsData.json', (err, data) => {
           const user = data[id]
 
           user.amount += d.amount
+          user.rank += d.rank
           user.items = data[id].items.concat(d.items)
-
+          user.pets = data[id].pets.concat(d.pets)
+          
           return await t.update(userRef, data[id])
         } else {
           return await t.set(userRef, data[id])
