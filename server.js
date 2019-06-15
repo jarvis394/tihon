@@ -40,7 +40,7 @@ async function run() {
 
 // Run if not disabled
 process.env.MODE !== 'DISABLED' && run().catch(e => {
-  if (e.code == 100) return console.log('> [WARN] Api Error: 100')
+  if (e.code == 100) return log.warn('Api Error: 100')
   log.error(e)
 })
 
@@ -48,5 +48,5 @@ process.env.MODE !== 'DISABLED' && run().catch(e => {
 vk.captchaHandler = async ({
   src
 }) => {
-  log.warn('> [LOG] Needed captcha: ' + src)
+  log.warn('Needed captcha: ' + src)
 }
