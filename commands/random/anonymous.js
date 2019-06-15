@@ -107,6 +107,7 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
 
     let attachments = []
     let flag = false
+    let text = args.join(' ')
 
     if (hasAttachments) {
       attachments = attachments.concat(processAttachments(update.attachments, peer))
@@ -116,11 +117,13 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
       const {
         replyMessage
       } = update
+      
+      if (!text) text = replyMessage.text
 
       attachments = attachments.concat(processAttachments(replyMessage.attachments, peer))
     }
 
-    if (!flag) await send(peer, args.join(' '), attachments.join(','))
+    if (!flag) await send(peer, text, attachments.join(','))
 
     update.reply('✅ Сообщение отправлено в диалог #' + peer)
 
