@@ -1,4 +1,4 @@
-exports.run = async (api, update) => {
+exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
   const { handleError } = require('../../utils')
 
@@ -6,12 +6,24 @@ exports.run = async (api, update) => {
 
   try {
     let { senderId } = update
-    let name = await api.users.get({ user_ids: senderId, name_case: 'nom' })
-    let user = new User(senderId)
+    let userId = args[0] ? args[0].split('|')[0].slice(3) : senderId
+    let name = await api.users.get({ user_ids: userId, name_case: 'nom' })
+    let user = new User(userId)
     let res = [`${name[0].first_name}, твой профиль:\n`]
     let items = await user.fetchInventory()
+    let balance = await user.getAmount()
+    let rank = await user.getReputation()
     let pets = await user.fetchPets()
-    let length = 0
+
+    // Balance
+    res.push('💵 Баланс')
+    res.push('  ' + balance + 'T')
+    res.push('')
+
+    // Reputation
+    res.push('💠 Репутация')
+    res.push('  ' + rank)
+    res.push('')
 
     shopData.groups.forEach((group) => {
       const { icon, name, title } = group
@@ -31,9 +43,6 @@ exports.run = async (api, update) => {
 
       // Ajacement space
       res.push('')
-      
-      // Add items length
-      length += groupItems.length
     })
 
     // If there is pets
@@ -47,8 +56,6 @@ exports.run = async (api, update) => {
         res.push(`  [ ${i + 1} ] ${pet.icon} ${pet.name}`)
       })
     }
-
-    if (length === 0) res.push('  Пока ничего!  ')
 
     // Send result to the user
     update.send(res.join('\n'))

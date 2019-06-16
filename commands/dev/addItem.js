@@ -1,5 +1,6 @@
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
+  const shopData = require('../../shopData')
   const { handleError } = require('../../utils')
 
   try {
@@ -10,7 +11,10 @@ exports.run = async (api, update, args) => {
     
     if (!args[0]) return update.send('❌ no num provided')
     
-    user.addItem(parseInt(args[0]))
+    let id = parseInt(args[0])
+    let item = shopData.getItemById(id)
+    let group = shopData.getGroupById(item.groupId)
+    user.addItem(group, id)
     
     return update.send('added ' + args[0])
     

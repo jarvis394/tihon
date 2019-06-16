@@ -134,6 +134,7 @@ exports.run = async (api, update, args) => {
       
       if (!addItemSuccess) return update.send(`❌ В группе ${group.name} нельзя иметь больше вещей, максимум ${group.maxItems}`)
       user.subtract(item.price)
+      user.addReputation(item.rep)
       
       return update.send(
         `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}\n` +

@@ -52,83 +52,143 @@ module.exports.groups = [
 ]
 
 let items = [
+
+  // Houses
   new Item({
     name: 'Коробка',
     icon: '📦',
     price: 10,
-    groupId: 1
+    groupId: 1,
+    rep: 1
   }),
   new Item({
     name: 'Шалаш',
     icon: '⛺',
     price: 250,
-    groupId: 1
-  }),
-  new Item({
-    name: 'Съемная квартира',
-    icon: '🛏️',
-    price: 5000,
-    groupId: 1
+    groupId: 1,
+    rep: 25
   }),
   new Item({
     name: 'Заброшенный дом',
     icon: '🏚️',
-    price: 10000,
-    groupId: 1
+    price: 5000,
+    groupId: 1,
+    rep: 250
+  }),
+  new Item({
+    name: 'Съемная квартира',
+    icon: '🛏️',
+    price: 15000,
+    groupId: 1,
+    rep: 1000
   }),
   new Item({
     name: 'Квартира в Нижнем Новгороде',
     icon: '🏢',
     price: 50000,
-    groupId: 1
+    groupId: 1,
+    rep: 2500
   }),
   new Item({
     name: 'Пентхаус в Буграх',
     icon: '🕋',
     price: 100000,
-    groupId: 1
+    groupId: 1,
+    rep: 5000
   }),
+
+  // Farms
   new Item({
     name: 'Горшок',
     icon: '⚱️',
     price: 100,
     groupId: 2,
-    earning: 25
+    earning: 25,
+    rep: 1
   }),
   new Item({
     name: 'Садик',
     icon: '🍒',
     price: 500,
     groupId: 2,
-    earning: 125
+    earning: 125,
+    rep: 10
   }),
   new Item({
     name: 'Палисадник',
     icon: '🥒',
     price: 1000,
     groupId: 2,
-    earning: 250
+    earning: 250,
+    rep: 25
   }),
   new Item({
     name: 'Грядка',
     icon: '🍸',
     price: 10000,
     groupId: 2,
-    earning: 2500
+    earning: 2500,
+    rep: 100
   }),
   new Item({
     name: 'Огород',
     icon: '🍓',
     price: 25000,
     groupId: 2,
-    earning: 6250
+    earning: 6250,
+    rep: 500
   }),
   new Item({
     name: 'Плантация',
     icon: '🍀',
     price: 50000,
     groupId: 2,
-    earning: 12500
+    earning: 12500,
+    rep: 1000
+  }),
+
+  // Coffins
+  new Item({
+    name: 'Деревянная коробка',
+    icon: '📦',
+    price: 1000,
+    groupId: 4,
+    rep: 50
+  }),
+  new Item({
+    name: 'Обитый бархатом гроб',
+    icon: '✨',
+    price: 5000,
+    groupId: 4,
+    rep: 100
+  }),
+  new Item({
+    name: 'Гроб Аргентина',
+    icon: '⚰',
+    price: 15000,
+    groupId: 4,
+    rep: 500
+  }),
+  new Item({
+    name: 'Гроб Россия',
+    icon: '🇷🇺',
+    price: 50000,
+    groupId: 4,
+    rep: 1500
+  }),
+  new Item({
+    name: 'Гроб Белая Роза',
+    icon: '🌹',
+    price: 75000,
+    groupId: 4,
+    rep: 2500
+  }),
+  new Item({
+    name: 'Золотой гроб',
+    icon: '👑',
+    price: 100000,
+    groupId: 4,
+    rep: 5000
   })
 ]
 
@@ -181,4 +241,4 @@ module.exports.getGroupByTitle = (title) => module.exports.groups.find(i => i.ti
 module.exports.getGroupByName = (name) => module.exports.groups.find(i => i.name.toLowerCase() === name.toLowerCase())
 module.exports.getItemById = (id) => items.find(i => i.id === id)
 module.exports.getItemsByGroupId = (id) => items.filter(i => i.groupId === id)
-module.exports.getPetById = (id) => items.find(i => i.id === id)
+module.exports.getPetById = (id) => pets.find(i => i.id === id)
