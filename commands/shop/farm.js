@@ -14,7 +14,7 @@ exports.run = async (api, update) => {
 
     // If no data found
     if (!earnings.farms) {
-      user.setEarning('farms', Date.now() - HOUR)
+      earnings = user.setEarning('farms', Date.now() - HOUR)
 
       firstTimeFlag = true
     }
@@ -28,7 +28,7 @@ exports.run = async (api, update) => {
 
       // For each item push if it has 'earning'
       items.farms.forEach(id => {
-        let shopItem = shopData.findItemById(id)
+        let shopItem = shopData.getItemById(id)
 
         if (shopItem && shopItem.earning) {
           let earning = Math.floor(((now - lastTime) / HOUR) * shopItem.earning)
