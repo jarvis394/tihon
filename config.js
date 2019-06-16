@@ -17,7 +17,7 @@ const anonCommandCooldown = 1000 * 60
 const interval = 3600 * 1000
 const DAILY_BONUS = 1000
 
-const adminOnly = false
+const adminOnly = true
 
 const colors = {
   TRACE: chalk.magenta,
