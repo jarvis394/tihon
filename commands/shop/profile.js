@@ -14,31 +14,30 @@ exports.run = async (api, update) => {
     let res = [`${name[0].first_name}, твой профиль:\n`]
     let items = await user.fetchInventory()
     let pets = await user.fetchPets()
-    let len = 0
-    
-    items = items.map(id => shopData.items.find(e => e.id === id))
     
     if (items.length === 0) {
       res.push(' 📜 Пока ничего')
     } else {
       shopData.groups.forEach((group, gi) => {
         const { icon, name, groupId: id } = group
-        const groupItems = items.filter(item => item.groupId === id)
+        const groupItems = items[group.title]
         
+        res.push(`${icon} ${name}:`)
         if (groupItems.length !== 0) {
-          res.push(`${name}:`)
-          groupItems.forEach((item, i) => res.push(`  [ ${len + i + 1} ] ${item.icon} ${item.name}`)) 
-          res.push('')
-          
-          len += groupItems.length
+          groupItems.forEach((id, i) => {
+            const item = shopData.getItemById(id)
+            res.push(`  [ ${i + 1} ] ${item.icon} ${item.name}`)
+          })
+        } else {
+          res.push('  📜 Пока ничего')
         }
+        res.push('')
       })
       
-      res.push('Питомцы:')
+      res.push('👣 Питомцы:')
       if (pets.length !== 0) {
         pets.forEach((id, i) => {
-          let pet = shopData.pets.find(i => i.id === parseInt(id))
-
+          const pet = shopData.getPetById(id)
           res.push(`  [ ${i + 1} ] ${pet.icon} ${pet.name}`)
         })
       } else {

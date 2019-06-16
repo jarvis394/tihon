@@ -27,9 +27,6 @@ exports.run = async (api, update, args) => {
     // If option is 'buy' then send buyMenu
     if (aliases.buy.includes(option)) return sendBuyMenu()
 
-    // Otherwise, on 'sell' send sellMenu
-    if (aliases.sell.includes(option)) return sendSellMenu()
-
     // In any other case send error
     return update.send('🧐 Опция не найдена')
 
@@ -76,7 +73,7 @@ exports.run = async (api, update, args) => {
         user_ids: update.senderId
       })
 
-      let group = data.groups.find(g => g.groupId === groupId)
+      let group = data.getGroupById(groupId)
       let res = [name[0].first_name + ', раздел \'' + group.name + '\':', '']
 
       data.items.forEach((item, i) => {
@@ -115,7 +112,7 @@ exports.run = async (api, update, args) => {
       }
 
       let id = parseInt(args[1])
-      let item = data.items.find(i => i.id === id)
+      let item = data.getItemById(id)
 
       if (!item) return update.send('❌ Такого предмета нет в магазине')
 
@@ -130,55 +127,21 @@ exports.run = async (api, update, args) => {
             'T'
         )
       }
+      
+      const group = data.getGroupById(item.groupId)
 
+      const addItemSuccess = await user.addItem(group, item.id)
+      
+      if (!addItemSuccess) return update.send(`❌ В группе ${group.name} нельзя иметь больше вещей, максимум ${group.maxItems}`)
       user.subtract(item.price)
-      user.addItem(item.id)
-
+      
       return update.send(
         `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}\n` +
-          '\n  Чтобы продать, нужно написать после команды слово "продать" и номер вещи в профиле  '
+          '\nЧтобы продать, нужно использовать команду "продать", группу и номер вещи в профиле:' +
+          '\n@tihon_bot, продать дома 1'
       )
     }
 
-    /**
-     * Sends selling menu
-     */
-    async function sendSellMenu() {
-      let name = await api.users.get({
-        user_ids: update.senderId
-      })
-      let user = new User(update.senderId)
-
-      if (!args[1]) {
-        return update.send(
-          '😕 Ты не ввел номер предмета, который хочешь продать'
-        )
-      }
-
-      if (isNaN(args[1])) {
-        return update.send('😕 Номер предмета - это число, знаешь.')
-      }
-
-      let n = parseInt(args[1]) - 1
-      let items = await user.fetchInventory()
-      let id = items[n]
-      let item = data.items.find(i => i.id === id)
-
-      if (!id) {
-        return update.send('🧮 У тебя нет предмета под таким номером')
-      }
-
-      if (!item) {
-        return update.send('❌ У тебя есть несуществующий предмет')
-      }
-
-      user.add(item.price)
-      user.removeItem(n)
-
-      return update.send(
-        `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price}T`
-      )
-    }
   } catch (e) {
     handleError(update, e)
   }
