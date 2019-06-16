@@ -47,7 +47,7 @@ exports.run = async (api, update, args) => {
     }
 
     user.add(item.price)
-    user.removeItem(group.title, n)
+    await user.removeItem(group.title, n)
 
     return update.send(
       `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price}T`
