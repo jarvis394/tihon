@@ -21,7 +21,12 @@ fs.readFile('.temp/coinsData.json', (err, data) => {
 
           user.amount += d.amount
           user.rank += d.rank
-          user.items = data[id].items.concat(d.items)
+          
+          // Items
+          for (let key in user.items) {
+            user.items[key] = user.items[key].concat(d.items[key] ? d.items[key] : [])
+          }
+          
           user.pets = data[id].pets.concat(d.pets)
           
           return await t.update(userRef, data[id])
