@@ -107,8 +107,16 @@ app.get('/api/statistics', async (req, res) => {
     .get()
     .then(snapshot => (s = snapshot))
 
-  s.forEach(function(doc) {
-    result.push({ id: doc.id, data: doc.data() })
+  s.forEach(async doc => {
+    const user = new User(doc.id)
+    const docData = doc.data()
+    const balance = await user.getAmount()
+    const data = {
+      rank: docData.rank,
+      balance: balance
+    }
+
+    result.push({ id: doc.id, data: data })
   })
 
   return res.json(result)
