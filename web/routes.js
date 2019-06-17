@@ -119,5 +119,5 @@ app.get('/api/statistics', async (req, res) => {
     result.push({ id: doc.id, data: data })
   })
 
-  return res.json(result)
+  return res.send(result)
 })
