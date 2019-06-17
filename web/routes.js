@@ -97,6 +97,8 @@ app.get('/api/profile/:id', async (req, res) => {
 app.get('/api/statistics', async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*')
 
+  log.info('VK entered /statistics')
+
   let result = []
   let s
 
