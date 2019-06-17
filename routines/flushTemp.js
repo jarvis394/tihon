@@ -27,9 +27,19 @@ fs.readFile('.temp/coinsData.json', (err, data) => {
             user.items[key] = user.items[key].concat(d.items[key] ? d.items[key] : [])
           }
           
+          // Earnings
+          for (let key in d.earnings) {
+            let e = user.earnings[key]
+            let dataEarning = d.earnings[key]
+            
+            if (dataEarning > e || !e) {
+              user.earnings[key] = dataEarning
+            }
+          }
+          
           user.pets = data[id].pets.concat(d.pets)
           
-          return await t.update(userRef, data[id])
+          return await t.update(userRef, user)
         } else {
           return await t.set(userRef, data[id])
         }

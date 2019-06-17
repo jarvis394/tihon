@@ -23,7 +23,7 @@ exports.run = async (api, update) => {
     let lastTime = earnings.farms
     let now = Date.now()
 
-    if (now - lastTime > HOUR || firstTimeFlag) {
+    if (now - lastTime >= HOUR || firstTimeFlag) {
       res.push('💸 Ты собрал урожай и продал его:\n')
 
       // For each item push if it has 'earning'

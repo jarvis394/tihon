@@ -7,20 +7,23 @@ exports.run = async (api, update) => {
   try {
     let firstTimeFlag = false
     let user = new User(update.senderId)
+    let earnings = await user.getEarnings()
 
-    if (!user.data.earnings.dailyBonus) {
-      user.data.earnings.dailyBonus = Date.now()
+    // If no data found
+    if (!earnings.daily) {
+      earnings = user.setEarning('daily', Date.now() - DAY)
+
       firstTimeFlag = true
     }
 
-    let lastTime = user.data.earnings.dailyBonus
+    // Last time command used
+    let lastTime = earnings.daily
     let now = Date.now()
 
-    if (now - lastTime > DAY || firstTimeFlag) {
+    if (now - lastTime >= DAY || firstTimeFlag) {
       user.add(DAILY_BONUS)
 
-      user.data.earnings.dailyBonus = now
-      user.setData(user.data)
+      user.setEarning('daily', now)
 
       return update.send(
         `😝 Вы получили ежедневный бонус ${DAILY_BONUS}T\n` +
