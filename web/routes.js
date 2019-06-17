@@ -97,29 +97,28 @@ app.get('/api/profile/:id', async (req, res) => {
 app.get('/api/statistics', async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*')
 
+  // Logging
   log.info('VK entered /statistics')
 
   let result = []
-  let s
 
   await db
     .collection('coins')
     .orderBy('rank', 'desc')
     .limit(10)
     .get()
-    .then(snapshot => (s = snapshot))
+    .then(s => {
+      s.forEach(doc => {
+        const user = new User(doc.id)
+        const docData = doc.data()
+        const data = {
+          rank: docData.rank,
+          balance: docData.amount
+        }
 
-  s.forEach(async doc => {
-    const user = new User(doc.id)
-    const docData = doc.data()
-    const balance = await user.getAmount()
-    const data = {
-      rank: docData.rank,
-      balance: balance
-    }
+        result.push({ id: doc.id, data: data })
+      })
 
-    result.push({ id: doc.id, data: data })
-  })
-
-  return res.json({ query: result })
+      return res.json({ query: result })
+    })
 })
