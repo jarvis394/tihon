@@ -2,9 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser').json()
 const log = require('loglevel')
 
-const {
-  app
-} = require('../variables')
+const { app } = require('../variables')
 
 // Middlewares
 app.use(express.static('web/public'))
