@@ -32,7 +32,7 @@ fs.readFile('.temp/coinsData.json', (err, data) => {
             let e = user.earnings[key]
             let dataEarning = d.earnings[key]
             
-            if (dataEarning > e || !e) {
+            if (key !== 'promo' && (dataEarning > e || !e)) {
               user.earnings[key] = dataEarning
             }
           }

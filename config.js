@@ -17,11 +17,6 @@ const anonCommandCooldown = 1000 * 60
 const interval = 3600 * 1000
 const DAILY_BONUS = 1000
 
-const CODE = '28639762'
-const promoFunction = async (user) => {
-  return user.add(25000)
-}
-
 const adminOnly = false
 
 const colors = {
@@ -50,6 +45,4 @@ module.exports = {
   FIREBASE_SENDER_ID,
   adminOnly,
   anonCommandCooldown,
-  CODE,
-  promoFunction
 }

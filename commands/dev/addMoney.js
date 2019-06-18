@@ -12,7 +12,7 @@ exports.run = async (api, update, args) => {
     
     user.add(parseInt(args[0]))
     
-    return update.send('added ' + args[0])
+    return update.send('added ' + args[0] + ' to ' + user.id)
     
   } catch (e) {
     handleError(update, e)

@@ -45,6 +45,7 @@ exports.run = async (api, update) => {
       res.push('\nВсего: ' + all + 'T')
 
       user.setEarning('farms', now)
+      user.addReputation(Math.floor(all / 1500))
 
       return update.send(res.join('\n'))
     } else {
