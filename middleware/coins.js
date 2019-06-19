@@ -13,7 +13,7 @@ function flush() {
   let res = {}
   store.forEach((data, id) => res[id] = data)
 
-  fs.writeFile('.temp/coinsData.json', JSON.stringify(res), (err) => {
+  fs.appendFile('.temp/coinsData.json', JSON.stringify(res), (err) => {
     if (err) {
       log.error(err)
     } else {

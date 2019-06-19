@@ -1,4 +1,4 @@
-const { random, randomArray } = require('./utils')
+const { random } = require('./utils')
 const fs = require('fs')
 const log = require('loglevel')
 
@@ -163,7 +163,8 @@ const promoFunctions = [
 let CODE
 
 fs.readFile('.temp/promo.json', (err, data) => {
-  if (err) return log.error(err)
+  if (err && err.code === 'ENOENT') return log.error('No file found on path \'.temp/promo.json\'')
+  else if (err) return log.error(err)
   
   data = JSON.parse(data)
   
@@ -185,7 +186,7 @@ const generate = () => {
   const timestamp = Date.now()
   const timeout = timeouts[random(0, timeouts.length - 1)]
   
-  fs.writeFile('.temp/promo.json', JSON.stringify({ code: key, timestamp, n, promo, timeout }), (err) => {
+  fs.appendFile('.temp/promo.json', JSON.stringify({ code: key, timestamp, n, promo, timeout }), (err) => {
     if (err) {
       log.error(err)
     } else {

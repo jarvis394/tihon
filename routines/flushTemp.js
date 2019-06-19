@@ -5,7 +5,8 @@ const log = require('loglevel')
 
 // Flush temp data from last reload
 fs.readFile('.temp/coinsData.json', (err, data) => {
-  if (err) return log.error(err)
+  if (err && err.code === 'ENOENT') return log.error('No file found on path \'.temp/coinsData.json\'')
+  else if (err) return log.error(err)
 
   const db = firebase.firestore()
   data = data.length > 0 ? JSON.parse(data) : {}
