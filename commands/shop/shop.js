@@ -5,11 +5,6 @@ exports.run = async (api, update, args) => {
   const { handleError } = require('../../utils')
   const data = require('../../shopData')
 
-  const aliases = {
-    buy: ['buy', 'купить', 'купитт', 'купля', 'куплч'],
-    sell: ['sell', 'продать', 'продат', 'продатб', 'продажа']
-  }
-
   try {
     // If no args then will send menu
     if (!args[0]) return sendMenu()
@@ -23,12 +18,6 @@ exports.run = async (api, update, args) => {
         return sendGroup(parseInt(option))
       else return update.send('😟 Нет такой группы! Введи валидный [ ID ]')
     }
-
-    // If option is 'buy' then send buyMenu
-    if (aliases.buy.includes(option)) return sendBuyMenu()
-
-    // In any other case send error
-    return update.send('🧐 Опция не найдена')
 
     /**
      * Sends catalog menu
@@ -91,56 +80,6 @@ exports.run = async (api, update, args) => {
       res.push('@tihon_bot, магазин купить 16')
 
       return update.send(res.join('\n'))
-    }
-
-    /**
-     * Sends buying menu
-     */
-    async function sendBuyMenu() {
-      let name = await api.users.get({
-        user_ids: update.senderId,
-        name_case: 'gen'
-      })
-      let user = new User(update.senderId)
-
-      if (!args[1]) {
-        return update.send('😕 Ты не ввел ID предмета, который хочешь купить')
-      }
-
-      if (isNaN(args[1])) {
-        return update.send('😕 ID предмета - это число, знаешь.')
-      }
-
-      let id = parseInt(args[1])
-      let item = data.getItemById(id)
-
-      if (!item) return update.send('❌ Такого предмета нет в магазине')
-
-      const { amount, state } = await user.isEnoughFor(item.price)
-
-      if (!state) {
-        return update.send(
-          '🧮 Недостаточно денег - у тебя ' +
-             + amount + 
-            'T, а нужно ' +
-            item.price +
-            'T'
-        )
-      }
-      
-      const group = data.getGroupById(item.groupId)
-
-      const addItemSuccess = await user.addItem(group, item.id)
-      
-      if (!addItemSuccess) return update.send(`❌ В группе ${group.name} нельзя иметь больше вещей, максимум ${group.maxItems}`)
-      user.subtract(item.price)
-      user.addReputation(item.rep)
-      
-      return update.send(
-        `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}\n` +
-          '\nЧтобы продать, нужно использовать команду "продать", группу и номер вещи в профиле:' +
-          '\n@tihon_bot, продать дома 1'
-      )
     }
 
   } catch (e) {
