@@ -12,7 +12,7 @@ const FIREBASE_SENDER_ID = process.env.FIREBASE_SENDER_ID
 
 const prefix = '/'
 const mentionPrefix = '[id' + ID + '|'
-const cooldown = 2500
+const cooldown = 5000
 const anonCommandCooldown = 1000 * 60
 const interval = 3600 * 1000
 const DAILY_BONUS = 1000
