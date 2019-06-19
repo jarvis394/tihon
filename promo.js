@@ -186,7 +186,7 @@ const generate = () => {
   const timestamp = Date.now()
   const timeout = timeouts[random(0, timeouts.length - 1)]
   
-  fs.appendFile('.temp/promo.json', JSON.stringify({ code: key, timestamp, n, promo, timeout }), (err) => {
+  fs.writeFile('.temp/promo.json', JSON.stringify({ code: key, timestamp, n, promo, timeout }), (err) => {
     if (err) {
       log.error(err)
     } else {
