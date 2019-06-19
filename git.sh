@@ -7,4 +7,4 @@ git fetch origin master
 git reset --hard origin/master
 
 # Pull
-git pull origin master --force
+git pull origin master --force -X theirs
