@@ -1,7 +1,4 @@
-const log = require('loglevel')
-const { 
-  vk
-} = require('./variables')
+const { vk, log } = require('./variables')
 
 // Log incoming messages
 require('./middleware/log')
@@ -39,16 +36,16 @@ async function run() {
 }
 
 // Run if not disabled
-process.env.MODE !== 'DISABLED' && run().catch(e => {
-  if (e.code == 100) return log.warn('Api Error: 100')
-  if (e.code == 10) return log.warn('Api Error: 10')
-  
-  log.error(e)
-})
+if (process.env.MODE !== 'DISABLED') {
+  run().catch(e => {
+    if (e.code == 100) return log.warn('Api Error: 100')
+    if (e.code == 10) return log.warn('Api Error: 10')
+
+    log.error(e)
+  })
+}
 
 // Handle captcha
-vk.captchaHandler = async ({
-  src
-}) => {
+vk.captchaHandler = async ({ src }) => {
   log.warn('Needed captcha: ' + src)
 }

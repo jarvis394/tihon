@@ -17,15 +17,24 @@ const anonCommandCooldown = 1000 * 60
 const interval = 3600 * 1000
 const DAILY_BONUS = 1000
 
-const adminOnly = false
+const adminOnly = true
 
 const colors = {
-  TRACE: chalk.magenta,
-  DEBUG: chalk.cyan,
-  INFO: chalk.blue,
-  WARN: chalk.yellow,
-  ERROR: chalk.red,
-  CMD: chalk.cyan
+  debug: chalk.cyan,
+  info: chalk.blue,
+  warn: chalk.yellow,
+  error: chalk.red,
+  success: chalk.green,
+  command: chalk.cyan
+}
+
+const customLevels = {
+  error: 0,
+  warn: 1,
+  debug: 2,
+  info: 3,
+  success: 4,
+  command: 5
 }
 
 module.exports = {
@@ -45,4 +54,5 @@ module.exports = {
   FIREBASE_SENDER_ID,
   adminOnly,
   anonCommandCooldown,
+  customLevels
 }

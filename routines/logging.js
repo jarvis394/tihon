@@ -1,33 +1,46 @@
-const log = require('loglevel')
-const prefix = require('loglevel-plugin-prefix')
-const chalk = require('chalk')
-const {
-  colors
-} = require('../config')
+const { createLogger, format, transports } = require('winston')
+const { combine, timestamp, splat, json, errors, simple, printf } = format
+const { colors, customLevels } = require('../config')
 
-prefix.reg(log)
-log.enableAll()
-
-prefix.apply(log, {
-  format(level) {
-    return `${colors[level](`> [${level}]`)} `
-  },
+const ignorePrivate = format(info => {
+  if (info.private) return false
+  return info
 })
 
-prefix.apply(log.getLogger('critical'), {
-  format(level) {
-    return chalk.red.bold(`> [${level}] `)
-  },
+const consoleFormat = printf(info => {
+  return `${colors[info.level](`> [${info.level.toUpperCase()}]`)}  ${
+    info.message
+  }`
 })
 
-prefix.apply(log.getLogger('command'), {
-  format() {
-    return `${colors['CMD']('> [CMD] ')} `
-  },
+const log = createLogger({
+  level: 'info',
+  levels: customLevels,
+  exitOnError: false,
+  format: format.combine(
+    timestamp(),
+    errors({ stack: true }),
+    splat(),
+    json()
+  ),
+  transports: [
+    new transports.File({
+      filename: 'logs/error.log',
+      format: ignorePrivate(),
+      level: 'error',
+      handleExceptions: true
+    }),
+    new transports.File({
+      filename: 'logs/main.log',
+      format: ignorePrivate(),
+      level: 'command',
+      handleExceptions: true
+    }),
+    new transports.Console({
+      level: 'command',
+      format: combine(simple(), consoleFormat)
+    })
+  ]
 })
 
-prefix.apply(log.getLogger('empty'), {
-  format() {
-    return ''
-  },
-})
+module.exports = log

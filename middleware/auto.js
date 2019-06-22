@@ -1,20 +1,11 @@
 const DBDialog = require('../lib/DBDialog')
-const {
-  random,
-  randomMessage
-} = require('../utils')
-const {
-  interval
-} = require('../config')
-const log = require('loglevel')
+const { random, randomMessage } = require('../utils')
+const { interval } = require('../config')
+const { log } = require('../variables')
 
-const {
-  api,
-  vk
-} = require('../variables')
+const { api, vk } = require('../variables')
 
 setInterval(async () => {
-
   let Dialogs = await api.messages.getConversations({
     count: 200
   })
@@ -33,7 +24,6 @@ setInterval(async () => {
   }
 
   dialogs.forEach(async dialog => await messageService(dialog))
-
 }, interval)
 
 /**
@@ -41,7 +31,6 @@ setInterval(async () => {
  * @param {Object} dialog Dialog object
  */
 async function messageService(dialog) {
-
   const Dialog = new DBDialog(dialog.conversation.peer.id)
   const data = await Dialog.checkData()
 
@@ -52,7 +41,6 @@ async function messageService(dialog) {
   if (!dialog.conversation.can_write.allowed) return
 
   setInterval(async () => {
-
     let res = ''
     let options = {}
 
@@ -64,14 +52,11 @@ async function messageService(dialog) {
 
     if (msg.attachments.length !== 0) {
       msg.attachments.forEach(attachment => {
-        let {
-          type
-        } = attachment
-        let {
-          owner_id,
-          id
-        } = attachment[type]
-        let access = attachment[type].access_key ? '_' + attachment[type].access_key : ''
+        let { type } = attachment
+        let { owner_id, id } = attachment[type]
+        let access = attachment[type].access_key
+          ? '_' + attachment[type].access_key
+          : ''
 
         options.attachments += options.attachments ? ', ' : ''
         options.attachments += type + owner_id + '_' + id + access
@@ -82,9 +67,9 @@ async function messageService(dialog) {
     if (options.attachments) {
       try {
         return vk.api.messages.send({
-          'message': res,
-          'attachment': options.attachments,
-          'peer_id': dialog.conversation.peer.id
+          message: res,
+          attachment: options.attachments,
+          peer_id: dialog.conversation.peer.id
         })
       } catch (e) {
         log.error(e)
@@ -95,8 +80,8 @@ async function messageService(dialog) {
     else if (res !== '') {
       try {
         return vk.api.messages.send({
-          'message': res,
-          'peer_id': dialog.conversation.peer.id
+          message: res,
+          peer_id: dialog.conversation.peer.id
         })
       } catch (e) {
         log.error(e)
@@ -105,7 +90,5 @@ async function messageService(dialog) {
 
     // Throw this message away in any other case
     else return
-
   }, random(0, 60) * 1000)
-  
 }

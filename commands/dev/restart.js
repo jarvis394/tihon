@@ -1,8 +1,7 @@
 exports.run = async (api, update, args) => {
   const { handleError } = require('../../utils')
-  const { users: store } = require('../variables')
+  const { users: store, log } = require('../variables')
   const fs = require('fs')
-  const log = require('loglevel')
 
   try {
     
@@ -15,7 +14,7 @@ exports.run = async (api, update, args) => {
       if (err) {
         log.error(err)
       } else {
-        log.info('Saved temp data \n\n')
+        log.info('Saved temp data \n\n', { private: true })
         process.exit(0)
       }
     })

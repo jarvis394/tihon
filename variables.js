@@ -4,7 +4,8 @@ const {
   api,
   updates,
   firebase,
-  commands
+  commands,
+  log
 } = require('./routines/index')
 
 const memoryStorage = new Map() // Saves counter to every dialog
@@ -28,5 +29,6 @@ module.exports = {
   updates,
   firebase,
   users,
-  anonCommandTimeout
+  anonCommandTimeout,
+  log
 }

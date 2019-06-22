@@ -3,3 +3,4 @@ shrinkwrap.yaml
 .temp/
 .vscode/
 firebaseKeys.json
+logs/

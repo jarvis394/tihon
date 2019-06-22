@@ -20,8 +20,6 @@
     "firebase-admin": "^8.1.0",
     "fs": "^0.0.2",
     "jest": "^24.8.0",
-    "loglevel": "^1.6.2",
-    "loglevel-plugin-prefix": "^0.8.4",
     "mathjs": "^5.10.3",
     "moment": "^2.24.0",
     "node-cmd": "^3.0.0",
@@ -45,5 +43,8 @@
       "public/"
     ],
     "delay": "2500"
+  },
+  "devDependencies": {
+    "winston": "^3.2.1"
   }
 }

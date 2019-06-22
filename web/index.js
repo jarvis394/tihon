@@ -1,8 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser').json()
-const log = require('loglevel')
 
-const { app } = require('../variables')
+const { app, log } = require('../variables')
 
 // Middlewares
 app.use(express.static('web/public'))
@@ -12,5 +11,5 @@ app.use(bodyParser)
 require('./routes')
 
 const listener = app.listen(4000, () => {
-  log.info('Started on port ' + listener.address().port)
+  log.info('Started on port ' + listener.address().port, { private: true })
 })
