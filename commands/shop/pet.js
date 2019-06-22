@@ -34,8 +34,8 @@ exports.run = async (api, update, args) => {
       let res = [name[0].first_name + ', разделы магазина:', '']
 
       for (let pet in shopData.pets) {
-        const { name, id, icon } = shopData.pets[pet]
-        res.push(`  [ ${id} ] ${icon} ${name}`)
+        const { name, id, icon, price } = shopData.pets[pet]
+        res.push(`  [ ${id} ] ${icon} ${name} - ${price}T`)
       }
 
       res.push('')
@@ -63,6 +63,9 @@ exports.run = async (api, update, args) => {
       const id = parseInt(args[1])
       const pet = shopData.pets.find(i => i.id === id)
       const { amount, state } = await user.isEnoughFor(pet.price)
+      const pets = await user.fetchPets()
+      
+      if (pets.length >= 3) return update.reply('✖️ Нельзя иметь больше 3-х питомцев')
 
       if (!state) {
         return update.send(
@@ -115,7 +118,7 @@ exports.run = async (api, update, args) => {
       user.removeItem(n)
 
       return update.send(
-        `🎉 ${name[0].first_name} продал пмтомца ${item.name} за ${item.price}T`
+        `🎉 ${name[0].first_name} продал питомца ${item.name} за ${item.price}T`
       )
     }
   } catch (e) {

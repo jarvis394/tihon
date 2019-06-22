@@ -196,37 +196,37 @@ const pets = [
   new Pet({
     name: 'Кот',
     icon: '🐈',
-    price: 100,
+    price: 1000,
   }),
   new Pet({
     name: 'Шавка',
     icon: '🐕',
-    price: 100,
+    price: 1000,
   }),
   new Pet({
     name: 'Бабуин',
     icon: '🦍',
-    price: 100,
+    price: 2000,
   }),
   new Pet({
     name: 'Микробы',
     icon: '🦠',
-    price: 100,
+    price: 5000,
   }),
   new Pet({
     name: 'Паук',
     icon: '🕷️',
-    price: 100,
+    price: 5000,
   }),
   new Pet({
     name: 'Комар',
     icon: '🦟',
-    price: 100,
+    price: 10000,
   }),
   new Pet({
     name: 'Единорог',
     icon: '🦄',
-    price: 100,
+    price: 25000,
   })
 ]
 
