@@ -11,6 +11,9 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
     anonCommandCooldown
   } = require('../../config')
   
+  const ANON_PRICE = 1000
+  const User = require('../../lib/User')
+  
   const moment = require('moment')
   
   try {
@@ -78,6 +81,10 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
 
     if (args.join(' ').length > 1000) 
       return update.send('❌ Слишком много текста (>1000), не засоряй чужую беседу')
+    
+    const user = new User(senderId)
+    const { state, amount } = await user.isEnoughFor(ANON_PRICE)
+    if (!state) return update.reply(`🧮 Не хватает денег: у тебя ${amount}T, а нужно ${ANON_PRICE}T`)
 
     const Dialogs = await api.messages.getConversations({
       count: 200
@@ -125,6 +132,7 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
 
     if (!flag) await send(peer, text, attachments.join(','))
 
+    user.subtract(ANON_PRICE)
     update.reply('✅ Сообщение отправлено в диалог #' + peer)
 
     anonCommandTimeout.set(senderId, Date.now())

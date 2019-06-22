@@ -2,7 +2,7 @@ exports.run = async (api, update) => {
   const User = require('../../lib/User')
   const shopData = require('../../shopData')
   const { handleError } = require('../../utils')
-  const HOUR = 3600000
+  const HOUR = 3600000 * 6
 
   try {
     let firstTimeFlag = false

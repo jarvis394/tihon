@@ -110,6 +110,7 @@ app.get('/api/statistics', async (req, res) => {
   
   let result = []
   let s
+  let docs = []
   
   await db
     .collection('coins')
@@ -118,16 +119,17 @@ app.get('/api/statistics', async (req, res) => {
     .get()
     .then(snapshot => (s = snapshot))
   
-  s.forEach(doc => {
+  s.forEach(doc => docs.push(doc))
+  
+  for (let doc of docs) {
     const user = new User(doc.id)
-    const docData = doc.data()
     const data = {
-      rank: docData.rank,
-      balance: docData.amount
+      rank: await user.getReputation(),
+      balance: await user.getAmount()
     }
     
     result.push({ id: doc.id, data: data })
-  })
+  }
   
   return res.json(result)
 })

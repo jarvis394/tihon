@@ -46,11 +46,12 @@ exports.run = async (api, update, args) => {
       return update.send('❌ У тебя есть несуществующий предмет')
     }
 
-    user.add(item.price)
+    user.add(item.price / 2)
+    await user.subtractReputation(item.rep)
     await user.removeItem(group.title, n)
 
     return update.send(
-      `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price}T`
+      `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price / 2}T`
     )
   } catch (e) {
     handleError(update, e)

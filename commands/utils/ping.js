@@ -24,6 +24,6 @@ exports.command = {
     en: 'Pong!',
     ru: 'Понг!'
   },
-  alias: ['пинг', 'ку', 'привет'],
+  alias: ['пинг', 'привет'],
   group: 'utils'
 }
