@@ -1,21 +1,11 @@
-const {
-  prefix,
-  adminOnly
-} = require('../config')
-const {
-  handleError
-} = require('../utils')
-const {
-  randomStorage,
-  commands,
-  api,
-  updates,
-  vk
-} = require('../variables')
+const { prefix, adminOnly } = require('../config')
+const { handleError } = require('../utils')
+const { randomStorage, commands, api, updates, vk } = require('../variables')
 
 updates.on('message', async (update, next) => {
   let text = update.text,
-    args, cmd
+    args,
+    cmd
 
   if (adminOnly && update.senderId !== 437920818) return
 
@@ -25,7 +15,10 @@ updates.on('message', async (update, next) => {
     args.shift()
   } else {
     text = update.text
-    args = text.slice(prefix.length).trim().split(' ')
+    args = text
+      .slice(prefix.length)
+      .trim()
+      .split(' ')
   }
 
   if (update.hasForwards || update.hasAttachments()) {
@@ -34,7 +27,8 @@ updates.on('message', async (update, next) => {
 
   let cName = args.shift()
   commands.forEach(c => {
-    if (c.name === cName || (c.alias && c.alias.some(e => cName.startsWith(e)))) return cmd = c
+    if (c.name === cName || (c.alias && c.alias.some(e => cName.startsWith(e))))
+      return (cmd = c)
   })
 
   if (cName.startsWith('?dev')) {
@@ -47,9 +41,17 @@ updates.on('message', async (update, next) => {
 
   try {
     let commandFile = require(`../commands/${cmd.group}/${cmd.name}.js`)
-    commandFile.run(api, update, args, randomStorage, vk, commands, require('../variables'))
+    commandFile.run(
+      api,
+      update,
+      args,
+      randomStorage,
+      vk,
+      commands,
+      require('../variables')
+    )
   } catch (e) {
-    if (e.code === 'MODULE_NOT_FOUND') return
+    if (e.code === 'MODULE_NOT_FOUND') return await next()
     handleError(update, e)
   }
 

@@ -9,14 +9,14 @@ require('./middleware/counter')
 // Add coins
 require('./middleware/coins')
 
-// Check if user mentioned bot
-require('./middleware/mention')
-
 // Check for prefix
 require('./middleware/prefixCheck')
 
 // Run command
 require('./middleware/command')
+
+// Check if user mentioned bot
+require('./middleware/mention')
 
 // Auto send messages
 require('./middleware/auto')
