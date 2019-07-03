@@ -4,6 +4,7 @@ exports.run = async (api, update) => {
   const { randomArray } = require('../../utils/random')
 
   const DBDialog = require('../../lib/Dialog')
+  const blacklist = require('../../configs/blacklist')
 
   return update.reply('😦 Фото пока недоступно')
 
@@ -39,7 +40,7 @@ exports.run = async (api, update) => {
 
     let ph = await getMsg()
 
-    while (!ph) {
+    while (!ph || blacklist.USERS.some(e => e === ph.attachment.photo.owner_id.toString())) {
       ph = await getMsg()
     }
 

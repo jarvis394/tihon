@@ -1,4 +1,5 @@
 const { api, firebase } = require('../variables')
+const blacklist = require('../configs/blacklist')
 const { ID } = require('../configs/constants')
 const Dialog = require('../lib/Dialog')
 const { randomArray } = require('./random')
@@ -37,6 +38,20 @@ module.exports = async () => {
     )
   }
 
+  function testAttachments(m) {
+    let flag = false
+
+    m.attachments.forEach(a => {
+      if (a.type === 'photo') {
+        if (blacklist.USERS.some(e => e === a.photo.owner_id.toString())) {
+          flag = true
+        }
+      }
+    })
+
+    return flag
+  }
+
   // Get dialogs
   let dialogs = await api.messages.getConversations({
     count: 200
@@ -71,7 +86,7 @@ module.exports = async () => {
     flag = true
   })
 
-  while (testMessage(msg)) {
+  while (testMessage(msg) || testAttachments(msg)) {
     msg = await getMsg()
 
     isReported = await db
