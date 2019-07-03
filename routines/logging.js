@@ -1,6 +1,6 @@
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, splat, json, errors, simple, printf } = format
-const { colors, customLevels } = require('../config')
+const { COLORS, LEVELS } = require('../configs/log')
 
 const ignorePrivate = format(info => {
   if (info.private) return false
@@ -8,14 +8,14 @@ const ignorePrivate = format(info => {
 })
 
 const consoleFormat = printf(info => {
-  return `${colors[info.level](`> [${info.level.toUpperCase()}]`)}  ${
+  return `${COLORS[info.level](`> [${info.level.toUpperCase()}]`)}  ${
     info.message
   }`
 })
 
 const log = createLogger({
   level: 'info',
-  levels: customLevels,
+  levels: LEVELS,
   exitOnError: false,
   format: format.combine(
     timestamp(),

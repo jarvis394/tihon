@@ -5,9 +5,13 @@ module.exports = log => {
 
   // Flush temp data from last reload
   fs.readFile('.temp/coinsData.json', (err, data) => {
-    if (err && err.code === 'ENOENT')
-      return log.warn('No file found on path \'.temp/coinsData.json\'', { private: true })
-    else if (err) return log.error(err)
+    if (err && err.code === 'ENOENT') {
+      return log.warn('No file found on path \'.temp/coinsData.json\'', {
+        private: true
+      })
+    } else if (err) {
+      return log.error(err)
+    }
 
     const db = firebase.firestore()
     data = data.length > 0 ? JSON.parse(data) : {}

@@ -1,41 +1,26 @@
 module.exports = {
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es6": true,
-    "node": true
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
+    node: true
   },
-  "extends": "eslint:recommended",
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
+  extends: 'eslint:recommended',
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
-  "parserOptions": {
-    "ecmaVersion": 2018
+  parserOptions: {
+    ecmaVersion: 2018
   },
-  "rules": {
-    "no-console": "off",
-    "no-inner-declarations": "off",
-    "no-mixed-spaces-and-tabs": [
-      "error",
-      "smart-tabs"
-    ],
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "windows"
-    ],
-    "quotes": [
-      "warn",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
-    "no-unused-vars": "off"
+  rules: {
+    'no-console': 'off',
+    'no-inner-declarations': 'off',
+    'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'windows'],
+    quotes: ['warn', 'single'],
+    semi: ['error', 'never'],
+    'no-unused-vars': 'off'
   }
 }

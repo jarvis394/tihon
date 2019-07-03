@@ -1,23 +1,16 @@
 exports.run = async (api, update, args, _1, _2, _3, variables) => {
-  const {
-    handleError
-  } = require('../../utils')
-  
-  const {
-    randomArray
-  } = require('../../utils')
-  
-  const {
-    anonCommandCooldown
-  } = require('../../config')
-  
+  const handleError = require('../../utils/handleError')
+
+  const { randomArray } = require('../../utils/random')
+
+  const { ANON_COOLDOWN } = require('../../configs/constants')
+
   const ANON_PRICE = 1000
   const User = require('../../lib/User')
-  
-  const moment = require('moment')
-  
-  try {
 
+  const moment = require('moment')
+
+  try {
     const { anonCommandTimeout } = variables
 
     async function send(peer, text, attachments) {
@@ -35,11 +28,7 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
         /* eslint-disable indent */
         switch (attachment.type) {
           case 'photo': {
-            const {
-              ownerId,
-              accessKey,
-              id
-            } = attachment
+            const { ownerId, accessKey, id } = attachment
             let access = accessKey ? '_' + accessKey : ''
             response.push(`photo${ownerId}_${id}${access}`)
             break
@@ -59,32 +48,36 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
       return response
     }
 
-    let {
-      peerId,
-      senderId
-    } = update
-
-    if (senderId === 119528604) return update.send('😉😊Привет Павлу Ямову!👋👋')
+    let { peerId, senderId } = update
 
     const hasAttachments = update.hasAttachments()
     const hasReply = update.hasReplyMessage
 
     if (anonCommandTimeout.has(senderId)) {
-      let time = anonCommandCooldown - Date.now() - anonCommandTimeout.get(senderId)
+      let time =
+        ANON_COOLDOWN - Date.now() - anonCommandTimeout.get(senderId)
 
-      return update.reply('❌ Нельзя так часто слать фигню в беседы!\n' + 
-        'Осталось ждать: ' + moment(time).format('ss'))
+      return update.reply(
+        '❌ Нельзя так часто слать фигню в беседы!\n' +
+          'Осталось ждать: ' +
+          moment(time).format('ss')
+      )
     }
 
-    if (args.length === 0 && !hasAttachments && !hasReply) 
-      return update.send('❌ Нету текста или чего-нибудь, что можно отправить')
+    if (args.length === 0 && !hasAttachments && !hasReply)
+      return update.reply('❌ Нету текста или чего-нибудь, что можно отправить')
 
-    if (args.join(' ').length > 1000) 
-      return update.send('❌ Слишком много текста (>1000), не засоряй чужую беседу')
-    
+    if (args.join(' ').length > 1000)
+      return update.reply(
+        '❌ Слишком много текста (>1000), не засоряй чужую беседу'
+      )
+
     const user = new User(senderId)
     const { state, amount } = await user.isEnoughFor(ANON_PRICE)
-    if (!state) return update.reply(`🧮 Не хватает денег: у тебя ${amount}T, а нужно ${ANON_PRICE}T`)
+    if (!state)
+      return update.reply(
+        `🧮 Не хватает денег: у тебя ${amount}T, а нужно ${ANON_PRICE}T`
+      )
 
     const Dialogs = await api.messages.getConversations({
       count: 200
@@ -117,17 +110,19 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
     let text = args.join(' ')
 
     if (hasAttachments) {
-      attachments = attachments.concat(processAttachments(update.attachments, peer))
+      attachments = attachments.concat(
+        processAttachments(update.attachments, peer)
+      )
     }
 
     if (hasReply) {
-      const {
-        replyMessage
-      } = update
-      
+      const { replyMessage } = update
+
       if (!text) text = replyMessage.text
 
-      attachments = attachments.concat(processAttachments(replyMessage.attachments, peer))
+      attachments = attachments.concat(
+        processAttachments(replyMessage.attachments, peer)
+      )
     }
 
     if (!flag) await send(peer, text, attachments.join(','))
@@ -136,22 +131,17 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
     update.reply('✅ Сообщение отправлено в диалог #' + peer)
 
     anonCommandTimeout.set(senderId, Date.now())
-    setTimeout(() => anonCommandTimeout.delete(senderId), anonCommandCooldown)
-
+    setTimeout(() => anonCommandTimeout.delete(senderId), ANON_COOLDOWN)
   } catch (e) {
     handleError(update, e)
   }
 }
 
 exports.command = {
-  'arguments': '(message/attachment/forward)|(message/attachment/forward)',
-  'description': {
-    'en': 'Sends your message to a random multidialog',
-    'ru': 'Отправляет твоё сообщение в рандомную беседу'
+  arguments: '(message/attachment/forward)|(message/attachment/forward)',
+  description: {
+    en: 'Sends your message to a random multidialog',
+    ru: 'Отправляет твоё сообщение в рандомную беседу'
   },
-  'alias': [
-    'anon',
-    'анон',
-    'анонимус'
-  ]
+  alias: ['anon', 'анон', 'анонимус']
 }

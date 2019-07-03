@@ -1,14 +1,14 @@
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
-  const { handleError } = require('../../utils')
-  const data = require('../../shopData')
+  const handleError = require('../../utils/handleError')
+  const { getGroupById, getItemById } = require('../../utils/shop')
 
   try {
-    let name = await api.users.get({
+    const name = await api.users.get({
       user_ids: update.senderId,
       name_case: 'gen'
     })
-    let user = new User(update.senderId)
+    const user = new User(update.senderId)
 
     if (!args[0]) {
       return update.send('😕 Ты не ввел ID предмета, который хочешь купить')
@@ -19,7 +19,7 @@ exports.run = async (api, update, args) => {
     }
 
     let id = parseInt(args[0])
-    let item = data.getItemById(id)
+    let item = getItemById(id)
 
     if (!item) return update.send('❌ Такого предмета нет в магазине')
 
@@ -35,7 +35,7 @@ exports.run = async (api, update, args) => {
       )
     }
 
-    const group = data.getGroupById(item.groupId)
+    const group = getGroupById(item.groupId)
 
     const addItemSuccess = await user.addItem(group, item.id)
 
@@ -45,6 +45,7 @@ exports.run = async (api, update, args) => {
           group.maxItems
         }`
       )
+    
     user.subtract(item.price)
     user.addReputation(item.rep)
 

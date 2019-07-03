@@ -1,5 +1,4 @@
-const { updates } = require('../variables')
-const { users: store, log } = require('../variables')
+const { updates, users: store, log } = require('../variables')
 const User = require('../lib/User')
 const fs = require('fs')
 
@@ -13,9 +12,10 @@ function flush() {
   fs.writeFile('.temp/coinsData.json', JSON.stringify(res), err => {
     if (err) {
       log.error(err)
+      return process.exit(1)
     } else {
       log.info('Saved temp data \n\n', { private: true })
-      process.exit(0)
+      return process.exit(0)
     }
   })
 }
@@ -26,9 +26,11 @@ process.on('SIGINT', () => flush())
 updates.on('message', async (update, next) => {
   const { senderId } = update
 
-  let user = new User(senderId)
+  if (update.isInbox) {
+    const user = new User(senderId)
 
-  user.add(1)
+    user.add(1)
+  }
 
   await next()
 })

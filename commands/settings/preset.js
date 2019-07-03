@@ -1,5 +1,5 @@
 exports.run = async (api, update) => {
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
 
   try {
     update.send('> не готово пока')

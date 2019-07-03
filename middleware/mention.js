@@ -1,12 +1,6 @@
-const {
-  mentionPrefix
-} = require('../config')
-const {
-  randomArray
-} = require('../utils')
-const {
-  updates
-} = require('../variables')
+const { MENTION_PREFIX } = require('../configs/constants')
+const { randomArray } = require('../utils/random')
+const { updates } = require('../variables')
 
 const answers = [
   'a?',
@@ -22,11 +16,16 @@ const answers = [
 ]
 
 updates.on('message', async (update, next) => {
-  let {
-    text
-  } = update
+  let { text } = update
 
-  if (text && text.split(' ').some(el => el.startsWith(mentionPrefix)) && !text.split(' ')[1]) {
+  text =
+    text &&
+    text
+      .split(' ')
+      .map(a => a.trim())
+      .filter(a => a.length !== 0)
+
+  if (text && text.some(el => el.startsWith(MENTION_PREFIX)) && !text[1]) {
     return update.send(randomArray(answers))
   }
 

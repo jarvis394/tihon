@@ -1,7 +1,7 @@
 exports.run = async (api, update) => {
   const User = require('../../lib/User')
-  const shopData = require('../../shopData')
-  const { handleError } = require('../../utils')
+  const shopData = require('../../data/shop')
+  const handleError = require('../../utils/handleError')
   const HOUR = 3600000 * 6
 
   try {

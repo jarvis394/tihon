@@ -1,6 +1,6 @@
 exports.run = async (api, update) => {
   const User = require('../../lib/User')
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
   const DAY = 86400000
   const { DAILY_BONUS } = require('../../config')
 

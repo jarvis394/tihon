@@ -1,4 +1,4 @@
-const { interval } = require('../config')
+const { AUTO_INTERVAL } = require('../configs/constants')
 const { api, log } = require('../variables')
 
 setInterval(async () => {
@@ -14,4 +14,4 @@ setInterval(async () => {
 
     log.info('Added ' + friend + ' as friend', { private: true })
   })
-}, interval)
+}, AUTO_INTERVAL)

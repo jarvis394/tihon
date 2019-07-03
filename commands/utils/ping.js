@@ -1,5 +1,5 @@
 exports.run = async (api, update) => {
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
 
   const replies = [
     'Шо ты меня пингуешь братец',
@@ -8,7 +8,7 @@ exports.run = async (api, update) => {
     'Чавой?',
     'Пинг-понг'
   ]
-  const { randomArray } = require('../../utils')
+  const { randomArray } = require('../../utils/random')
 
   try {
     await update.send(randomArray(replies))

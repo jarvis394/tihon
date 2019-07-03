@@ -1,7 +1,7 @@
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
-  const { handleError } = require('../../utils')
-  const shopData = require('../../shopData')
+  const handleError = require('../../utils/handleError')
+  const shopData = require('../../data/shop')
 
   const aliases = {
     buy: ['buy', 'купить', 'купитт', 'купля', 'куплч'],

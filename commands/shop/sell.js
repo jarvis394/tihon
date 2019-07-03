@@ -1,22 +1,23 @@
 exports.run = async (api, update, args) => {
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
   const User = require('../../lib/User')
-  const data = require('../../shopData')
+  const {
+    getGroupByName,
+    getGroupByTitle,
+    getItemById
+  } = require('../../utils/shop')
 
   try {
-    let name = await api.users.get({
+    const name = await api.users.get({
       user_ids: update.senderId
     })
-    let user = new User(update.senderId)
+    const user = new User(update.senderId)
 
     if (!args[0]) {
       return update.send('😕 Ты не ввел группу, в которой находится предмет')
     }
 
-    if (
-      args[0] &&
-      (!data.getGroupByTitle(args[0]) && !data.getGroupByName(args[0]))
-    ) {
+    if (args[0] && (!getGroupByTitle(args[0]) && !getGroupByName(args[0]))) {
       return update.send('😕 Ты ввел несуществующую группу')
     }
 
@@ -30,13 +31,13 @@ exports.run = async (api, update, args) => {
 
     let n = parseInt(args[1]) - 1
     let groupName = args[0]
-    let group = data.getGroupByTitle(groupName)
+    let group = getGroupByTitle(groupName)
 
-    if (!group) group = data.getGroupByName(groupName)
+    if (!group) group = getGroupByName(groupName)
 
     let items = await user.fetchInventory()
     let id = items[group.title][n]
-    let item = data.getItemById(id)
+    let item = getItemById(id)
 
     if (!id) {
       return update.send('🧮 У тебя нет предмета под таким номером')
@@ -51,7 +52,8 @@ exports.run = async (api, update, args) => {
     await user.removeItem(group.title, n)
 
     return update.send(
-      `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price / 2}T`
+      `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price /
+        2}T`
     )
   } catch (e) {
     handleError(update, e)

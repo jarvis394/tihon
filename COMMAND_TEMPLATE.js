@@ -1,27 +1,18 @@
-const { handleError } = require('../../utils')
+module.exports.run = async (api, update, args) => {
+  const handleError = require('../utils/handleError')
 
-const {
-  random
-} = require('../../utils')
-
-exports.run = async (api, update) => {
-  // eslint-disable-next-line
   try {
-
-
-
+    return update.send('')
   } catch (e) {
     handleError(update, e)
   }
 }
 
-exports.command = {
-  'arguments': false,
-  'description': {
-    'en': '',
-    'ru': ''
+module.exports.command = {
+  arguments: false,
+  description: {
+    en: '',
+    ru: ''
   },
-  'alias': [
-    ''
-  ]
+  alias: []
 }

@@ -1,5 +1,8 @@
 const { vk, log } = require('./variables')
 
+// Filter blacklist
+require('./middleware/blacklisted')
+
 // Log incoming messages
 require('./middleware/log')
 
@@ -25,7 +28,7 @@ require('./middleware/auto')
 require('./middleware/friends')
 
 // Web
-require('./web/index')
+// require('./web/index')
 
 /**
  * Starts polling
@@ -37,12 +40,7 @@ async function run() {
 
 // Run if not disabled
 if (process.env.MODE !== 'DISABLED') {
-  run().catch(e => {
-    if (e.code == 100) return log.warn('Api Error: 100')
-    if (e.code == 10) return log.warn('Api Error: 10')
-
-    log.error(e)
-  })
+  run().catch(e => log.error(e))
 }
 
 // Handle captcha

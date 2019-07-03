@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
-
 exports.run = async (api, update, args) => {
-  const User = require('../../lib/User')
-  const { handleError } = require('../../utils')
-  const data = require('../../shopData')
+  const handleError = require('../../utils/handleError')
+  const data = require('../../data/shop')
+  const { getGroupById } = require('../../utils/shop')
 
   try {
     // If no args then will send menu
@@ -62,7 +60,7 @@ exports.run = async (api, update, args) => {
         user_ids: update.senderId
       })
 
-      let group = data.getGroupById(groupId)
+      let group = getGroupById(groupId)
       let res = [name[0].first_name + ', раздел \'' + group.name + '\':', '']
 
       data.items.forEach((item, i) => {

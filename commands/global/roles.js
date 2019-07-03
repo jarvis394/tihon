@@ -1,47 +1,44 @@
 exports.run = async (api, update, args) => {
-  const {
-    handleError
-  } = require('../../utils')
-  
+  const handleError = require('../../utils/handleError')
   const DBDialog = require('../../lib/DBDialog')
-  
+
   const emptyUserData = {
-    'roles': [],
-    'warns': [],
-    'settings': {}
+    roles: [],
+    warns: [],
+    settings: {}
   }
-  
+
   const dialog = new DBDialog(update.peerId)
 
   try {
-
     // Return if group mentioned (usually that's bot)
-    if (args.some(el => el.startsWith('[club'))) return update.send('Группам роли не даю')
+    if (args.some(el => el.startsWith('[club')))
+      return update.reply('Группам роли не даю')
 
     // Return if in dialog, not multidialog
-    if (update.peerType === 'user') return update.send('Мы с тобой тут с глазу на глаз')
+    if (update.peerType === 'user')
+      return update.reply('Мы с тобой тут с глазу на глаз')
 
     if (args[0] && args[0].startsWith('[id')) {
-
-      let id = args[0].slice(1, -1).split('|')[0].slice(2)
+      let id = args[0]
+        .slice(1, -1)
+        .split('|')[0]
+        .slice(2)
       if (args[1] == 'add') return await addRole(id, 2)
-      else if (args[1] == 'remove' || args[1] == 'delete') return await removeRole(id, 2)
+      else if (args[1] == 'remove' || args[1] == 'delete')
+        return await removeRole(id, 2)
       else if (args[0]) return await showRoles(id)
       else return update.send('Не опознал')
-
     } else {
-
       let id = update.senderId
 
       // Add role if a first argument is "add"
       if (args[0] == 'add') return await addRole(id, 1)
-
       // Remove role if a first argument is "remove"
-      else if (args[0] == 'remove' || args[0] == 'delete') return await removeRole(id, 1)
-
+      else if (args[0] == 'remove' || args[0] == 'delete')
+        return await removeRole(id, 1)
       // Show user's roles
       else if (!args[0]) return await showRoles(id)
-
       // Error if nothing mathcing
       else return update.send('Не опознал')
     }
@@ -52,9 +49,8 @@ exports.run = async (api, update, args) => {
     async function addRole(id, index) {
       await dialog.checkData()
 
-      let sliceLen = index == 1 ?
-        args[0].length + 1 :
-        args[0].length + args[1].length + 1
+      let sliceLen =
+        index == 1 ? args[0].length + 1 : args[0].length + args[1].length + 1
       let roleName = args.join(' ').slice(sliceLen)
       let userId = id
 
@@ -82,7 +78,7 @@ exports.run = async (api, update, args) => {
       if (user && user.roles) {
         let c = 0
         user.roles.forEach(el => {
-          if (el) res += '🔸 ' + el + '\n', c++
+          if (el) (res += '🔸 ' + el + '\n'), c++
         })
         if (!c) res = '🔸 Пока ничего!'
       }
@@ -99,9 +95,8 @@ exports.run = async (api, update, args) => {
     async function removeRole(id, index) {
       await dialog.checkData()
 
-      let sliceLen = index == 1 ?
-        args[0].length + 1 :
-        args[0].length + args[1].length + 1
+      let sliceLen =
+        index == 1 ? args[0].length + 1 : args[0].length + args[1].length + 1
       let roleName = args.join(' ').slice(sliceLen)
       let userId = id
 
@@ -132,7 +127,7 @@ exports.run = async (api, update, args) => {
       if (user && user.roles) {
         let c = 0
         user.roles.forEach(el => {
-          if (el) res += '🔸 ' + el + '\n', c++
+          if (el) (res += '🔸 ' + el + '\n'), c++
         })
         if (!c) res = '🔸 Пока ничего!'
       }
@@ -163,28 +158,29 @@ exports.run = async (api, update, args) => {
       if (user && user.roles) {
         let c = 0
         user.roles.forEach(el => {
-          if (el) res += '🔸 ' + el + '\n', c++
+          if (el) (res += '🔸 ' + el + '\n'), c++
         })
         if (!c) res = '🔸 Пока ничего!'
       }
 
-      return await update.send(`Роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`)
+      return await update.send(
+        `Роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`
+      )
     }
-
   } catch (e) {
     handleError(update, e)
   }
 }
 
 exports.command = {
-  'name': 'roles',
-  'arguments': '(add)/(remove) *user|(add)/(remove) *user',
-  'description': {
-    'en': 'Adds or removes role at specific user. Without add/remove shows only user\'s roles',
-    'ru': 'Добавляет или удаляет роль у пользователя. Без аргументов возвращает роли пользователя'
+  name: 'roles',
+  arguments: '(add)/(remove) *user|(add)/(remove) *user',
+  description: {
+    en:
+      'Adds or removes role at specific user. Without add/remove shows only user\'s roles',
+    ru:
+      'Добавляет или удаляет роль у пользователя. Без аргументов возвращает роли пользователя'
   },
-  'group': 'global',
-  'alias': [
-    'роли'
-  ]
+  group: 'global',
+  alias: ['роли']
 }

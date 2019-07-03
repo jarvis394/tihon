@@ -1,8 +1,9 @@
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
+  const { BLACKLIST } = require('../../config')
 
-  const shopData = require('../../shopData')
+  const shopData = require('../../data/shop')
 
   try {
     let { senderId } = update
@@ -14,6 +15,8 @@ exports.run = async (api, update, args) => {
     let balance = await user.getAmount()
     let rank = await user.getReputation()
     let pets = await user.fetchPets()
+    
+    if (BLACKLIST.some(e => e === userId.toString())) return update.reply('😠 Этот пользователь заблокирован')
 
     // Balance
     res.push('💵 Баланс')
@@ -58,7 +61,7 @@ exports.run = async (api, update, args) => {
     }
 
     // Send result to the user
-    update.send(res.join('\n'))
+    update.reply(res.join('\n'))
   } catch (e) {
     handleError(update, e)
   }

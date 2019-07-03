@@ -1,5 +1,6 @@
 exports.run = async (api, update, args) => {
-  const { handleError, random } = require('../../utils')
+  const handleError = require('../../utils/handleError')
+  const { random } = require('../../utils/random')
 
   const DBDialog = require('../../lib/DBDialog')
 

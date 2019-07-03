@@ -1,12 +1,29 @@
-exports.run = async (api, update) => {
+exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
   const { users: store } = require('../../variables')
-
+  const { BLACKLIST } = require('../../config')
+  
   try {
-    const user = new User(update.senderId)
+    
+    let id
+    try { 
+      id = parseInt(args[0].split('|')[0].slice(3))
+      if (isNaN(id)) throw new Error('argument is NaN')
+    } catch (e) {
+      id = update.senderId
+    }
+    
+    if (BLACKLIST.some(e => e === id.toString())) return update.reply('😠 Этот пользователь заблокирован')
+    
+    const user = new User(id)
 
-    update.send('⠀⠀Твой баланс:⠀⠀\n' + '💵 ' + (await user.getAmount()) + 'T')
+    return update.reply(
+      (id === update.senderId ? 
+        'Твой баланс:⠀⠀\n' : 
+        'Баланс ' + id + ': \n') + 
+      '💵 ' + (await user.getAmount()) + 'T'
+    )
   } catch (e) {
     handleError(update, e)
   }

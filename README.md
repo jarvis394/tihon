@@ -1,7 +1,8 @@
 # Дед Тихон
 
-> Чо несёт - непонятно. С села мужик. 
-##### *- Vatslav Tarnatovski*
+> Чо несёт - непонятно. С села мужик.
+
+##### _- Vatslav Tarnatovski_
 
 ## Usage
 
@@ -24,21 +25,25 @@ cd ded_tihon
 ```
 
 **IMPORTANT!** After these steps you must provide **USER**'s VK API token and other enviroment constants in `./config`. Then just type
+
 ```
 npm start
 ```
+
 or
+
 ```
 npm run nodemon
 ```
+
 to run bot by yourself.
 
 ## Todo
 
 - ~~Make help system better to not write big `exports.command` every time new command created~~
 - ~~Deal with coins pushing before restarting a project~~
-- ~~Try to use Docker, why not~~ ***Can't do that :(***
-- Learn TypeScript to get rid of some checking. *Types are good*
+- ~~Try to use Docker, why not~~ **_Can't do that :(_**
+- Learn TypeScript to get rid of some checking. _Types are good_
 - ~~Do GitHub commits~~
 - Make an API and divide frontend and backend to 2 projects **(Almost done)**
 - Translate everything to English, even `/random`

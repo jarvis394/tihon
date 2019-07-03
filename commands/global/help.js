@@ -1,8 +1,8 @@
 exports.run = async (api, update, args, _, __, cmds) => {
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
 
   try {
-    return update.send(
+    return update.reply(
       '🔍 Смотри команды на сайте: https://tihon-web.glitch.me'
     )
   } catch (e) {

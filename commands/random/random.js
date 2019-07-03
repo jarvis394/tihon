@@ -1,7 +1,6 @@
 exports.run = async (api, update, args, rs) => {
-  const { handleError } = require('../../utils')
-
-  const { randomMessage } = require('../../utils.js')
+  const handleError = require('../../utils/handleError')
+  const randomMessage = require('../../utils/randomMessage')
 
   try {
     let res

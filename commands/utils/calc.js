@@ -1,5 +1,5 @@
 exports.run = (api, update, args) => {
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
 
   const math = require('mathjs')
 

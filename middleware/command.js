@@ -1,13 +1,18 @@
-const { prefix, adminOnly } = require('../config')
-const { handleError } = require('../utils')
+const { ADMIN_ONLY, ADMINS } = require('../configs/admins')
+const { PREFIX } = require('../configs/constants')
+const handleError = require('../utils/handleError')
 const { randomStorage, commands, api, updates, vk } = require('../variables')
 
 updates.on('message', async (update, next) => {
+  function isAdmin() {
+    return ADMINS.some(id => id.toString() === update.senderId.toString())
+  }
+
   let text = update.text,
     args,
     cmd
 
-  if (adminOnly && update.senderId !== 437920818) return
+  if (ADMIN_ONLY && !isAdmin()) return
 
   if (update.state.mentioned) {
     text = update.text
@@ -16,10 +21,12 @@ updates.on('message', async (update, next) => {
   } else {
     text = update.text
     args = text
-      .slice(prefix.length)
+      .slice(PREFIX.length)
       .trim()
       .split(' ')
   }
+
+  args = args.map(a => a.trim()).filter(a => a.length !== 0)
 
   if (update.hasForwards || update.hasAttachments()) {
     await update.loadMessagePayload()
@@ -32,6 +39,8 @@ updates.on('message', async (update, next) => {
   })
 
   if (cName.startsWith('?dev')) {
+    if (!isAdmin()) return
+
     cmd = {
       name: cName.slice(5),
       group: 'dev'

@@ -1,5 +1,5 @@
 exports.run = async (api, update) => {
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
 
   const DBDialog = require('../../lib/DBDialog')
 

@@ -1,10 +1,8 @@
 exports.run = async (api, update, args) => {
-  const { handleError } = require('../../utils')
+  const handleError = require('../../utils/handleError')
   const User = require('../../lib/User')
   
   try {
-    
-    if (update.senderId !== 437920818) return
     
     let user = new User(args[0] && args[1] ? args[1].split('|')[0].slice(3) : update.senderId)
     

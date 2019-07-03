@@ -1,12 +1,12 @@
 const User = require('../lib/User')
-const shopData = require('../shopData')
+const shopData = require('../data/shop')
 const cmd = require('node-cmd')
 const crypto = require('crypto')
 const ejs = require('ejs')
 
 const { app, commands, firebase, log } = require('../variables')
-const { SECRET } = require('../config')
-const promo = require('../promo')
+const { SECRET } = require('../configs/secrets')
+const promo = require('../utils/promo')
 const db = firebase.firestore()
 
 // Home
@@ -72,7 +72,7 @@ app.get('/api/cmdList', (req, res) => {
   })
 })
 
-app.get('/api/shopData', (req, res) => {
+app.get('/api/data/shop', (req, res) => {
   res.set('Access-Control-Allow-Origin', '*')
   
   return res.json(shopData)

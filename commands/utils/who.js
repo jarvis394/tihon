@@ -1,8 +1,8 @@
-exports.run = async (api, update, args) => {
-  const { handleError } = require('../../utils')
+exports.run = async (api, update, args, _1, _2, _3, _4, state) => {
+  const handleError = require('../../utils/handleError')
 
   const replies = ['Я думаю, что', 'Мб', 'Хз, но', 'Наверное']
-  const { randomArray } = require('../../utils')
+  const { randomArray } = require('../../utils/random')
 
   try {
     let person = await api.messages.getConversationMembers({
@@ -11,11 +11,16 @@ exports.run = async (api, update, args) => {
     })
 
     person = randomArray(person.profiles)
+    const name = state ? 
+      `[id${person.id}|${person.first_name + ' ' + person.last_name}]` : 
+      `${person.first_name + ' ' + person.last_name}`
+    
+    if (state) args.shift()
 
     await update.send(
       `${randomArray(replies)}${
         args.length !== 0 ? ' ' + args.join(' ') : ''
-      } это [id${person.id}|${person.first_name + ' ' + person.last_name}]`
+      } это ${name}`
     )
   } catch (e) {
     handleError(update, e)

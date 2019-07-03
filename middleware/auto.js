@@ -1,20 +1,16 @@
-const DBDialog = require('../lib/DBDialog')
-const { random, randomMessage } = require('../utils')
-const { interval } = require('../config')
-const { log } = require('../variables')
-
-const { api, vk } = require('../variables')
+const DBDialog = require('../lib/Dialog')
+const { random, randomMessage } = require('../utils/random')
+const { AUTO_INTERVAL } = require('../configs/constants')
+const { log, api, vk } = require('../variables')
 
 setInterval(async () => {
-  let Dialogs = await api.messages.getConversations({
-    count: 200
-  })
+  const Dialogs = await api.messages.getConversations({ count: 200 })
+  const count = Dialogs.count
   let dialogs = Dialogs.items
-  let count = Dialogs.count
   let offset = 200
 
   while (offset < count) {
-    let offsetDialogs = await api.messages.getConversations({
+    const offsetDialogs = await api.messages.getConversations({
       count: 200,
       offset: offset
     })
@@ -24,7 +20,7 @@ setInterval(async () => {
   }
 
   dialogs.forEach(async dialog => await messageService(dialog))
-}, interval)
+}, AUTO_INTERVAL)
 
 /**
  * Installs service for a dialog to auto send messages
