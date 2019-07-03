@@ -1,5 +1,6 @@
 const DBDialog = require('../lib/Dialog')
-const { random, randomMessage } = require('../utils/random')
+const { random } = require('../utils/random')
+const randomMessage = require('../utils/randomMessage')
 const { AUTO_INTERVAL } = require('../configs/constants')
 const { log, api, vk } = require('../variables')
 
