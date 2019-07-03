@@ -8,6 +8,8 @@ exports.run = async (api, update, args) => {
     const user = new User(update.senderId)
     const earnings = await user.getEarnings()
     const promo = getPromo()
+
+    if (!promo.code) return update.reply('😔 Пока нет никаких промокодов')
     
     if (code === promo.code.toString() && earnings.promo !== promo.code) {
       user.setEarning('promo', promo.code)

@@ -42,7 +42,22 @@ const generate = () => {
  * Gets current promo
  */
 const getPromo = () => {
-  return require('../.temp/promo.json')
+  let data
+
+  try {
+    data = require('../.temp/promo.json')
+  } catch (e) {
+    data = {}
+    fs.writeFile('.temp/promo.json', JSON.stringify(data), err => {
+      if (err) {
+        log.error(err)
+      } else {
+        log.warn('No \'promo.json\' found; created then')
+      }
+    })
+  }
+
+  return data
 }
 
 module.exports = {
