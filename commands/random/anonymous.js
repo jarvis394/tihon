@@ -27,12 +27,12 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
       attachments.forEach(async attachment => {
         /* eslint-disable indent */
         switch (attachment.type) {
-          case 'photo': {
+          /*case 'photo': {
             const { ownerId, accessKey, id } = attachment
             let access = accessKey ? '_' + accessKey : ''
             response.push(`photo${ownerId}_${id}${access}`)
             break
-          }
+          }*/
 
           case 'audio_message': {
             flag = true

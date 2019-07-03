@@ -3,9 +3,11 @@ exports.run = async (api, update) => {
 
   const { randomArray } = require('../../utils/random')
 
-  const DBDialog = require('../../lib/DBDialog')
+  const DBDialog = require('../../lib/Dialog')
 
-  try {
+  return update.reply('😦 Фото пока недоступно')
+
+  /*try {
     // Get dialogs
     var Dialogs = await api.messages.getConversations({
       count: 200
@@ -52,7 +54,7 @@ exports.run = async (api, update) => {
     })
   } catch (e) {
     handleError(update, e)
-  }
+  }*/
 }
 
 exports.command = {

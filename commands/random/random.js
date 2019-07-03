@@ -14,7 +14,7 @@ exports.run = async (api, update, args, rs) => {
     if (msg.attachments.length !== 0) {
       msg.attachments.forEach(async attachment => {
         if (attachment.type === 'photo') {
-          let access = attachment.photo.access_key
+          /*let access = attachment.photo.access_key
             ? '_' + attachment.photo.access_key
             : ''
           options.attachment += options.attachment
@@ -23,7 +23,7 @@ exports.run = async (api, update, args, rs) => {
             }${access}`
             : `, photo${attachment.photo.owner_id}_${
               attachment.photo.id
-            }${access}`
+            }${access}`*/
         } else if (attachment.type === 'sticker') {
           flag = true
           return await update.sendSticker(attachment.sticker.sticker_id)
