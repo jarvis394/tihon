@@ -1,5 +1,11 @@
 const { vk, log } = require('./variables')
 
+// Listen to updates
+require('./middleware/index')
+
+
+/*
+
 // Filter blacklist
 require('./middleware/blacklisted')
 
@@ -28,7 +34,7 @@ require('./middleware/auto')
 require('./middleware/friends')
 
 // Web
-require('./web/index')
+require('./web/index')*/
 
 /**
  * Starts polling

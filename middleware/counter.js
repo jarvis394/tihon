@@ -1,22 +1,20 @@
 const handleError = require('../utils/handleError')
-const { randomStorage, updates, api } = require('../variables')
+const { randomStorage, api } = require('../variables')
 
-updates.on('message', async (update, next) => {
-  const { session } = update.state
+module.exports = async (update) => {
+  let { count } = update.state
 
-  if (!('counter' in session)) session.counter = 0
-  session.counter += 1
+  if (!count) count = 0
+  count += 1
 
-  if (session.counter % 50 === 0) {
+  if (count % 50 === 0) {
     try {
-      let commandFile = require('../commands/random/random.js')
-      commandFile.run(api, update, [], randomStorage)
+      const cmd = require('../commands/random/random.js')
+      cmd.run(api, update, [], randomStorage)
     } catch (e) {
       handleError(e)
     }
 
-    session.counter = 0
+    count = 0
   }
-
-  await next()
-})
+}
