@@ -1,6 +1,6 @@
 {
   "name": "tihon",
-  "version": "6.0.0-alpha1",
+  "version": "6.0.0",
   "description": "VK bot",
   "main": "server.js",
   "scripts": {
