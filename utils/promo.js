@@ -17,7 +17,7 @@ const generate = () => {
   const timestamp = Date.now()
 
   fs.writeFile(
-    '.temp/promo.json',
+    'temp/promo.json',
     JSON.stringify({ code: key, timestamp, n, promo }),
     err => {
       if (err) {
@@ -45,10 +45,10 @@ const getPromo = () => {
   let data
 
   try {
-    data = require('../.temp/promo.json')
+    data = require('../temp/promo.json')
   } catch (e) {
     data = {}
-    fs.writeFile('.temp/promo.json', JSON.stringify(data), err => {
+    fs.writeFile('temp/promo.json', JSON.stringify(data), err => {
       if (err) {
         log.error(err)
       } else {

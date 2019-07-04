@@ -1,54 +1,82 @@
 const { PREFIX, MENTION_PREFIX } = require('../configs/constants')
-const { commands } = require('../variables')
+const { commands, updates } = require('../variables')
 const isAdmin = require('../utils/isAdmin')
 
-module.exports = async update => {
-  const { message, senderId, state } = update
-  let msg = message
+updates.on('message', async (update, next) => {
+  const { text, senderId, state } = update
+  let msg = text // Temporary message text
 
-  if (message.startsWith(MENTION_PREFIX)) {
+  // Check if command's prefix is mention or usual prefix
+  // If none found then return
+  if (text.startsWith(MENTION_PREFIX)) {
     state.isMentioned = true
-  } else if (message.startsWith(PREFIX)) {
-    state.isCommand = true
+  } else if (text.startsWith(PREFIX)) {
+    state.isPrefixed = true
   } else return
 
+  // Load message payload if found
   if (update.hasForwards || update.hasAttachments()) {
     await update.loadMessagePayload()
   }
 
+  // If there is only mention then set the state and return
+  if (state.isMentioned && !text.split(' ')[1]) {
+    state.isMentionMessage = true
+    return await next()
+  }
+
+  // Remove mention from message text if it is mentioned
+  // Otherwise, remove the prefix
   if (state.isMentioned) {
-    msg = message
+    msg = text
       .split(' ')
       .slice(1)
       .join(' ')
+  } else if (state.isPrefixed) {
+    msg = text.slice(PREFIX.length)
+  } else {
+    state.isCommand = false
   }
 
-  state.commandText = msg.split(' ').shift()
-  state.arguments = msg
-    .slice(PREFIX.length)
-    .trim()
-    .split(' ')
+  // If message is possibly command
+  if (state.isMentioned || state.isPrefixed) {
+    // Command is the first word in message
+    state.commandText = msg.split(' ').shift()
 
-  state.arguments = state.arguments
-    .map(a => a.trim())
-    .filter(a => a.length !== 0)
+    // Arguments are everything after command
+    state.arguments = msg.split(' ').slice(1)
 
-  if (state.commandText.startsWith('?dev')) {
-    if (isAdmin(senderId)) {
+    // Trim arguments
+    state.arguments = state.arguments
+      .map(a => a.trim())
+      .filter(a => a.length !== 0)
+
+    if (state.commandText.startsWith('?dev-')) {
       state.command = {
         name: state.commandText.slice(5),
         group: 'dev'
       }
-    } else return
-  } else {
-    commands.forEach(c => {
-      if (
-        c.name === state.commandText ||
-        (c.alias && c.alias.some(e => state.commandText.startsWith(e)))
-      )
-        return (state.command = c)
-    })
+    } else {
+      commands.forEach(c => {
+        const commandFound = s => c.name === s
+        const aliasFound = s => c.alias && c.alias.some(e => s.startsWith(e))
+
+        if (commandFound(state.commandText) || aliasFound(state.commandText)) {
+          return (state.command = c)
+        }
+      })
+    }
+
+    // Update the state
+    state.isCommand = !!state.command
   }
 
-  if (!state.command) return
-}
+  // Check if user is admin
+  state.isAdmin = isAdmin(senderId)
+
+  // Set state to an update object
+  update.state = state
+
+  // Process middlewares
+  await next()
+})

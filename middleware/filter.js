@@ -1,23 +1,28 @@
-const { USERS, DIALOGS } = require('../configs/blacklist')
 const { ADMIN_ONLY } = require('../configs/admins')
+const { COMMAND_COOLDOWN } = require('../configs/constants')
+const { updates, memoryStorage, talkedRecently } = require('../variables')
 const isAdmin = require('../utils/isAdmin')
 
-module.exports = async update => {
-  const { message, isOutbox, senderId, peerId, state } = update
+updates.on('message', async (update, next) => {
+  const { text, isOutbox, peerId, senderId } = update
 
   if (isOutbox) return
-  if (message === '' || !message) return
+  if (text === '' || !text) return
   if (ADMIN_ONLY && !isAdmin(senderId)) return
 
-  if (state.isCommand) {
-    // Check if user is in blacklist
-    if (USERS.some(id => id === senderId)) {
-      return update.reply('🤗 Подмойся, омжека')
-    }
+  // Return if user has used command recently
+  if (talkedRecently.has(senderId)) return
 
-    // Check if dialog is in blacklist
-    else if (DIALOGS.some(id => id === peerId)) {
-      return update.reply('🤗 Вы тут заблокированы)')
-    }
-  }
-}
+  // Add user to a Set
+  talkedRecently.add(senderId)
+  setTimeout(() => talkedRecently.delete(senderId), COMMAND_COOLDOWN)
+
+  // Get session
+  let session = memoryStorage.has(peerId) ? memoryStorage.get(peerId) : {}
+  update.state.session = session
+
+  // Set session to the storage
+  memoryStorage.set(peerId, session)
+
+  await next()
+})

@@ -1,27 +1,29 @@
 const { updates } = require('../variables')
-const counter = require('./counter')
-const filter = require('./filter')
-const payload = require('./payload')
 const mention = require('./mention')
 const command = require('./command')
 const log = require('./log')
 
+// Count message
+require('./counter')
+
+// Add coin
+require('./coins')
+
+// Filter message
+require('./filter')
+
+// Set message payload
+require('./payload')
+
+// Filter blacklisted users and multidialogs
+require('./blacklist')
+
 updates.on('message', async (update, next) => {
-
-  // Count message
-  counter(update)
-
-  // Filter message
-  filter(update)
-
-  // Set message payload
-  payload(update)
-
   // If message is only mention
   // then return mention message
   if (update.state.isMentionMessage) {
-    return mention(update) 
-  } 
+    return mention(update)
+  }
 
   // Else if message is command
   // log it and run the command
@@ -30,7 +32,6 @@ updates.on('message', async (update, next) => {
     return command(update)
   }
 
-  // Process listeners
+  // Process middlewares
   await next()
-
 })

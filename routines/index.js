@@ -1,11 +1,9 @@
-const init = require('./init')
-const commands = require('./parseCommands')
-const log = require('./logging')
+/**
+ * This file used for execute routine functions
+ */
 
-require('./flushTemp')(log)
+// Auto send messages
+require('./auto')
 
-module.exports = {
-  ...init,
-  commands,
-  log
-}
+// Auto accept friend requests
+require('./friends')

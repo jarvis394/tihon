@@ -1,11 +1,9 @@
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
   const handleError = require('../../utils/handleError')
-  const { users: store } = require('../../variables')
-  const { BLACKLIST } = require('../../config')
+  const { USERS } = require('../../configs/blacklist')
   
   try {
-    
     let id
     try { 
       id = parseInt(args[0].split('|')[0].slice(3))
@@ -14,7 +12,7 @@ exports.run = async (api, update, args) => {
       id = update.senderId
     }
     
-    if (BLACKLIST.some(e => e === id.toString())) return update.reply('😠 Этот пользователь заблокирован')
+    if (USERS.some(e => e === id.toString())) return update.reply('😠 Этот пользователь заблокирован')
     
     const user = new User(id)
 

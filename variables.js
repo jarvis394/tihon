@@ -6,7 +6,7 @@ const {
   firebase,
   commands,
   log
-} = require('./routines/index')
+} = require('./startup/index')
 
 const Container = require('./lib/Container')
 

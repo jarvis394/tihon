@@ -9,7 +9,7 @@ const ADMINS = [
 /**
  * If true then only admins defined in ADMINS
  */
-const ADMIN_ONLY = false
+const ADMIN_ONLY = true
 
 module.exports = {
   ADMIN_ONLY,

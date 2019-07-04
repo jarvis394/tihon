@@ -4,9 +4,9 @@ module.exports = log => {
   const chalk = require('chalk')
 
   // Flush temp data from last reload
-  fs.readFile('.temp/coinsData.json', (err, data) => {
+  fs.readFile('temp/coinsData.json', (err, data) => {
     if (err && err.code === 'ENOENT') {
-      return log.warn('No file found on path \'.temp/coinsData.json\'', {
+      return log.warn('No file found on path \'temp/coinsData.json\'', {
         private: true
       })
     } else if (err) {

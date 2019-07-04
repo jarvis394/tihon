@@ -10,7 +10,7 @@ exports.run = async (api, update, args) => {
     let res = {}
     store.forEach((data, id) => res[id] = data)
 
-    fs.writeFile('.temp/coinsData.json', JSON.stringify(res), (err) => {
+    fs.writeFile('temp/coinsData.json', JSON.stringify(res), (err) => {
       if (err) {
         log.error(err)
       } else {

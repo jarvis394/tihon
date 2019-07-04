@@ -22,6 +22,7 @@ Will be moved to the `tihon.glitch.me` domain in future.
 ```
 git clone https://github.com/jarvis394/ded_tihon
 cd ded_tihon
+npm i
 ```
 
 **IMPORTANT!** After these steps you must provide **USER**'s VK API token and other enviroment constants in `./config`. Then just type

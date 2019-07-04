@@ -1,9 +1,10 @@
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
   const handleError = require('../../utils/handleError')
-  const { BLACKLIST } = require('../../config')
+  const { USERS } = require('../../configs/blacklist')
 
   const shopData = require('../../data/shop')
+  const shopUtils = require('../../utils/shop')
 
   try {
     let { senderId } = update
@@ -16,7 +17,7 @@ exports.run = async (api, update, args) => {
     let rank = await user.getReputation()
     let pets = await user.fetchPets()
     
-    if (BLACKLIST.some(e => e === userId.toString())) return update.reply('😠 Этот пользователь заблокирован')
+    if (USERS.some(e => e === userId.toString())) return update.reply('😠 Этот пользователь заблокирован')
 
     // Balance
     res.push('💵 Баланс')
@@ -39,7 +40,7 @@ exports.run = async (api, update, args) => {
 
         // Push item
         groupItems.forEach((id, i) => {
-          const item = shopData.getItemById(id)
+          const item = shopUtils.getItemById(id)
           res.push(`  [ ${i + 1} ] ${item.icon} ${item.name}`)
         })
       }
@@ -55,7 +56,7 @@ exports.run = async (api, update, args) => {
 
       // Push pet's text
       pets.forEach((id, i) => {
-        const pet = shopData.getPetById(id)
+        const pet = shopUtils.getPetById(id)
         res.push(`  [ ${i + 1} ] ${pet.icon} ${pet.name}`)
       })
     }

@@ -1,7 +1,7 @@
 const handleError = require('../utils/handleError')
-const { randomStorage, api } = require('../variables')
+const { randomStorage, updates, api } = require('../variables')
 
-module.exports = async (update) => {
+updates.on('message', async (update, next) => {
   let { count } = update.state
 
   if (!count) count = 0
@@ -17,4 +17,6 @@ module.exports = async (update) => {
 
     count = 0
   }
-}
+
+  await next()
+})
