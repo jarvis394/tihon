@@ -1,13 +1,13 @@
 const { vk, log } = require('./variables')
 
 // Listen to updates
-require('./middleware/index')
+require('./middleware')
 
 // Start routines
-require('./routines/index')
+require('./routines')
 
 // Web
-require('./web/index')
+require('./web')
 
 /**
  * Starts polling
