@@ -15,6 +15,9 @@ require('./filter')
 // Set message payload
 require('./payload')
 
+// Set session
+require('./session')
+
 // Filter blacklisted users and multidialogs
 require('./blacklist')
 
