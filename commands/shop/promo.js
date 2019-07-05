@@ -1,13 +1,17 @@
 exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
   const handleError = require('../../utils/handleError')
-  const { promoFunctions, promoFunction, getPromo } = require('../../utils/promo')
+  const promoFunctions = require('../../data/promo')
+  const { promoFunction, getPromo } = require('../../utils/promo')
   
   try {
     const code = args[0]
     const user = new User(update.senderId)
     const earnings = await user.getEarnings()
     const promo = getPromo()
+    
+    const promoCode = promo.code.toString()
+    const earningsCode = earnings.promo ? earnings.promo.toString() : ''
 
     if (!promo.code) return update.reply('😔 Пока нет никаких промокодов')
     
@@ -20,6 +24,8 @@ exports.run = async (api, update, args) => {
       if (!state) return update.reply('♦️ Ты не успел!')
       
       return update.send('🎈 Промокод успешно применён')
+    } else if (earnings.promo === promo.code) {
+      return update.send('♦️ Ты уже вводил этот промокод. Жди следующий!')
     } else {
       return update.send('♦️ Введен неправильный или недействительный код')
     }

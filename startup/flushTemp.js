@@ -2,6 +2,7 @@ module.exports = log => {
   const fs = require('fs')
   const { firebase } = require('./init')
   const chalk = require('chalk')
+  const earnings = ['promo', 'farms', 'daily']
 
   // Flush temp data from last reload
   fs.readFile('temp/coinsData.json', (err, data) => {
@@ -40,7 +41,7 @@ module.exports = log => {
               let e = user.earnings[key]
               let dataEarning = d.earnings[key]
 
-              if (key !== 'promo' && (dataEarning > e || !e)) {
+              if (!e || e !== dataEarning) {
                 user.earnings[key] = dataEarning
               }
             }

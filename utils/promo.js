@@ -4,7 +4,8 @@ const { log } = require('../variables')
 const promos = require('../data/promo')
 
 const promoFunction = async (f, u) => {
-  return await f(u)
+  await f(u)
+  return true
 }
 
 /**
