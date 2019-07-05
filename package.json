@@ -28,7 +28,8 @@
     "request-promise-native": "^1.0.7",
     "store": "^2.0.12",
     "vk-io": "^4.0.0-rc.17",
-    "process-list": "^1.2.3"
+    "process-list": "^1.2.3",
+    "reverse-line-reader": "^0.2.6"
   },
   "engines": {
     "node": "8.x"

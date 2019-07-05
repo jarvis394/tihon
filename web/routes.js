@@ -3,6 +3,8 @@ const shopData = require('../data/shop')
 const cmd = require('node-cmd')
 const crypto = require('crypto')
 const ejs = require('ejs')
+const fs = require('fs')
+const readline = require('reverse-line-reader')
 
 const { app, commands, firebase, log } = require('../variables')
 const { SECRET } = require('../configs/secrets')
@@ -76,6 +78,29 @@ app.get('/api/data/shop', (req, res) => {
   res.set('Access-Control-Allow-Origin', '*')
   
   return res.json(shopData)
+})
+
+app.get('/api/logs/main', async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*')
+  const count = req.query.count || 200
+  const offset = req.query.offset || 0
+  
+  let logs = []
+  let c = 0
+  
+  readline.eachLine('logs/main.log', (line) => {
+    if (c >= offset && line) logs.push(line)
+    if (logs.length >= count) {
+      res.json({
+        data: logs
+      })
+      
+      // Stop reading
+      return false
+    }
+    
+    c++
+  })
 })
 
 app.get('/api/profile/:id', async (req, res) => {
