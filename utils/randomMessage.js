@@ -2,6 +2,7 @@ const { api, firebase } = require('../variables')
 const blacklist = require('../configs/blacklist')
 const { ID } = require('../configs/constants')
 const Dialog = require('../lib/Dialog')
+const randomLogger = require('../lib/RandomCommandLogger')
 const { randomArray } = require('./random')
 const db = firebase.firestore()
 
@@ -99,6 +100,11 @@ module.exports = async () => {
       flag = true
     })
   }
+
+  // Log message to random.log
+  randomLogger.info({
+    message: msg
+  })
 
   return msg
 }

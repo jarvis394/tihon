@@ -17,7 +17,7 @@ const log = createLogger({
   level: 'info',
   levels: LEVELS,
   exitOnError: false,
-  format: format.combine(
+  format: combine(
     timestamp(),
     errors({ stack: true }),
     splat(),

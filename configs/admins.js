@@ -7,9 +7,9 @@ const ADMINS = [
 ]
 
 /**
- * If true then only admins defined in ADMINS
+ * If true then only admins defined in ADMINS can use commands
  */
-const ADMIN_ONLY = true
+const ADMIN_ONLY = Boolean(process.env.ADMIN_ONLY)
 
 module.exports = {
   ADMIN_ONLY,

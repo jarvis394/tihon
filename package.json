@@ -23,13 +23,13 @@
     "mathjs": "^5.10.3",
     "moment": "^2.24.0",
     "node-cmd": "^3.0.0",
+    "process-list": "^1.2.3",
     "quick.db": "^7.0.0-b22",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
+    "reverse-line-reader": "^0.2.6",
     "store": "^2.0.12",
-    "vk-io": "^4.0.0-rc.17",
-    "process-list": "^1.2.3",
-    "reverse-line-reader": "^0.2.6"
+    "vk-io": "^4.0.0-rc.17"
   },
   "engines": {
     "node": "8.x"
