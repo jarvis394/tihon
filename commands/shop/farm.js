@@ -1,6 +1,6 @@
 exports.run = async (api, update) => {
   const User = require('../../lib/User')
-  const shopData = require('../../data/shop')
+  const shopUtils = require('../../utils/shop')
   const handleError = require('../../utils/handleError')
   const HOUR = 3600000 * 6
 
@@ -28,7 +28,7 @@ exports.run = async (api, update) => {
 
       // For each item push if it has 'earning'
       items.farms.forEach(id => {
-        let shopItem = shopData.getItemById(id)
+        let shopItem = shopUtils.getItemById(id)
 
         if (shopItem && shopItem.earning) {
           let earning = Math.floor(((now - lastTime) / HOUR) * shopItem.earning)
