@@ -37,6 +37,9 @@ updates.on('message', async (update, next) => {
   } else {
     state.isCommand = false
   }
+  
+  // Check if user is admin
+  state.isAdmin = isAdmin(senderId)
 
   // If message is possibly command
   if (state.isMentioned || state.isPrefixed) {
@@ -52,9 +55,13 @@ updates.on('message', async (update, next) => {
       .filter(a => a.length !== 0)
 
     if (state.commandText.startsWith('?dev-')) {
-      state.command = {
-        name: state.commandText.slice(5),
-        group: 'dev'
+      if (state.isAdmin) {
+        state.command = {
+          name: state.commandText.slice(5),
+          group: 'dev'
+        }
+      } else {
+        return await update.reply('🔐 Такое доступно только админам')
       }
     } else {
       commands.forEach(c => {
@@ -70,9 +77,6 @@ updates.on('message', async (update, next) => {
     // Update the state
     state.isCommand = !!state.command
   }
-
-  // Check if user is admin
-  state.isAdmin = isAdmin(senderId)
 
   // Set state to an update object
   update.state = state
