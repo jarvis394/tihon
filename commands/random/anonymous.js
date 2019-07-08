@@ -1,13 +1,10 @@
 exports.run = async (api, update, args, _1, _2, _3, variables) => {
   const handleError = require('../../utils/handleError')
-
   const { randomArray } = require('../../utils/random')
-
   const { ANON_COOLDOWN } = require('../../configs/constants')
-
-  const ANON_PRICE = 1000
+  const commandLogger = require('../../lib/CommandLogger')
+  const ANON_PRICE = 2500
   const User = require('../../lib/User')
-
   const moment = require('moment')
 
   try {
@@ -60,17 +57,22 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
       return update.reply(
         '❌ Нельзя так часто слать фигню в беседы!\n' +
           'Осталось ждать: ' +
-          moment(time).format('ss')
+          moment(time).format('mm:ss')
       )
     }
 
     if (args.length === 0 && !hasAttachments && !hasReply)
       return update.reply('❌ Нету текста или чего-нибудь, что можно отправить')
 
-    if (args.join(' ').length > 1000)
+    if (args.join(' ').length > 1000) {
       return update.reply(
         '❌ Слишком много текста (>1000), не засоряй чужую беседу'
       )
+    } else if (args.join(' ').length < 10) {
+      return update.reply(
+        '❌ Слишком мало текста (<10)'
+      )
+    }
 
     const user = new User(senderId)
     const { state, amount } = await user.isEnoughFor(ANON_PRICE)
@@ -103,7 +105,8 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
       dialog = randomArray(dialogs).conversation
     }
 
-    const peer = dialog.peer.id
+    const peer = parseInt(dialog.peer.id)
+    const textPeer = peer - 2000000000 > 0 ? peer - 2000000000 : peer
 
     let attachments = []
     let flag = false
@@ -128,7 +131,16 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
     if (!flag) await send(peer, text, attachments.join(','))
 
     user.subtract(ANON_PRICE)
-    update.reply('✅ Сообщение отправлено в диалог #' + peer)
+    update.reply('✅ Сообщение отправлено в диалог #' + textPeer)
+
+    // Log message to command.log
+    commandLogger.anon({
+      text,
+      attachments: attachments.join(','),
+      toPeer: peer,
+      senderId,
+      peerId
+    })
 
     anonCommandTimeout.set(senderId, Date.now())
     setTimeout(() => anonCommandTimeout.delete(senderId), ANON_COOLDOWN)

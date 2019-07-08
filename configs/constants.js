@@ -21,7 +21,7 @@ const COMMAND_COOLDOWN = 5000
 /**
  * Cooldown between /anon commands
  */
-const ANON_COOLDOWN = 1000 * 60
+const ANON_COOLDOWN = 1000 * 60 * 2
 
 /**
  * Interval between auto-sending random messages
