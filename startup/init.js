@@ -10,8 +10,8 @@ firebase.initializeApp({
   databaseURL: FIREBASE_DB_URL
 })
 
-// Initialize VK
-vk.setOptions({
+// Initialize VK if not disabled
+process.env.MODE !== 'DISABLED' && vk.setOptions({
   token: TOKEN,
   authScope: 'all'
 })
