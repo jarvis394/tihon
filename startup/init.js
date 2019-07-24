@@ -2,6 +2,7 @@ const { VK } = require('vk-io')
 const vk = new VK()
 const { api, updates } = vk
 const { TOKEN, FIREBASE_KEYS, FIREBASE_DB_URL } = require('../configs/secrets')
+const { ID } = require('../configs/constants')
 
 const firebase = require('firebase-admin')
 
@@ -13,6 +14,7 @@ firebase.initializeApp({
 // Initialize VK if not disabled
 process.env.MODE !== 'DISABLED' && vk.setOptions({
   token: TOKEN,
+  pollingGroupId: ID,
   authScope: 'all'
 })
 

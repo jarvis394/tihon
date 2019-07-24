@@ -1,17 +1,18 @@
 /**
- * Bot ID
+ * Group ID
  */
-const ID = '378852887'
-
-/**
- * Bot prefix
- */
-const PREFIX = '/'
+const ID = '175388696'
 
 /**
  * Mention prefix
  */
-const MENTION_PREFIX = '[id' + ID + '|'
+const MENTION_PREFIX = '[club' + ID + '|'
+
+/**
+ * Group prefix
+ * Set to MENTION_PREFIX because of 
+ */
+const PREFIX = MENTION_PREFIX
 
 /**
  * Cooldown between commands

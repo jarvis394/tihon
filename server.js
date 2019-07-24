@@ -1,4 +1,4 @@
-const { vk, log } = require('./variables')
+const { vk, log, updates } = require('./variables')
 
 // Listen to updates
 require('./middleware')
@@ -13,8 +13,8 @@ require('./web')
  * Starts polling
  */
 async function run() {
-  await vk.updates.startPolling()
-  log.info('Polling started')
+  await updates.startPolling()
+  log.info('Polling started', { private: true })
 }
 
 // Run if not disabled

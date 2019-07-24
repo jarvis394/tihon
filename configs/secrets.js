@@ -1,7 +1,7 @@
 /**
  * Bot token
  */
-const TOKEN = process.env.TOKEN
+const TOKEN = process.env.GROUP_TOKEN
 
 /**
  * Secret for secret purposes
