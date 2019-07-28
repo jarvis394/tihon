@@ -1,43 +1,38 @@
 exports.run = async (api, update, args) => {
   const handleError = require('../../utils/handleError')
-
-  const firebase = require('firebase')
-  const db = firebase.firestore()
+  const User = require('../../lib/User')
 
   try {
-    if (!args[0] || !args[0].startsWith('[id')) return show()
+    const { senderId } = update 
+    const user = new User(senderId)
 
-    let person = args[0].slice(3).split('|')[0]
+    // Check if someone is mentioned
+    if (!args[0] || !args[0].startsWith('[id')) return update.reply('✖ Упомяни человека')
 
-    await marryWith(person, update.fromId)
-    update.send(
-      'Теперь [id' +
-        person +
-        '|Person] и [id' +
-        update.fromId +
-        '|Husband] женаты!'
-    )
+    // Get id of mentioned user
+    const personId = args[0].slice(3).split('|')[0]
+
+    // Check ids
+    if (personId === senderId) return update.reply('✖ Нельзя пожениться с самим собой! Фу нахуй!')
+
+    // Initialize person
+    const person = new User(personId)
+
+    // Execute process
+    const state = await user.marryWith(person)
+
+    // Check if entry is already created
+    if (state.exists) return update.reply('🤔 Ты уже женат с этим человеком, забыл?')
+
+    // Get names
+    const names = await api.users.get({ user_ids: `${user.id},${person.id}` })
+    const userName = names[0].first_name
+    const personName = names[1].first_name
+
+    // Send reply back
+    return update.reply(`💕 [id${senderId}|${userName}] и [id${person.id}|${personName}] теперь женаты!`)
   } catch (e) {
     handleError(update, e)
-  }
-
-  async function marryWith(husband, person) {
-    db.collection('marries')
-      .doc(`${person}`)
-      .set({
-        husband: husband,
-        date: Date.now()
-      })
-  }
-
-  async function show() {
-    db.collection('marries')
-      .doc(`${update.fromId}`)
-      .get()
-      .then(doc => {
-        console.log(doc.data())
-        update.send(doc.data())
-      })
   }
 }
 
@@ -46,7 +41,12 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Marry with someone',
-    ru: 'Пожениться с человеком (или нет)'
+    ru: 'Пожениться с человеком'
   },
-  group: 'roleplay'
+  group: 'roleplay',
+  alias: [
+    'брак',
+    'женитьба',
+    'пожениться'
+  ]
 }

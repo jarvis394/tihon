@@ -19,6 +19,7 @@
     "firebase": "^6.1.0",
     "firebase-admin": "^8.1.0",
     "fs": "^0.0.2",
+    "hashids": "^1.2.2",
     "jest": "^24.8.0",
     "mathjs": "^5.10.3",
     "moment": "^2.24.0",
@@ -28,6 +29,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "reverse-line-reader": "^0.2.6",
+    "shortid": "^2.2.14",
     "store": "^2.0.12",
     "vk-io": "^4.0.0-rc.17"
   },
