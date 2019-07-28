@@ -13,7 +13,7 @@ exports.run = async (api, update, args) => {
     const personId = args[0].slice(3).split('|')[0]
 
     // Check ids
-    if (personId === senderId) return update.reply('✖ Нельзя пожениться с самим собой! Фу нахуй!')
+    if (personId === user.id) return update.reply('✖ Нельзя пожениться с самим собой! Фу нахуй!')
 
     // Initialize person
     const person = new User(personId)
