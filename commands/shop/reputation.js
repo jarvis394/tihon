@@ -18,9 +18,9 @@ exports.run = async (api, update, args) => {
 
     return update.reply(
       (id === update.senderId ? 
-        'Твой баланс:⠀⠀\n' : 
-        'Баланс ' + id + ': \n') + 
-      '💵 ' + (new Intl.NumberFormat('en-IN').format(await user.getAmount())) + ' T'
+        'Твоя репутация:⠀⠀\n' : 
+        'Репутация ' + id + ': \n') + 
+      '💠 ' + new Intl.NumberFormat('en-IN').format(await user.getReputation()) + ' R'
     )
   } catch (e) {
     handleError(update, e)
@@ -28,12 +28,12 @@ exports.run = async (api, update, args) => {
 }
 
 exports.command = {
-  name: 'balance',
+  name: 'reputation',
   arguments: false,
   description: {
-    en: 'Shows balance of user',
-    ru: 'Показывает баланс пользователя'
+    en: 'Shows reputation of user',
+    ru: 'Показывает репутацию пользователя'
   },
-  alias: ['баланс'],
+  alias: ['rep', 'реп', 'репутация'],
   group: 'shop'
 }

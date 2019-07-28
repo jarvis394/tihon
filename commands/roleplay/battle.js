@@ -1,10 +1,11 @@
 exports.run = async (api, update, args) => {
   const { handleError } = require('../../utils/handleError')
-
+  const moment = require('moment')
+  const BATTLE_PRICE = 5000
   const { randomArray, random } = require('../../utils/random')
-
   const User = require('../../lib/User')
-  const { ID } = require('../../configs/constants')
+  const { ID, BATTLE_COOLDOWN } = require('../../configs/constants')
+  const { battleCommandTimeout } = require ('../../variables')
 
   const histories = {
     beginning: [
@@ -94,7 +95,28 @@ exports.run = async (api, update, args) => {
     const { senderId } = update
     const player = new Opponent(senderId)
     const opponent = new Opponent(opponentId)
+    const timeoutData = battleCommandTimeout.get(senderId)
+    
+    if (timeoutData && Date.now() - timeoutData < BATTLE_COOLDOWN) {
+      const time = BATTLE_COOLDOWN - (Date.now() - timeoutData)
 
+      return update.reply(
+        '❌ Нельзя так часто с кем-то сражаться!\n' +
+          'Осталось ждать: ' +
+          moment(time).format('mm:ss')
+      )
+    } else {
+      battleCommandTimeout.set(senderId, Date.now())
+    }
+    
+    const { state, amount } = await player.isEnoughFor(BATTLE_PRICE)
+    if (!state)
+      return update.reply(
+        `🧮 Не хватает денег: у тебя ${amount}T, а нужно ${BATTLE_PRICE}T`
+      )
+    
+    player.subtract(BATTLE_PRICE)
+    
     const n = await api.execute({
       code: `return [API.users.get({ user_ids: "${player.id},${
         opponent.id
@@ -170,14 +192,14 @@ exports.run = async (api, update, args) => {
 
     function next(i) {
       if (!player.isDead() && !opponent.isDead()) {
-        const damage = random(30, 44),
+        const damage = random(30, 50),
           attacker = Math.random() >= 0.5 ? player : opponent,
           receiver = attacker.id === player.id ? opponent : player,
           pHP = player.hp,
           oHP = opponent.hp,
           c = Math.random()
 
-        if (c < 0.15) {
+        if (c < 0.1) {
           history.push(receiver.name.nom + ' отклоняет удар!\n')
 
           return next(i)

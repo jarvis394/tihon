@@ -13,7 +13,7 @@ const db = firebase.firestore()
  */
 module.exports = async () => {
   // Testing functions
-  const isEmpty = m => m.attachments.length === 0 && (m.text === '' || !m.text)
+  const isEmpty = m => /*m.attachments.length === 0 && */ (m.text === '' || !m.text)
   const startsWithLink = m => m.text.split(' ').some(t => t.startsWith('http'))
   const startsWithPhone = m => m.text.split(' ').some(t => t.startsWith('+7'))
   const isCommandMessage = m => m.text.split(' ').some(t => t.startsWith('/'))

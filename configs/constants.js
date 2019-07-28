@@ -24,9 +24,14 @@ const COMMAND_COOLDOWN = 5000
 const ANON_COOLDOWN = 1000 * 60 * 2
 
 /**
+ * Cooldown between /battle commands
+ */
+const BATTLE_COOLDOWN = 1000 * 60 * 2
+
+/**
  * Interval between auto-sending random messages
  */
-const AUTO_INTERVAL = 3600 * 1000
+const AUTO_INTERVAL = 3600 * 3 * 1000
 
 /**
  * Daily bonus for user
@@ -38,6 +43,7 @@ module.exports = {
   MENTION_PREFIX,
   COMMAND_COOLDOWN,
   ANON_COOLDOWN,
+  BATTLE_COOLDOWN,
   AUTO_INTERVAL,
   DAILY_BONUS,
   ID

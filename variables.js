@@ -11,8 +11,9 @@ const {
 const Container = require('./lib/Container')
 
 const memoryStorage = new Map() // Saves counter to every dialog
-const talkedRecently = new Set() // Saves users that talked recently
-const anonCommandTimeout = new Map() // Saves users that recently used /anon
+const talkedRecently = new Set() // Saves users which talked recently
+const anonCommandTimeout = new Map() // Saves users which recently used /anon
+const battleCommandTimeout = new Map() // Saves users which recently used /battle
 const randomStorage = new Map() // Saves previous random messages
 const users = new Container(25)
 
@@ -32,5 +33,6 @@ module.exports = {
   firebase,
   users,
   anonCommandTimeout,
+  battleCommandTimeout,
   log
 }

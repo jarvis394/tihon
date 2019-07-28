@@ -37,6 +37,6 @@ exports.command = {
     en: 'Who is ***?',
     ru: 'Кто ***?'
   },
-  alias: ['упомянуть'],
+  alias: ['упомянуть', 'упомяни'],
   group: 'utils'
 }

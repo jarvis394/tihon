@@ -52,7 +52,7 @@ exports.run = async (api, update, args, _1, _2, _3, variables) => {
 
     if (anonCommandTimeout.has(senderId)) {
       let time =
-        ANON_COOLDOWN - Date.now() - anonCommandTimeout.get(senderId)
+        ANON_COOLDOWN - (Date.now() - anonCommandTimeout.get(senderId))
 
       return update.reply(
         '❌ Нельзя так часто слать фигню в беседы!\n' +

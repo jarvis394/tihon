@@ -37,7 +37,7 @@ async function messageService(dialog) {
   // If bot was kicked from dialog then return
   if (!dialog.conversation.can_write.allowed) return
 
-  setInterval(async () => {
+  setTimeout(async () => {
     let res = ''
     let options = {}
 

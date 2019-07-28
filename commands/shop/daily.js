@@ -2,7 +2,7 @@ exports.run = async (api, update) => {
   const User = require('../../lib/User')
   const handleError = require('../../utils/handleError')
   const DAY = 86400000
-  const { DAILY_BONUS } = require('../../config')
+  const { DAILY_BONUS } = require('../../configs/constants')
 
   try {
     let firstTimeFlag = false
@@ -22,7 +22,6 @@ exports.run = async (api, update) => {
 
     if (now - lastTime >= DAY || firstTimeFlag) {
       user.add(DAILY_BONUS)
-
       user.setEarning('daily', now)
 
       return update.send(
@@ -48,5 +47,5 @@ exports.command = {
     en: 'Get your daily bouns!',
     ru: 'Получи свой ежедневный бонус!'
   },
-  alias: ['бонус']
+  alias: ['бонус', 'bonus']
 }

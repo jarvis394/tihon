@@ -40,9 +40,9 @@ module.exports = log => {
             for (let key in d.earnings) {
               let e = user.earnings[key]
               let dataEarning = d.earnings[key]
-
-              if (!e || e !== dataEarning) {
-                user.earnings[key] = dataEarning
+              
+              if (!dataEarning || (e && dataEarning && e > dataEarning)) {
+                user.earnings[key] = e
               }
             }
 
@@ -57,5 +57,7 @@ module.exports = log => {
     }
 
     log.info(chalk.gray('Pushed temp data'), { private: true })
+    
+    fs.writeFile('temp/coinsData.json', JSON.stringify({}), () => {})
   })
 }
