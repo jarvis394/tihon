@@ -5,10 +5,10 @@
 
 const init = require('./init')
 const commands = require('./parseCommands')
-const log = require('./logging')
+const log = require('./log')
 
 // Flush temporary data to DB
-require('./flushTemp')(log)
+require('./flushTemp')
 
 module.exports = {
   ...init,

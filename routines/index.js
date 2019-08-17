@@ -1,5 +1,5 @@
 /**
- * This file used for execute routine functions
+ * This file used to execute routine functions
  */
 
 // Auto send messages

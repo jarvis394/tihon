@@ -3,7 +3,7 @@ const { random } = require('../utils/random')
 const randomMessage = require('../utils/randomMessage')
 const { AUTO_INTERVAL } = require('../configs/constants')
 const { log, api, vk } = require('../variables')
-
+/*
 setInterval(async () => {
   const Dialogs = await api.messages.getConversations({ count: 200 })
   const count = Dialogs.count
@@ -21,7 +21,7 @@ setInterval(async () => {
   }
 
   dialogs.forEach(async dialog => await messageService(dialog))
-}, AUTO_INTERVAL)
+}, AUTO_INTERVAL)*/
 
 /**
  * Installs service for a dialog to auto send messages

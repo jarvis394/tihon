@@ -1,7 +1,7 @@
 exports.run = async (api, update, args) => {
   const handleError = require('../../utils/handleError')
   const User = require('../../lib/User')
-  const { BLACKLIST } = require('../../config')
+  const { USERS: BLACKLIST } = require('../../configs/blacklist')
   
   try {
 

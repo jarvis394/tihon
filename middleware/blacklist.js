@@ -7,7 +7,7 @@ updates.on('message', async (update, next) => {
   if (state.isCommand) {
     // Check if user is in blacklist
     if (USERS.some(id => id === senderId)) {
-      return update.reply('🤗 Подмойся, омжека')
+      return update.reply('🤗 Подмойся, омежка')
     }
 
     // Check if dialog is in blacklist
