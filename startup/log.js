@@ -8,9 +8,12 @@ const ignorePrivate = format(info => {
 })
 
 const consoleFormat = printf(info => {
-  return `${COLORS[info.level](`> [${info.level.toUpperCase()}]`)}  ${
-    info.message
-  }`
+  let m = `${COLORS[info.level](`> [${info.level.toUpperCase()}]`)}  `
+
+  if (info.stack) m += info.stack
+  else m += info.message
+
+  return m
 })
 
 const log = createLogger({
@@ -38,7 +41,8 @@ const log = createLogger({
     }),
     new transports.Console({
       level: 'command',
-      format: combine(simple(), consoleFormat)
+      format: combine(simple(), consoleFormat),
+      handleExceptions: true
     })
   ]
 })

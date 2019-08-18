@@ -7,5 +7,5 @@ require('./routines')
 // Listen to updates
 require('./middleware')
 
-// Web
+// Start web server
 require('./web')

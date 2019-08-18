@@ -1,10 +1,9 @@
-const { api, firebase } = require('../variables')
 const blacklist = require('../configs/blacklist')
 const { ID } = require('../configs/constants')
-const Dialog = require('../lib/Dialog')
 const commandLogger = require('../lib/CommandLogger')
 const { randomArray } = require('./random')
-const db = firebase.firestore()
+const isUrl = require('./isUrl')
+const dataUtils = require('./data')
 
 /**
  * Returns random message from multidialogs
@@ -13,8 +12,8 @@ const db = firebase.firestore()
  */
 module.exports = async () => {
   // Testing functions
-  const isEmpty = m => /*m.attachments.length === 0 && */ (m.text === '' || !m.text)
-  const startsWithLink = m => m.text.split(' ').some(t => t.startsWith('http'))
+  const isEmpty = m => !m.text 
+  const hasLink = m => m.text.split(' ').some(t => isUrl(t))
   const startsWithPhone = m => m.text.split(' ').some(t => t.startsWith('+7'))
   const isCommandMessage = m => m.text.split(' ').some(t => t.startsWith('/'))
   const isErrorMessage = m =>
@@ -28,14 +27,13 @@ module.exports = async () => {
 
     return (
       isEmpty(m) ||
-      startsWithLink(m) ||
+      hasLink(m) ||
       startsWithPhone(m) ||
       isCommandMessage(m) ||
       isErrorMessage(m) ||
       isLong(m) ||
       isSelf(m) ||
-      hasMention(m) ||
-      flag
+      hasMention(m)
     )
   }
 
@@ -43,62 +41,27 @@ module.exports = async () => {
     let flag = false
 
     m.attachments.forEach(a => {
-      if (a.type === 'photo') {
-        if (blacklist.USERS.some(e => e === a.photo.owner_id.toString())) {
-          flag = true
-        }
+      console.log(m.attachments)
+      if (blacklist.USERS.includes(e => e === a[a.type].owner_id.toString())) {
+        flag = true
       }
     })
 
     return flag
   }
 
-  // Get dialogs
-  let dialogs = await api.messages.getConversations({
-    count: 200
-  })
-
   async function getMsg() {
-    let dialog = randomArray(dialogs.items)
-
-    const dialogData = new Dialog(dialog.conversation.peer.id)
-    const data = dialogData.checkData()
-
-    while (data.no) {
-      dialog = randomArray(dialogs.items)
-    }
-
-    let messages = await api.messages.getHistory({
-      peer_id: dialog.conversation.peer.id
-    })
-    let message = randomArray(messages.items)
+    const histories = await dataUtils.getHistories()
+    const dialogHistory = randomArray(histories)
+    const message = randomArray(dialogHistory.items)
 
     return message
   }
 
   let msg = await getMsg()
-  let isReported = await db
-    .collection('reported')
-    .where('id', '==', parseInt(msg.id))
-    .get()
-  let flag = 0
-
-  isReported.forEach(() => {
-    flag = true
-  })
 
   while (testMessage(msg) || testAttachments(msg)) {
     msg = await getMsg()
-
-    isReported = await db
-      .collection('reported')
-      .where('id', '==', parseInt(msg.id))
-      .get()
-    flag = 0
-
-    isReported.forEach(() => {
-      flag = true
-    })
   }
 
   // Log message to command.log

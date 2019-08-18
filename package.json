@@ -1,6 +1,6 @@
 {
   "name": "tihon",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "description": "VK bot",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,9 @@
     "jest": "^24.8.0",
     "mathjs": "^5.10.3",
     "moment": "^2.24.0",
+    "mz": "^2.7.0",
     "node-cmd": "^3.0.0",
+    "path": "^0.12.7",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "reverse-line-reader": "^0.2.6",

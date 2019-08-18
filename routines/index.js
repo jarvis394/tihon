@@ -7,3 +7,6 @@ require('./auto')
 
 // Auto accept friend requests
 require('./friends')
+
+// Get data
+require('./getData')

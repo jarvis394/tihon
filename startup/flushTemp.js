@@ -55,7 +55,7 @@ fs.readFile('temp/coinsData.json', (err, data) => {
     }).catch(e => log.error(e))
   }
 
-  log.info(chalk.gray('Pushed temp data'), { private: true })
+  log.info('Pushed temp data', { private: true })
 
   fs.writeFile('temp/coinsData.json', JSON.stringify({}), () => {})
 })

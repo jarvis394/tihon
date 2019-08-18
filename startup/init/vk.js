@@ -2,7 +2,21 @@ const { VK } = require('vk-io')
 const vk = new VK()
 const { api, updates, collect } = vk
 const log = require('../log')
+const events = require('../../lib/Events')
 const { TOKEN } = require('../../configs/secrets')
+
+/**
+ * Starts polling
+ */
+async function run() {
+  await updates.startPolling()
+  log.info('Polling started', { private: true })
+}
+
+// Handle captcha
+vk.captchaHandler = ({ src }) => {
+  log.warn('Need captcha: ' + src)
+}
 
 // Initialize VK if not disabled
 if (process.env.MODE !== 'DISABLED') {
@@ -11,23 +25,8 @@ if (process.env.MODE !== 'DISABLED') {
     authScope: 'all'
   })
 
-  /**
-   * Starts polling
-   */
-  async function run() {
-    await updates.startPolling()
-    log.info('Polling started')
-  }
-
-  // Run if not disabled
-  if (process.env.MODE !== 'DISABLED') {
-    run().catch(e => log.error(e))
-  }
-
-  // Handle captcha
-  vk.captchaHandler = async ({ src }) => {
-    log.warn('Need captcha:', src)
-  }
+  // Start only when data is loaded once
+  events.once('getDataSuccess', () => run().catch(e => log.error(e)))
 }
 
 module.exports = {

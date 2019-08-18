@@ -1,27 +1,20 @@
 const DBDialog = require('../lib/Dialog')
 const { random } = require('../utils/random')
-const randomMessage = require('../utils/randomMessage')
+const { randomMessage, data } = require('../utils')
 const { AUTO_INTERVAL } = require('../configs/constants')
-const { log, api, vk } = require('../variables')
-/*
+const { log, api, collect } = require('../variables')
+
+let queue = []
+
 setInterval(async () => {
-  const Dialogs = await api.messages.getConversations({ count: 200 })
-  const count = Dialogs.count
-  let dialogs = Dialogs.items
-  let offset = 200
+  log.info('Sending random messages')
 
-  while (offset < count) {
-    const offsetDialogs = await api.messages.getConversations({
-      count: 200,
-      offset: offset
-    })
-    offsetDialogs.items.forEach(d => dialogs.push(d))
+  queue = []
 
-    offset += 200
-  }
+  const dialogs = (await data.getDialogs()).slice(0, 250)
 
   dialogs.forEach(async dialog => await messageService(dialog))
-}, AUTO_INTERVAL)*/
+}, AUTO_INTERVAL)
 
 /**
  * Installs service for a dialog to auto send messages
@@ -30,6 +23,10 @@ setInterval(async () => {
 async function messageService(dialog) {
   const Dialog = new DBDialog(dialog.conversation.peer.id)
   const data = await Dialog.checkData()
+  let options = {
+    peer_id: dialog.conversation.peer.id,
+    random_id: random(10000000, 99999999)
+  }
 
   // If dialog is blacklisted then return
   if (!data.auto) return
@@ -37,55 +34,38 @@ async function messageService(dialog) {
   // If bot was kicked from dialog then return
   if (!dialog.conversation.can_write.allowed) return
 
-  setTimeout(async () => {
-    let res = ''
-    let options = {}
+  // Get random message
+  const msg = await randomMessage(api)
 
-    let msg = await randomMessage(api)
+  // Check for text
+  if (msg.text !== '') {
+    options.message = msg.text
+  }
 
-    if (msg.text !== '') {
-      res = msg.text
-    }
+  // Check for attachments
+  if (msg.attachments.length !== 0) {
+    msg.attachments.forEach(attachment => {
+      let { type } = attachment
+      let { owner_id, id } = attachment[type]
+      let access = attachment[type].access_key
+        ? '_' + attachment[type].access_key
+        : ''
 
-    if (msg.attachments.length !== 0) {
-      msg.attachments.forEach(attachment => {
-        let { type } = attachment
-        let { owner_id, id } = attachment[type]
-        let access = attachment[type].access_key
-          ? '_' + attachment[type].access_key
-          : ''
+      options.attachment += options.attachment ? ', ' : ''
+      options.attachment += type + owner_id + '_' + id + access
+    })
+  }
 
-        options.attachments += options.attachments ? ', ' : ''
-        options.attachments += type + owner_id + '_' + id + access
-      })
-    }
+  if (!options.message && !options.attachment) return
 
-    // If some attachments
-    if (options.attachments) {
-      try {
-        return vk.api.messages.send({
-          message: res,
-          attachment: options.attachments,
-          peer_id: dialog.conversation.peer.id
-        })
-      } catch (e) {
-        log.error(e)
-      }
-    }
+  queue.push(options)
+  
+  if (queue.length >= 25) {
+    setTimeout(
+      async () => await collect.executes('messages.send', queue),
+      random(5 * 1000, 60 * 1000)
+    )
 
-    // If no attachment and there is a texf
-    else if (res !== '') {
-      try {
-        return vk.api.messages.send({
-          message: res,
-          peer_id: dialog.conversation.peer.id
-        })
-      } catch (e) {
-        log.error(e)
-      }
-    }
-
-    // Throw this message away in any other case
-    else return
-  }, random(0, 60) * 1000)
+    queue = []
+  }
 }

@@ -5,6 +5,9 @@ const promo = require ('./promo')
 const random = require('./random')
 const randomMessage = require('./randomMessage')
 const shop = require('./shop')
+const createFileIfNotExists = require('./createFileIfNotExists')
+const isUrl = require('./isUrl')
+const data = require('./data')
 
 module.exports = {
   getUsersHash,
@@ -14,4 +17,7 @@ module.exports = {
   random,
   randomMessage,
   shop,
+  createFileIfNotExists,
+  isUrl,
+  data,
 }
