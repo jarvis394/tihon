@@ -3,6 +3,7 @@ exports.run = async (api, update, args) => {
   const User = require('../../lib/User')
   const {
     getGroupByName,
+    getGroupByAccName,
     getGroupByTitle,
     getItemById
   } = require('../../utils/shop')
@@ -17,30 +18,22 @@ exports.run = async (api, update, args) => {
       return update.send('😕 Ты не ввел группу, в которой находится предмет')
     }
 
-    if (args[0] && (!getGroupByTitle(args[0]) && !getGroupByName(args[0]))) {
+    if (args[0] && (!getGroupByAccName(args[0]) && !getGroupByTitle(args[0]) && !getGroupByName(args[0]))) {
       return update.send('😕 Ты ввел несуществующую группу')
     }
 
-    if (!args[1]) {
-      return update.send('😕 Ты не ввел номер предмета, который хочешь продать')
-    }
-
-    if (isNaN(args[1])) {
-      return update.send('😕 Номер предмета - это число, знаешь.')
-    }
-
-    let n = parseInt(args[1]) - 1
     let groupName = args[0]
-    let group = getGroupByTitle(groupName)
+    let group = getGroupByAccName(groupName)
 
     if (!group) group = getGroupByName(groupName)
+    if (!group) group = getGroupByTitle(groupName)
 
     let items = await user.fetchInventory()
-    let id = items[group.title][n]
+    let id = items[group.title][0]
     let item = getItemById(id)
 
     if (!id) {
-      return update.send('🧮 У тебя нет предмета под таким номером')
+      return update.send('🧮 У тебя нет предмета в этой группе')
     }
 
     if (!item) {
@@ -49,7 +42,7 @@ exports.run = async (api, update, args) => {
 
     user.add(item.price / 2)
     await user.subtractReputation(item.rep)
-    await user.removeItem(group.title, n)
+    await user.removeItem(group.title, 0)
 
     return update.send(
       `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price /

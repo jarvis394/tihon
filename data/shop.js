@@ -18,6 +18,7 @@ module.exports.groups = [
   new Group({
     category: 'realty',
     icon: '🌇',
+    accName: 'дом',
     title: 'houses',   
     name: 'Дома',
     groupId: 1,
@@ -26,6 +27,7 @@ module.exports.groups = [
   new Group({
     category: 'other',
     icon: '🍎',
+    accName: 'огород',
     title: 'farms',    
     name: 'Огороды',
     groupId: 2,
@@ -34,6 +36,7 @@ module.exports.groups = [
   new Group({
     category: 'other',
     icon: '👙',
+    accName: 'одежду',
     title: 'clothes',    
     name: 'Одежда',
     groupId: 3,
@@ -42,6 +45,7 @@ module.exports.groups = [
   new Group({
     category: 'other',
     icon: '⚰️',
+    accName: 'гроб',
     title: 'coffins',    
     name: 'Гробы',
     groupId: 4,
