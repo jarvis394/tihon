@@ -15,8 +15,8 @@ module.exports = () => {
       if (err) return log.error(err)
 
       log.info(`Got ${data.total} dialogs`, { private: true })
+
+      events.emit('getDialogsSuccess')
     })
   })
-
-  stream.on('end', () => events.emit('getDialogsSuccess'))
 }
