@@ -35,14 +35,10 @@ exports.run = async (api, update, args) => {
 
       // If there is items
       if (groupItems.length !== 0) {
+        const item = shopUtils.getItemById(groupItems[0])
+        
         // Push group text
-        res.push(`${icon} ${name}:`)
-
-        // Push item
-        groupItems.forEach((id, i) => {
-          const item = shopUtils.getItemById(id)
-          res.push(`  [ ${i + 1} ] ${item.icon} ${item.name}`)
-        })
+        res.push(`${icon} ${name}: ${item.name}`)
       }
 
       // Ajacement space
