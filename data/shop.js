@@ -21,7 +21,7 @@ module.exports.groups = [
     title: 'houses',   
     name: 'Дома',
     groupId: 1,
-    maxItems: 3
+    maxItems: 1
   }),
   new Group({
     category: 'other',
@@ -29,7 +29,7 @@ module.exports.groups = [
     title: 'farms',    
     name: 'Огороды',
     groupId: 2,
-    maxItems: 5
+    maxItems: 1
   }),
   new Group({
     category: 'other',
@@ -37,7 +37,7 @@ module.exports.groups = [
     title: 'clothes',    
     name: 'Одежда',
     groupId: 3,
-    maxItems: 0
+    maxItems: 1
   }),
   new Group({
     category: 'other',

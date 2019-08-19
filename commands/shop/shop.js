@@ -75,7 +75,7 @@ exports.run = async (api, update, args) => {
 
       res.push('')
       res.push('Чтобы купить, напишите "купить" и [ ID ]:')
-      res.push('@tihon_bot, магазин купить 16')
+      res.push('@tihon_bot, купить 16')
 
       return update.send(res.join('\n'))
     }

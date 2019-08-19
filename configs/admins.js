@@ -12,7 +12,13 @@ const ADMINS = [
  */
 const ADMIN_ONLY = (process.env.ADMIN_ONLY === 'true')
 
+/**
+ * If true then bot won't answer on admins messages
+ */
+const EXCLUDE_ADMINS = (process.env.EXCLUDE_ADMINS === 'true')
+
 module.exports = {
   ADMIN_ONLY,
-  ADMINS
+  ADMINS,
+  EXCLUDE_ADMINS
 }
