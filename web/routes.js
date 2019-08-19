@@ -13,21 +13,7 @@ const db = firebase.firestore()
 
 // Home
 app.get('/', (req, res) => {
-  ejs.renderFile(
-    'web/views/index.html',
-    {
-      commands: commands
-    },
-    (err, str) => {
-      if (!err) return res.send(str)
-      else
-        log.error('On rendering page: ' + err),
-        res.json({
-          code: 500,
-          message: 'Internal error on rendering page'
-        })
-    }
-  )
+  res.redirect('https://tihon-web.glitch.me')
 })
 
 // Git webhooks

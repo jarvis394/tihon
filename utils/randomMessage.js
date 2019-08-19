@@ -41,7 +41,6 @@ module.exports = async () => {
     let flag = false
 
     m.attachments.forEach(a => {
-      console.log(m.attachments)
       if (blacklist.USERS.includes(e => e === a[a.type].owner_id.toString())) {
         flag = true
       }

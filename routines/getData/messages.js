@@ -11,8 +11,14 @@ module.exports = () => {
 
   fs.readFile(dialogsFilePath, (err, data) => {
     if (err) return log.error(err)
-
-    data = JSON.parse(data)
+    
+    try {
+      data = JSON.parse(data)
+    } catch (e) {
+      log.error(e)
+      process.exit(1)
+    }
+    
     const executeItems = data.items.slice(0, count).map(el => ({
       peer_id: el.conversation.peer.id,
       count: 100,

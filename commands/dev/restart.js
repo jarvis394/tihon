@@ -1,11 +1,9 @@
 exports.run = async (api, update, args) => {
   const handleError = require('../../utils/handleError')
-  const { users: store, log } = require('../variables')
+  const { users: store, log } = require('../../variables')
   const fs = require('fs')
 
   try {
-    
-    if (update.senderId !== 437920818) return
     
     let res = {}
     store.forEach((data, id) => res[id] = data)
@@ -15,6 +13,7 @@ exports.run = async (api, update, args) => {
         log.error(err)
       } else {
         log.info('Saved temp data \n\n', { private: true })
+        update.reply('👌')
         process.exit(0)
       }
     })

@@ -27,6 +27,9 @@ fs.readFile('temp/coinsData.json', (err, data) => {
 
           user.amount += d.amount
           user.rank += d.rank
+          
+          // Guild
+          if (!user.guild) user.guild = d.guild ? d.guild : null
 
           // Items
           for (let key in user.items) {
