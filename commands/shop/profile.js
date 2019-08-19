@@ -30,7 +30,7 @@ exports.run = async (api, update, args) => {
     res.push('')
 
     shopData.groups.forEach((group) => {
-      const { icon, name, title } = group
+      const { icon, accName, title } = group
       const groupItems = items[title]
 
       // If there is items
@@ -38,7 +38,7 @@ exports.run = async (api, update, args) => {
         const item = shopUtils.getItemById(groupItems[0])
         
         // Push group text
-        res.push(`${icon} ${name}: ${item.name}`)
+        res.push(`${icon} ${accName[0].toUpperCase() + accName.slice(1)}: ${item.name}`)
       }
 
       // Ajacement space
