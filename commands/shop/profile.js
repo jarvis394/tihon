@@ -20,13 +20,10 @@ exports.run = async (api, update, args) => {
     if (USERS.some(e => e === userId.toString())) return update.reply('😠 Этот пользователь заблокирован')
 
     // Balance
-    res.push('💵 Баланс')
-    res.push('  ' + balance + 'T')
-    res.push('')
+    res.push('💵 Баланс: ' + new Intl.NumberFormat('en-IN').format(balance) + ' T')
 
     // Reputation
-    res.push('💠 Репутация')
-    res.push('  ' + rank)
+    res.push('💠 Репутация: ' + new Intl.NumberFormat('en-IN').format(rank) + ' R')
     res.push('')
 
     shopData.groups.forEach((group) => {
