@@ -46,7 +46,7 @@ exports.run = async (api, update, args) => {
 
     return update.send(
       `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price /
-        2}T`
+        2} ₮`
     )
   } catch (e) {
     handleError(update, e)

@@ -65,7 +65,7 @@ exports.run = async (api, update, args) => {
 
       data.items.forEach((item, i) => {
         if (item.groupId === groupId) {
-          res.push(`[ ${item.id} ] ${item.icon} ${item.name} - ${item.price}T`)
+          res.push(`[ ${item.id} ] ${item.icon} ${item.name} - ${item.price} ₮`)
 
           if (item.earning) {
             res.push(`⠀⠀⠀⠀- ${item.earning}T/час`)

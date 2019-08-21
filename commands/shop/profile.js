@@ -37,15 +37,12 @@ exports.run = async (api, update, args) => {
         // Push group text
         res.push(`${icon} ${accName[0].toUpperCase() + accName.slice(1)}: ${item.name}`)
       }
-
-      // Ajacement space
-      res.push('')
     })
 
     // If there is pets
     if (pets.length !== 0) {
       // Push pets group text
-      res.push('👣 Питомцы:')
+      res.push('\n👣 Питомцы:')
 
       // Push pet's text
       pets.forEach((id, i) => {

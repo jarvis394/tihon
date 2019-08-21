@@ -4,9 +4,6 @@ exports.run = async (api, update, args) => {
   const User = require(rel + 'lib/User')
   const { firebase } = require(rel + 'variables')
   const db = firebase.firestore()
-  const moment = require('moment')
-  
-  moment.locale('ru')
   
   try {
     
@@ -25,13 +22,22 @@ exports.run = async (api, update, args) => {
       .get()
       .then(d => (data = d.data()))
     
-    const text = `📜 Информация о колхозе "${data.name}":\n\n` +
-          `🌐 ID: ${data.id}\n` +
-          `💠 Репутация: ${data.reputation} R\n` +
-          `💲 Казна: ${data.money} ₮\n` + 
-          `📊 Статистика: ${data.stats.win} W | ${data.stats.lose} L\n` +
-          `👥 В колхозе состоит ${data.members.filter(e => e.role !== 0).length}/50 человек\n\n` +
-          `🛡️ Щит доступен до: ${moment(data.shield).calendar()}`
+    let members = data.members.sort((a, b) => a.role < b.role)
+    const membersData = await api.users.get({ user_ids: members.map(e => e.id)})
+    members.forEach((e, i) => {
+      const u = membersData.find(d => d.id === e.id)
+      const name = u.first_name + u.last_name
+      let role = e.role
+      
+      if (role == 0) return ''
+      if (role == 1) role = ''
+      if (role == 2) role = '⚙️'
+      if (role == 3) role = '👑'
+      
+      members[i] = `${i + 1}. ${role} [id${e.id}|${name}]`
+    })
+    
+    const text = `📜 Состав участников колхоза "${data.name}":\n\n` + members.join('\n')
     
     return update.reply(text)
     

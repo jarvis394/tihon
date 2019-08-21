@@ -40,6 +40,6 @@ exports.command = {
     en: 'Top of ***',
     ru: 'Топ ***'
   },
-  alias: ['топ', 'все'],
+  alias: ['топ'],
   group: 'utils'
 }

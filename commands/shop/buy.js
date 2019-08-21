@@ -28,10 +28,10 @@ exports.run = async (api, update, args) => {
     if (!state) {
       return update.send(
         '🧮 Недостаточно денег - у тебя ' +
-          +amount +
-          'T, а нужно ' +
+          + amount +
+          ' ₮, а нужно ' +
           item.price +
-          'T'
+          ' ₮'
       )
     }
 

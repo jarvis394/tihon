@@ -39,7 +39,7 @@ exports.run = async (api, update, args) => {
     receiver.add(amt)
     user.subtract(amount)
     
-    return update.reply('🎉 Передано ' + amt + 'Т (2% комиссии) пользователю ' + receiverId)
+    return update.reply('🎉 Передано ' + amt + ' ₮ (2% комиссии) пользователю ' + receiverId)
 
   } catch (e) {
     handleError(update, e)

@@ -1,6 +1,6 @@
 # Дед Тихон
 
-> Чо несёт - непонятно. С села мужик.
+> A bot that sends incomprehensible crap into a conversation, and even randomly. From the village, what to say.
 
 ##### _- Vatslav Tarnatovski_
 

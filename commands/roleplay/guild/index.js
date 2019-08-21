@@ -1,7 +1,10 @@
 exports.run = async (api, update, args) => {
   const aliases = {
     create: [ 'создать' ],
-    info: [ 'инфа' ]
+    info: [ 'инфа' ],
+    help: [ 'помощь', 'справка' ],
+    list: [ 'список' ],
+    invite: [ 'пригласить' ]
   }
 
   try {
@@ -10,7 +13,7 @@ exports.run = async (api, update, args) => {
     if (!file) file = 'info'
 
     for (let key in aliases) {
-      if (aliases[key].includes(e => e === file)) {
+      if (aliases[key].some(e => e === file)) {
         file = key
         break
       }
