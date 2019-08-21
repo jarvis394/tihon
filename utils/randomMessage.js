@@ -50,7 +50,7 @@ module.exports = async () => {
   }
 
   async function getMsg() {
-    const histories = await dataUtils.getHistories()
+    const histories = dataUtils.getHistories()
     const dialogHistory = randomArray(histories)
     const message = randomArray(dialogHistory.items)
 

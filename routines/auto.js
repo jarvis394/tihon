@@ -60,12 +60,13 @@ async function messageService(dialog) {
 
   queue.push(options)
   
-  if (queue.length >= 25) {
+  if (queue.length % 25 == 0) {
     setTimeout(
-      async () => await collect.executes('messages.send', queue),
+      () => {
+        const q = queue.splice(0, 25)
+        collect.executes('messages.send', q)
+      },
       random(5 * 1000, 60 * 1000)
     )
-
-    queue = []
   }
 }

@@ -1,19 +1,19 @@
-const fs = require('mz/fs')
+// const fs = require('mz/fs')
 
 /**
  * Returns dialogs list 
  */
 const getDialogs = async () => {
-  const data = await fs.readFile('temp/dialogs.json')
-  return JSON.parse(data).items
+  const data = require('../temp/dialogs.json')
+  return data.items
 }
 
 /**
  * Returns histories list 
  */
-const getHistories = async () => {
-  const data = await fs.readFile('temp/messages.json')
-  return JSON.parse(data).response
+const getHistories = () => {
+  const data = require('../temp/messages.json')
+  return data.response
 }
 
 module.exports = {
