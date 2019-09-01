@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Дед Тихон - Бот ВК</title>
+  <meta name="description" content="A cool thing made with Glitch">
+  <link id="favicon" 
+        rel="icon" 
+        href="https://cdn.glitch.com/project-avatar/02bc7e30-6bff-4407-8fa4-4ee4262386ed.png?1545570622048" 
+        type="image/x-icon">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" 
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="js/client.js"></script>
+  </head>
+
+<body>
+
+  <div class="navbar-fixed hide-on-large-only">
+    <nav style="transition: 0.1s ease; background: rgba(255, 255, 255, 0.97)" class="z-depth-0" role="navigation">
+      <div class="nav-wrapper container">
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger left">
+          <i class="material-icons black-text">menu</i>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Nav on mobile -->
+  <ul id="nav-mobile" style="font-family: monospace" class="sidenav shadow-2">
+    <li><a class="blue-text" href="#home">#home</a></li>
+    <li><a class="blue-text" href="#usage">#usage</a></li>
+    <ul class="links">
+      <li>
+        <ul>
+          <% commands.forEach(item => { %>
+            <li class="link n"><a href=<%= "#" + item.name %>>/<%= item.name %></a></li>
+          <% }) %>
+        </ul>
+      </li>
+    </ul>
+    <li><a class="blue-text" href="#about">#about</a>
+  </ul>
+
+  <div class="container row scrollspy" id="home">
+
+    <div class="col l2 hide-on-med-and-down">
+      <ul class="links-table">
+        <li class="links-header">
+          <a href="#home">#home</a>
+        </li>
+        <li class="links-header">
+          <a href="#usage">#usage</a>
+          <ul class="links">
+            <% commands.forEach(item => { %>
+              <li class="link"><a href=<%= "#" + item.name %>>/<%= item.name %></a></li>
+            <% }) %>
+          </ul>
+        </li>
+        <li class="links-header">
+          <a href="#about">#about</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col s12 l10">
+
+      <h1 class="center" style="font-weight: 500">Дед Тихон</h1>
+      <blockquote class="flow-text grey-text text-darken-3">
+        Бот, который шлёт непонятную хрень в конфу, да ещё и рандомно.
+        <br />С села мужик, чо сказать.
+      </blockquote>
+      <p class="grey-text"><i>— Вацлав Тарнатовски, "тихон" с маленькой буквы</i></p>
+
+      <h3 id="usage" class="scrollspy">Использование</h3>
+      <div class="divider"></div>
+
+      <p>
+        Чтобы начать пользоваться ботом, <a class="underlined" href="https://vk.com/tihon_bot">добавьте его в друзья</a>,
+        а потом можете писать ему в ЛС команды, приведённые ниже: <i>(работает и в беседах)</i>
+      </p>
+       
+      <% commands.forEach(item => { %>
+        <div id=<%= item %> class="scrollspy">
+          <a href="#<%= item.name%>"><h5 class="cmd-name">
+            /<%= item.name %>
+        </h5></a>
+          <p>
+            <b>Аргументы:</b> <%= item.arguments ? item.arguments.split("|")[1] : "*пусто*" %>
+          </p>
+          <p>
+            <b>Описание:</b> <%= item.description.ru %>
+          </p>
+        </div>
+      <% }) %>
+        
+        <h3 id="about" class="scrollspy">Об авторе</h3>
+        <div class="divider"></div>
+        <p>
+          Я самъ в ВК: <a class="underlined" href="https://vk.com/tarnatovski">vk/tarnatovski</a>
+        </p>
+        <p>
+          Группа бота в ВК: <a class="underlined" href="https://vk.com/tihon_ded">vk/tihon_ded</a>
+        </p>
+        <p>
+          Гитхаб репозиторий: <a class="underlined" href="https://github.com/jarvis394/ded_tihon">git/ded_tihon</a>
+        </p>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>

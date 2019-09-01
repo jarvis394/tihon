@@ -1,39 +1,65 @@
-# Дед Тихон
+# Grandpa Tihon
 
-> Чо несёт - непонятно. С села мужик. 
-##### *- Vatslav Tarnatovski*
+> A bot that sends incomprehensible crap into a conversation, and even randomly. From the village, what to say.
 
-# Usage
+##### _- Vatslav Tarnatovski_
 
-##### English:
+## Usage
 
 To add bot, go to [VK userpage](https://vk.com/tihon_bot) and add **bot to friends list**.
-Then, you can actually start using bot by typing commands below: *(also works in multidialogs)*
+Then, you can actually start using bot by typing commands, starting with `/` or `@tihon_bot`.
 
-Command | Arguments | Description
------------- | ------------- | -------------
-/ping | *none* | Pong!
-/join | *link* | Join to multidialog by an invite link
-/random | *none* | Sends random message from other multidialogs
-/photo | *none* | Sends random photo from other multidialogs
-/video | *none* | Sends random video from other multidialogs
-/counter | *none* | Show current amount of messages (on every `50th` message bot send random thing)
-/calc | *expression* | Calculate something
-/auto | *none* | Disable/Enable auto-sending messages
-/no | *none* | Will your chat be in `random.js`?
+## Commands
 
-##### Русский:
+~~See [bot's website](https://tihon.glitch.me)~~
 
-Чтобы начать пользоваться ботом, [добавьте его в друзья](https://vk.com/tihon_bot), а потом можете писать ему в ЛС команды, приведённые ниже: *(работает и в беседах)*
+**NEW!** website on React: [tihon-web.glitch.me](https://tihon-web.glitch.me)
 
-Команда | Аргументы | Описание
------------- | ------------- | -------------
-/ping | *пусто* | Понг!
-/join | *ссылка* | Войти в беседу по приглашению
-/random | *пусто* | Отправить рандомное сообщение из других бесед
-/photo | *пусто* | Отправить рандомное фото из других бесед
-/video | *пусто* | Отправить рандомное видео из других бесед
-/counter | *пусто* | Показывает количество сообщений до отправки всякой рандомной фигни (каждое `50` сообщение)
-/calc | *выражение* | Посчитать матан
-/auto | *пусто* | Отключить/Включить автоматическую рассылку сообщений
-/no | *пусто* | Будет или нет диалог попадать в `random.js`?
+Will be moved to the `tihon.glitch.me` domain in future.
+
+## Running
+
+```
+git clone https://github.com/jarvis394/ded_tihon
+cd ded_tihon
+npm i
+```
+
+**IMPORTANT!** After these steps you must provide **USER**'s VK API token and other enviroment constants in `./config`. Then just type
+
+```
+npm start
+```
+
+or
+
+```
+npm run nodemon
+```
+
+to run bot by yourself.
+
+## Todo
+
+Global: 
+
+- Learn TypeScript to get rid of some checking. _Types are good_
+- Make an API and divide frontend and backend to 2 projects **(Almost done)**
+- Translate everything to English, even `/random`
+
+Needed:
+
+- Set every checking as `throw new CommandError` for better code style and error handling
+- Get results of every command written with command log
+- Log data changes for debugging
+- Recursively check commands filetree to get **`parents`** and **`children`** of commands. 
+  For example, 
+  ```javascript
+  // Parent
+  - guild/
+    
+    // Children
+    - create { aliases: [ ...] }
+    - leave { aliases: [ ... ] }
+    ...
+  ```
