@@ -71,3 +71,5 @@ async function messageService(dialog) {
     )
   }
 }
+
+module.exports = messageService

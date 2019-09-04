@@ -41,7 +41,7 @@ const AUTO_INTERVAL = 3600 * 3 * 1000
  * Interval between getting data
  * (3 hours)
  */
-const DATA_GET_INTERVAL = 3600 * 6 * 1000
+const DATA_GET_INTERVAL = 3600 * 3 * 1000
 
 /**
  * Daily bonus for user

@@ -12,6 +12,9 @@ if (process.env.MODE !== 'DISABLED') {
 
   // Auto accept friend requests
   require('./friends')
+  
+  // Auto resolve captchas
+  // require('./captcha')
 
   // Get data
   require('./getData')

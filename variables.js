@@ -1,5 +1,6 @@
 const init = require('./startup')
 const { log } = init
+const RequestsQueue = require('./lib/RequestsQueue')
 
 // const Container = require('./lib/Container')
 
@@ -38,6 +39,11 @@ const users = new Map()
  */
 const guildsStore = new Map()
 
+/**
+ * Saves requests for captcha handling
+ */
+const requestsQueue = new RequestsQueue()
+
 const express = require('express')
 const app = express()
 
@@ -54,4 +60,5 @@ module.exports = {
   anonCommandTimeout,
   battleCommandTimeout,
   guildsStore,
+  requestsQueue,
 }

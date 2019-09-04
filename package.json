@@ -30,7 +30,8 @@
     "vk-io": "^4.0.0-rc.17",
     "thinid": "^0.4.3",
     "lodash": "^4.17.15",
-    "emoji-regex": "^8.0.0"
+    "emoji-regex": "^8.0.0",
+    "is-url": "^1.2.4"
   },
   "engines": {
     "node": "10.x"

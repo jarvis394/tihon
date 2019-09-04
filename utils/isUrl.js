@@ -1,9 +1,10 @@
 /* eslint-disable no-useless-escape */
+const isUrl = require('is-url')
 
 module.exports = (url) => {
   if (!url) return false
 
-  const strRegex = '^((https|http|ftp|rtsp|mms)?://)'
+  /*const strRegex = '^((https|http|ftp|rtsp|mms)?://)'
       + '?(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' 
       + '(([0-9]{1,3}\.){3}[0-9]{1,3}' 
       + '|' 
@@ -15,5 +16,7 @@ module.exports = (url) => {
       + '(/[0-9a-z_!~*\'().;?:@&=+$,%#-]+)+/?)$'
   const re = new RegExp(strRegex)
 
-  return re.test(url)
+  return re.test(url)*/
+  
+  return isUrl(url)
 }

@@ -4,6 +4,7 @@ const { api, updates, collect } = vk
 const log = require('../log')
 const events = require('../../lib/Events')
 const { TOKEN } = require('../../configs/secrets')
+const captchaHandler = require('../../utils/captchaHandler')
 
 /**
  * Starts polling
@@ -14,8 +15,9 @@ async function run() {
 }
 
 // Handle captcha
-vk.captchaHandler = ({ src }) => {
-  log.warn('Need captcha: ' + src)
+vk.captchaHandler = async (payload) => {
+  log.warn('Need captcha, pushing to the queue: ' + payload.src)
+  await captchaHandler(payload)
 }
 
 // Initialize VK if not disabled

@@ -61,7 +61,7 @@ fs.readFile('temp/coinsData.json', (err, data) => {
     }).catch(e => log.error(e))
   }
 
-  log.info('Pushed temp data for users', { private: true })
+  log.success('Pushed temp data for users', { private: true })
 
   fs.writeFile('temp/coinsData.json', JSON.stringify({}), () => {})
 })
@@ -131,7 +131,7 @@ fs.readFile('temp/guildsData.json', (err, data) => {
     }).catch(e => log.error(e))
   }
 
-  log.info('Pushed temp data for guilds', { private: true })
+  log.success('Pushed temp data for guilds', { private: true })
 
   fs.writeFile('temp/guildsData.json', JSON.stringify({}), () => {})
 })

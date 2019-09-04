@@ -8,7 +8,7 @@ const ignorePrivate = format(info => {
 })
 
 const consoleFormat = printf(info => {
-  let m = `${COLORS[info.level](`> [${info.level.toUpperCase()}]`)}  `
+  let m = `${COLORS[info.level](`[${info.level}]`)}  `
 
   if (info.stack) m += info.stack
   else m += info.message

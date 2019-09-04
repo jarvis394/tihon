@@ -11,7 +11,9 @@ exports.run = async (api, update, args) => {
     kick: [ 'выгнать', 'кик', 'бан' ],
     giveAdmin: [ 'выдать' ],
     takeAdmin: [ 'снять' ],
-    money: [ 'казна' ]
+    money: [ 'казна' ],
+    battle: [ 'битва' ],
+    top: [ 'топ' ]
   }
 
   try {
