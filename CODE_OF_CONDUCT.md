@@ -77,7 +77,8 @@ This code of conduct and its related procedures also applies to unacceptable beh
 
 ## 10. Contact info
 
-[YOUR_CONTACT_INFO_HERE -- this should be a single person or a small team who can respond to issues directly]
+VK profile: vk.com/tarnatovski
+GitHub profile: github.com/jarvis394
 
 ## 11. License and attribution
 
