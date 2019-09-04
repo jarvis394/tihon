@@ -112,14 +112,14 @@ fs.readFile('temp/guildsData.json', (err, data) => {
           guild.members = guild.members.concat(d.members)
           guild._actions.forEach((action) => {
             switch (action.type) {
-              case 'remove': {
-                guild.members = guild.members.filter(e => e.id !== action.memberId)
-                break
-              }
-              case 'roleChange': {
-                guild.members[guild.members.findIndex(e => e.id === action.memberId)].role = action.to
-                break
-              }
+            case 'remove': {
+              guild.members = guild.members.filter(e => e.id !== action.memberId)
+              break
+            }
+            case 'roleChange': {
+              guild.members[guild.members.findIndex(e => e.id === action.memberId)].role = action.to
+              break
+            }
             }
           })
           
