@@ -1,9 +1,5 @@
 #/bin/sh
 
-# Commit changes
-git add .
-git commit -m "Checkpoint"
-
 # Fetch the newest code
 git fetch origin master
 
