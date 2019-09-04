@@ -2,8 +2,6 @@ const User = require('../lib/User')
 const shopData = require('../data/shop')
 const cmd = require('node-cmd')
 const crypto = require('crypto')
-const ejs = require('ejs')
-const fs = require('fs')
 const readline = require('reverse-line-reader')
 
 const { app, commands, firebase, log } = require('../variables')
@@ -17,7 +15,7 @@ app.get('/', (req, res) => {
 })
 
 // Git webhooks
-app.post('/git_FUCK', (req, res) => {
+app.post('/git', (req, res) => {
   let hmac = crypto.createHmac('sha1', SECRET)
   let sig = 'sha1=' + hmac.update(JSON.stringify(req.body)).digest('hex')
   
@@ -37,11 +35,12 @@ app.post('/git_FUCK', (req, res) => {
           ? req.body.head_commit.message
           : req.body.head_commit.message
             .split('\n')
-            .map((el, i) => (i !== 0 ? '                       ' + el : el))
+            .map((el, i) => (i !== 0 ? '                      ' + el : el))
             .join('\n')
+    console.log('\n\n')
     console.log(
-      '\n\n [GIT] Updated with origin/master\n' +
-      `        Latest commit: ${commits}`
+      '[git]  Updated with origin/master\n' +
+      `       Latest commit: ${commits}`
     )
     
     cmd.get('refresh', err => {
