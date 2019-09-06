@@ -46,7 +46,7 @@
     /**
      * Add role
      */
-
+/*
     async function addRole(id, index) {
       await dialog.checkData()
 
@@ -93,6 +93,7 @@
     /**
      * Remove role
      */
+/*
     async function removeRole(id, index) {
       await dialog.checkData()
 

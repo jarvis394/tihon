@@ -1,7 +1,8 @@
-exports.run = async (api, update) => {
+exports.run = async (update) => {
   const handleError = require('../../utils/handleError')
   const { random } = require('../../utils/random')
-
+  const { api } = require('../../variables')
+  
   try {
     if (random(0, 6) === 6) {
       api.messages

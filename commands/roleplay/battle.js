@@ -1,11 +1,11 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const { handleError } = require('../../utils/handleError')
   const moment = require('moment')
   const BATTLE_PRICE = 5000
   const { randomArray, random } = require('../../utils/random')
   const User = require('../../lib/User')
   const { ID, BATTLE_COOLDOWN } = require('../../configs/constants')
-  const { battleCommandTimeout } = require ('../../variables')
+  const { battleCommandTimeout, api } = require ('../../variables')
 
   const histories = {
     beginning: [

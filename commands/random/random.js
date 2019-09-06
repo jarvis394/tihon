@@ -1,4 +1,4 @@
-exports.run = async (api, update, args, rs) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
   const randomMessage = require('../../utils/randomMessage')
 
@@ -7,7 +7,7 @@ exports.run = async (api, update, args, rs) => {
     let options = {}
     let flag = false
 
-    let msg = await randomMessage(api)
+    let msg = await randomMessage()
 
     if (msg.text !== '') res = msg.text
 
@@ -47,11 +47,11 @@ exports.run = async (api, update, args, rs) => {
       })
     }
 
-    let date = await api.utils.getServerTime()
+    // let date = await api.utils.getServerTime()
 
     if (!flag) await update.send(res, options)
 
-    rs.set(date, msg.id)
+    // rs.set(date, msg.id)
   } catch (e) {
     handleError(update, e)
   }

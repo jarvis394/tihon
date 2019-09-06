@@ -1,4 +1,4 @@
-exports.run = async (api, update) => {
+exports.run = async (update) => {
   const handleError = require('../../utils/handleError')
 
   try {
@@ -15,5 +15,6 @@ exports.command = {
     en: 'Set roles preset',
     ru: 'Установить пресет ролей'
   },
-  group: 'utils'
+  group: 'utils',
+  hidden: true
 }

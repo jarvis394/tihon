@@ -1,4 +1,4 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
 
   const DBDialog = require('../../lib/DBDialog')
@@ -14,8 +14,8 @@ exports.run = async (api, update, args) => {
     let res =
       '⚙️ Настройки\n' +
       `⠀⠀(auto) - Авто отправка сообщений: ${data.auto ? 'Да' : 'Нет'}\n` +
-      interval +
-      `⠀⠀(preset) - Пресет ролей: №${data.preset + 1}`
+      interval 
+    // + `⠀⠀(preset) - Пресет ролей: №${data.preset + 1}`
 
     return update.send(res)
   }
