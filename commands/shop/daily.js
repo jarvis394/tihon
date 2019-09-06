@@ -32,11 +32,11 @@ exports.run = async (update) => {
         `💵 Твой баланс: ${format(await user.getAmount())} ${CURRENCY}`
       )
     } else {
-      let left = new Date(now + DAY - now + lastTime)
-      console.log(left)
+      const left = new Date(lastTime + DAY)
+      
       return update.send(
         '😕 Ты уже использовал бонус!\n' +
-        `Осталось ждать ${moment(left).calendar()}`
+        `Команда будет доступна ${moment(left).fromNow()}`
       )
     }
   } catch (e) {
