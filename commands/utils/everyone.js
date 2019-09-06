@@ -1,4 +1,4 @@
-exports.run = async (_, update, args) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
   const { api } = require('../../variables')
   

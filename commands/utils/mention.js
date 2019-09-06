@@ -1,4 +1,4 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
   const User = require('../../lib/User')
   
@@ -24,7 +24,7 @@ exports.run = async (api, update, args) => {
     
     user.subtract(1000)
   
-    require('./' + file).run(api, update, args, null, null, null, null, true)
+    require('./' + file).run(update, ['args)
     
   } catch (e) {
     handleError(update, e)

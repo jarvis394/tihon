@@ -3,7 +3,7 @@ exports.run = async (update) => {
   const handleError = require('../../utils/handleError')
   const format = require('../../utils/format')
   const DAY = 86400000
-  const { DAILY_BONUS } = require('../../configs/constants')
+  const { DAILY_BONUS, CURRENCY } = require('../../configs/constants')
   const moment = require('moment')
   moment.locale('ru')
 
@@ -28,15 +28,15 @@ exports.run = async (update) => {
       user.setEarning('daily', now)
 
       return update.send(
-        `😝 Вы получили ежедневный бонус ${DAILY_BONUS} \n` +
-        `💵 Твой баланс: ${format(await user.getAmount())} `
+        `😝 Вы получили ежедневный бонус ${format(DAILY_BONUS)} ${CURRENCY}\n` +
+        `💵 Твой баланс: ${format(await user.getAmount())} ${CURRENCY}`
       )
     } else {
-      let left = new Date(DAY - (now - lastTime))
+      let left = DAY - (now - lastTime)
 
       return update.send(
         '😕 Ты уже использовал бонус!\n' +
-        `Осталось ждать ${left.getHours()}:${left.getMinutes()}:${left.getSeconds()}`
+        `Осталось ждать ${moment(left).calendar()}`
       )
     }
   } catch (e) {

@@ -1,7 +1,8 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
   const data = require('../../data/shop')
   const { getGroupById } = require('../../utils/shop')
+  const { api } = require('../../variables')
 
   try {
     // If no args then will send menu

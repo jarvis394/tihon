@@ -14,6 +14,11 @@ const PREFIX = '/'
 const MENTION_PREFIX = '[id' + ID + '|'
 
 /**
+ * Currency sign
+ */
+const CURRENCY = '₮'
+
+/**
  * Cooldown between commands
  * (3 seconds)
  */
@@ -57,5 +62,6 @@ module.exports = {
   AUTO_INTERVAL,
   DAILY_BONUS,
   DATA_GET_INTERVAL,
-  ID
+  ID,
+  CURRENCY
 }
