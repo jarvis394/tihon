@@ -1,16 +1,21 @@
-exports.run = async (api, update, args, _1, _2, _3, _4, state) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
-
   const { randomArray } = require('../../utils/random')
-
+  const { api } = require('../../variables')
+  
   try {
     let persons = await api.messages.getConversationMembers({
       peer_id: update.peerId,
       fields: 'first_name, last_name'
     })
     let list = []
+    let state = false
     
-    if (state) args.shift()
+    if (args[0].split('_')[0] === '!&9Mention' && 
+        args[0].split('_')[1] === process.env.SECRET) {
+      state = true
+      args.shift()
+    }
 
     for (let i = 0; i < 10; i++) {
       let person = randomArray(persons.profiles)

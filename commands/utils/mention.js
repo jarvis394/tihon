@@ -24,7 +24,7 @@ exports.run = async (update, args) => {
     
     user.subtract(1000)
   
-    require('./' + file).run(update, ['args)
+    require('./' + file).run(update, ['!&9Mention_' + process.env.SECRET, ...args])
     
   } catch (e) {
     handleError(update, e)

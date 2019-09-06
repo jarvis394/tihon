@@ -1,6 +1,6 @@
-exports.run = async (api, update, args, _1, _2, _3, _4, state) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
-
+  const { api } = require('../../variables')
   const replies = ['Я думаю, что', 'Мб', 'Хз, но', 'Наверное']
   const { randomArray } = require('../../utils/random')
 
@@ -9,13 +9,18 @@ exports.run = async (api, update, args, _1, _2, _3, _4, state) => {
       peer_id: update.peerId,
       fields: 'first_name, last_name'
     })
+    let state = false
+    
+    if (args[0].split('_')[0] === '!&9Mention' && 
+        args[0].split('_')[1] === process.env.SECRET) {
+      state = true
+      args.shift()
+    }
 
     person = randomArray(person.profiles)
     const name = state ? 
       `[id${person.id}|${person.first_name + ' ' + person.last_name}]` : 
       `${person.first_name + ' ' + person.last_name}`
-    
-    if (state) args.shift()
 
     await update.send(
       `${randomArray(replies)}${
