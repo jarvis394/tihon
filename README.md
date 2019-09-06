@@ -49,7 +49,9 @@ Global:
 
 Needed:
 
-- Set every checking as `throw new CommandError` for better code style and error handling
+- ~~Set every checking as `throw new CommandError` for better code style and error handling~~
+  
+  Better make a callback for command to execute with given command result
 - Get results of every command written with command log
 - Log data changes for debugging
 - Recursively check commands filetree to get **`parents`** and **`children`** of commands. 
