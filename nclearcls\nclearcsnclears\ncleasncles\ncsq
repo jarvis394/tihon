@@ -1,0 +1,371 @@
+[add] Add CoC\n
+🏬🐫 Checkpoint ./CODE_OF_CONDUCT.md:1424713/6704\n
+[web] Delete /git route [rm] Delete git.sh due to new editing system\n
+[fix] Fix git.sh\n
+[web] Re-add git route [fix] Fix logging style in routes.js\n
+[log] New logging style [cmd] Add guild commands (n/f) [global] Add RequestsQueue for captcha handling [fix] Fix url parsing from message on randomMessage getting [add] Add routines/captcha for captcha routines [ench] Decrese DATA_GET interval\n
+Merge branch 'master' of https://github.com/jarvis394/tihon\n
+[upd] Glitch upstream\n
+[upd] Glitch upstream\n
+Bump eslint-utils from 1.3.1 to 1.4.2 (#16)\n
+[global] Add Guild class to /lib [cmd] Add invite and accept command\n
+[fix] Fix auto-sending messages\n
+[fix] Group constructor fix\n
+[fix] Fix reading file on startup\n
+[fix] Fix /profile command's showing\n
+[fix] Fix group name in /profile command\n
+[fix] Fix /profile command\n
+[fix] Fix /sell command\n
+[global] Only 1 item is allowed to use\n
+[cmd] Guilds support\n
+fix\n
+Merge branch 'master' of https://github.com/jarvis394/tihon\n
+[global] Random system improvements\n
+staged\n
+[git] Possible fix in permissions\n
+[fix] Fix in /marry\n
+[cmd] Add command /marry\n
+[cmd] Add dev/addRep command [cmd] Make balance and reputation outputs prettier [cmd] Add cooldowns for /battle [fix] Fix critical bug in routines/auto [fix] Fix pushing earnings data to DB [fix] Fix imports\n
+Merge branch 'master' of https://github.com/jarvis394/tihon\n
+[fix] Don't initialize VK if mode is 'DISABLED'\n
+Bump lodash from 4.17.11 to 4.17.14 (#15)\n
+[lib] Add logger for commands\n
+[fix] Fix wrong import\n
+[fix] Some improvements for responding\n
+[fix] Fix no checking for isAdmin\n
+[global] Add logging to random messages\n
+[web] Fix logs route\n
+[fix] Fix promo\n
+[fix] Wrong session filter\n
+[upd] Update packages\n
+[ver] Update verison to 6.0.0\n
+[fix] Remove unneccessary /index on require\n
+[global] New message handler [mv] Move some routines to /startup [mv] Move routines that were at /middlewares to /routines [fix] Fix wrong imports\n
+[fix] Prepare changes\n
+[fix] Wrong import\n
+[cmd] Check for banned owner_id on photos\n
+[cmd] No photo allowed\n
+[fix] Reverting\n
+[fix] Fix\n
+[fix] Fix command failed\n
+[fix] Fix error on reading promo.json\n
+[fix] Uncomment line\n
+[ver] Update version\n
+[global] Split to modules\n
+[cmd] Fix\n
+[ver] Update version to 5.2.0\n
+[global] Moved on 'winston' logging\n
+[cmd] Command fixes\n
+[cmd] Increase pets' price\n
+[log] Add pushing logs to external server\n
+[fix] Update pulling from Git\n
+[fix] Fix appending bug\n
+[cmd] Split 'shop' command to 'sell' and 'buy'\n
+[fix] Better error logging on reading files\n
+[fix] Increase cooldown due to VK API captcha\n
+[global] Move on v5 && rename ded-tihon -> tihon\n
+[fix] Fix /promo and improve promocodes system\n
+[fix] Web fix\n
+[web] Add logging for /statistics\n
+[fix] Back to JSON output in /statistics\n
+[fix] Response is not JSON\n
+[fix] Fix wrong data sent\n
+[web] Add /statistics path for VK Widget\n
+[fix] Fix merge problems\n
+[fix] Fixes on pushing data to DB\n
+[fix] Handle API error #10\n
+[cmd] New command /promo\n
+[global] Update User class in lib/ [fix] Fixes in dev/ commands [global] Update config [cmd] New look in /profile [fix] Fixes in shop and sell commands\n
+[global]\n
+[fix] Remove unused function\n
+[fix] farm command fixes\n
+[cmd] Add sell commands\n
+[global] Update store data\n
+[global] Update libs\n
+[cmd] Update profile and shop commands\n
+[cmd] Update help command\n
+[cmd] Pets system and profile improvments\n
+[fix] Logging through loglevel\n
+[fix] Fix no message error\n
+[fix] Minor fix\n
+[fix] Fix profile items\n
+[fix] Fix items system\n
+[fix] Fix updating non-exist doc\n
+Merge branch 'master' of https://github.com/jarvis394/ded_tihon into dev\n
+[global] Move on firebase-admin for future improvments\n
+[fix] Fix error on undefined values in DB\n
+[global] Update dependencies\n
+[global] Update version\n
+[global] User class fixes\n
+[fix] Remove deleted user.init() from files\n
+[fix] Fix web is not starting\n
+[fix] Fix bug with users store\n
+[fix] Remove unnecessary console.logs\n
+[global] Move requires in the commands files to the .run()\n
+Merge branch 'master' of https://github.com/jarvis394/ded_tihon into dev\n
+[mv] Rename /middlewares -> /middleware\n
+[upd] Pull from <master>\n
+[global] Some improvements for testing\n
+[cmd] Add command /anon\n
+[global] Pull from <master> + New changes, many bugs\n
+[fix] No error function in /utils, use loglevel.error() instead\n
+[upd] Update README\n
+[mv] Rename /routine to /routines\n
+[fix] Improve routines starting\n
+[global] Update packages\n
+[fix] Remove memcheck\n
+[fix] Add message's ID to logging\n
+[global] New verison: 5.0.0-alpha1 [lint] Fix eslint config [lint] Fix linting in COMMAND_TEMPLATE [mv] Move every bot middleware to /middlewares [fix] Fix .temp repo [lint] Linting fixes in files [global] Move color constants to config [global] Make /routine at app starting [global] Move web stuff to /web [global] Move global variables to `variables.js` [global] Update every file so there is no function in module.exports [cmd] Commands fixes\n
+Merge branch 'master' of https://github.com/jarvis394/ded_tihon into dev\n
+[?] Why .temp is in .gitignore adn still marked as Modified?\n
+[fix] Fix error logging\n
+[fix] Better way to log errors\n
+[fix] Split Pets and Items\n
+[global] Make class for User\n
+[fix] Typo in README\n
+[global] Update version: 4.9.0\n
+Merge branch 'dev' of https://github.com/jarvis394/ded_tihon into dev\n
+[fix] ESLint fixes\n
+[fix] Fixes\n
+[fix] ESLint fixes\n
+Dev (#12)\n
+Merge branch 'master' into dev\n
+[cmd] Update shop system\n
+[dev] Dev\n
+[dev] Dev\n
+[global] Update version\n
+[global] Add quick.db for DB (testing)\n
+[cmd] Add alias for command\n
+[fix] Increase friends auto-adding interval\n
+[global] Update dependencies\n
+[upd] Update README\n
+[test] Add tests\n
+[cmd] (testing) Implement shop system\n
+[fix] Automatically set name and group of command [fix] Fix on pushing data after reload\n
+[fix] Fix\n
+[fix] Fix\n
+[fix] Coin system fixes\n
+[fix] Fix\n
+[fix] Run only if not disabled\n
+[fix] Add app killing variants\n
+Merge pull request #10 from jarvis394/dev\n
+Merge https://github.com/jarvis394/ded_tihon into dev\n
+[global] Update packages\n
+Merge pull request #9 from jarvis394/dev\n
+[global] Coins implementation\n
+[ench] Command template for faster developing\n
+[cmd] New handling system v2\n
+🔋📉 Checkpoint ./README.md:1424713/637\n
+✨📻 Checkpoint ./bin/coins.js:1424713/572 ./lib/Coins.js:1424713/389\n
+🏗🏨 Checkpoint ./utils.js:1424713/1581\n
+🍵🎽 Checkpoint ./utils.js:1424713/109\n
+🏰🌊 Checkpoint ./utils.js:1424713/2331\n
+🍍🎃 Checkpoint ./server.js:1424713/24 ./utils.js:1424713/396\n
+🎮📅 Checkpoint ./bin/command.js:1424713/38\n
+⛰🔑 Checkpoint ./commands/global/sorry.js:1424713/968 ./watch.json:1424713/1\n
+⛺️🚌 Checkpoint ./commands/global/help.js:1424713/92\n
+🌺🌘 Checkpoint ./commands/global/help.js:1424713/571 ./bin/command.js:1424713/6\n
+🚁🏕 Checkpoint ./commands/shop/shop.js:1424713/284\n
+🎀🎹 Checkpoint ./commands/shop/shop.js:1424713/809 ./COMMAND_TEMPLATE.js:1424713/408 ./watch.json:1424713/1\n
+👧💧 Checkpoint ./commands/shop/shop.js:1424713/7\n
+🚗🐸 Checkpoint ./utils.js:1424713/141\n
+🐪🍡 Checkpoint ./bin/coins.js:1424713/8\n
+🌧🍼 Checkpoint ./bin/coins.js:1424713/122 ./lib/Coins.js:1424713/75\n
+👼👨‍❤️‍💋‍👨 Checkpoint ./server.js:1424713/68 ./bin/coins.js:1424713/5 ./lib/Coins.js:1424713/7\n
+👓🚪 Checkpoint ./server.js:1424713/906 ./lib/Coins.js:1424713/11 ./bin/coins.js:1424713/444\n
+🎑🔨 Checkpoint ./lib/Coins.js:1424713/23 ./server.js:1424713/132\n
+🐧🍐 Checkpoint ./server.js:1424713/59 ./lib/Coins.js:1424713/47\n
+🎰💶 Checkpoint ./server.js:1424713/3\n
+🌏🐑 Checkpoint ./server.js:1424713/10\n
+🔮⛽️ Checkpoint ./bin/coins.js:1424713/788 ./server.js:1424713/304\n
+🎤🌿 Checkpoint ./bin/counter.js:1424713/270 ./server.js:1424713/72 ./bin/coins.js:1424713/458 ./watch.json:1424713/4\n
+🌠📠 Checkpoint ./lib/Coins.js:1424713/137 ./bin/coins.js:1424713/108\n
+🎃🕹 Checkpoint ./lib/Coins.js:1424713/29\n
+🎳🚘 Checkpoint ./bin/coins.js:1424713/411 ./lib/Coins.js:1424713/49\n
+🌛🍓 Checkpoint ./bin/coins.js:1424713/1375 ./bin/counter.js:1424713/1646 ./watch.json:1424713/2\n
+🖇🍈 Checkpoint ./bin/counter.js:1424713/607 ./commands/shop/balance.js:1424713/101\n
+🏥🔋 Checkpoint ./bin/counter.js:1424713/313 ./lib/Coins.js:1424713/662\n
+👏🏙 Checkpoint ./lib/CoinUser.js:1424713/565 ./bin/counter.js:1424713/219\n
+💒👨‍❤️‍👨 Checkpoint ./bin/counter.js:1424713/258 ./lib/CoinUser.js:1424713/137\n
+🎹🧀 Checkpoint ./bin/counter.js:1424713/246\n
+🚎🐗 Checkpoint ./bin/counter.js:1424713/11\n
+🐥🌛 Checkpoint\n
+👋⏲ Checkpoint ./package.json:1424713/1688 ./server.js:1424713/215 ./bin/counter.js:1424713/153\n
+🐣🌗 Checkpoint ./bin/counter.js:1424713/36\n
+🏔🎊 Checkpoint ./bin/counter.js:1424713/394 ./lib/CoinUser.js:1424713/770\n
+⛳️🐚 Checkpoint ./bin/counter.js:1424713/339\n
+🐥🏢 Checkpoint ./commands/shop/balance.js:1424713/6 ./bin/counter.js:1424713/99 ./bin/command.js:1424713/50\n
+🐉🍙 Checkpoint ./commands/shop/shop.js:1424713/199 ./server.js:1424713/42 ./COMMAND_TEMPLATE.js:1424713/1444 ./commands/utils/ping.js:1424713/1066 ./commands/shop/balance.js:1424713/673\n
+📠🏄 Checkpoint ./server.js:1424713/74 ./views/index.html:1424713/30 ./commands/utils/ban.js:1424713/544 ./commands/shop/shop.js:1424713/300\n
+⚡️🙋 Checkpoint ./server.js:1424713/638 ./views/index.html:1424713/88\n
+⏳🐛 Checkpoint ./server.js:1424713/689\n
+👗📯 Checkpoint ./server.js:1424713/66\n
+⚾️🏍 Checkpoint ./views/index.html:1424713/84 ./server.js:1424713/932\n
+🏇🖐 Checkpoint ./bin/counter.js:1424713/228 ./utils.js:1424713/190 ./server.js:1424713/41\n
+💏💼 Checkpoint ./bin/counter.js:1424713/15 ./server.js:1424713/53 ./lib/CoinUser.js:1424713/169\n
+🖼🏅 Checkpoint ./lib/CoinUser.js:1424713/41 ./bin/counter.js:1424713/330 ./server.js:1424713/17 ./tests/test.js:1424713/54\n
+🎲🎓 Checkpoint ./lib/CoinUser.js:1424713/144\n
+🙆🎽 Checkpoint ./lib/CoinUser.js:1424713/312\n
+🐠🌶 Checkpoint ./package.json:1424713/1636 ./lib/CoinUser.js:1424713/351\n
+😀🎿 Checkpoint ./lib/Coins.js:1424713/332 ./lib/DBDialog.js:1424713/358 ./lib/CoinUser.js:1424713/277\n
+💳🚎 Checkpoint ./lib/Coins.js:1424713/31\n
+🗽🚎 Checkpoint\n
+👑👂 Checkpoint ./bin/command.js:1424713/173\n
+🐠🍪 Checkpoint ./bin/command.js:1424713/621\n
+🍓🎾 Checkpoint ./bin/command.js:1424713/593\n
+🚩🌍 Checkpoint ./server.js:1424713/2 ./commands/global/help.js:1424713/5 ./commands/global/report.js:1424713/6 ./commands/global/roles.js:1424713/6 ./commands/random/neko.js:1424713/3 ./commands/random/photo.js:1424713/11 ./commands/random/random.js:1424713/6 ./commands/random/roulette.js:1424713/3 ./commands/random/video.js:1424713/17 ./commands/roleplay/marry.js:1424713/5 ./commands/settings/auto.js:1424713/8 ./commands/settings/interval.js:1424713/8 ./commands/settings/no.js:1424713/6 ./commands/settings/preset.js:1424713/3 ./commands/settings/settings.js:1424713/6 ./commands/utils/ban.js:1424713/13 ./commands/utils/calc.js:1424713/3 ./commands/utils/join.js:1424713/7 ./commands/utils/ping.js:1424713/6 ./commands/utils/rate.js:1424713/6 ./commands/utils/roll.js:1424713/6 ./commands/utils/top.js:1424713/6 ./commands/utils/who.js:1424713/6 ./commands/utils/counter.js:1424713/3 ./bin/command.js:1424713/85\n
+🎑🎈 Checkpoint ./commands/preset.js:1424713/15 ./commands/random.js:1424713/21 ./commands/rate.js:1424713/22 ./commands/report.js:1424713/35 ./commands/roles.js:1424713/23 ./commands/roll.js:1424713/22 ./commands/roulette.js:1424713/21 ./commands/settings.js:1424713/25 ./commands/top.js:1424713/32 ./commands/video.js:1424713/21 ./commands/who.js:1424713/20 ./commands/global/help.js:1424713/15 ./server.js:1424713/371\n
+🌴⚡️ Checkpoint ./bin/command.js:1424713/63 ./commands/auto.js:1424713/113 ./commands/ban.js:1424713/42 ./commands/calc.js:1424713/20 ./commands/counter.js:1424713/30 ./commands/help.js:1424713/24 ./commands/interval.js:1424713/25 ./commands/join.js:1424713/24 ./commands/marry.js:1424713/55 ./commands/neko.js:1424713/37 ./commands/no.js:1424713/23 ./commands/photo.js:1424713/50 ./commands/ping.js:1424713/36 ./commands/preset.js:1424713/5\n
+💍🐿 Checkpoint ./package.json:1424713/1627\n
+🌧📮 Checkpoint ./bin/auto.js:1424713/18 ./bin/friends.js:1424713/85 ./server.js:1424713/174 ./config.js:1424713/14\n
+🏟🍭 Checkpoint ./bin/friends.js:1424713/88 ./server.js:1424713/3 ./bin/auto.js:1424713/44\n
+👙🎾 Checkpoint ./server.js:1424713/3 ./bin/friends.js:1424713/40\n
+🚲🚉 Checkpoint ./bin/auto.js:1424713/12 ./server.js:1424713/8\n
+🌖🕴 Checkpoint ./server.js:1424713/21 ./bin/friends.js:1424713/138\n
+⏰🚦 Checkpoint ./bin/friends.js:1424713/123 ./server.js:1424713/8\n
+🏢🧀 Checkpoint ./bin/auto.js:1424713/120 ./bin/friends.js:1424713/50 ./commands/ping.js:1424713/42 ./server.js:1424713/6\n
+✈️🏮 Checkpoint ./server.js:1424713/279 ./commands/top.js:1424713/4 ./bin/auto.js:1424713/186\n
+🌺🐈 Checkpoint ./server.js:1424713/8\n
+😎✋ Checkpoint ./bin/nWord.js:1424713/26 ./commands/who.js:1424713/1600 ./commands/top.js:1424713/1521\n
+👩🚂 Checkpoint ./bin/auto.js:1424713/1598 ./bin/friends.js:1424713/387 ./server.js:1424713/80\n
+☕️🏉 Checkpoint ./bin/auto.js:1424713/1055\n
+👙📌 Checkpoint ./bin/auto.js:1424713/1546 ./server.js:1424713/154\n
+🗽👘 Checkpoint ./bin/auto.js:1424713/4905\n
+🎫📫 Checkpoint ./tests/test.js:1424713/9 ./server.js:1424713/111 ./bin/auto.js:1424713/504 ./config.js:1424713/29\n
+🚃💓 Checkpoint ./package.json:1424713/12 ./tests/test.js:1424713/10\n
+💃🏇 Checkpoint ./package.json:1424713/4819\n
+🙅🌽 Checkpoint ./commands/no.js:1424713/6\n
+📌💄 Checkpoint ./views/index.html:1424713/108 ./public/css/style.css:1424713/49\n
+🕶📫 Checkpoint ./views/index.html:1424713/2\n
+🛤📕 Checkpoint ./bin/nWord.js:1424713/63\n
+[global] eslint fixes\n
+[fix] Spacing\n
+[fix] Spacing\n
+[fix] Fix responding 200 on bad request\n
+[fix] Fix function call with Firebase\n
+[fix] No undefined variables\n
+[fix] Remove .json databases from .gitignore\n
+[fix] Fix code style\n
+[fix] Remove no.json dependency\n
+[fix] Update dependencies\n
+[global] Move configuration values to the ENV\n
+[fix] Remove .json db dependencies [rmv] Remove test.js\n
+[global] Fixes\n
+[test] Add tests\n
+[cmd] Add new commands\n
+[fix] Code style fixes\n
+[fix] Fixes\n
+[bot] Respond to some phrases\n
+[global] Remove logging to the Firebase\n
+[git] Update README file\n
+👧🍺 Updated with Glitch\n
+🎓🛰 Updated with Glitch\n
+🚴😽 Updated with Glitch\n
+[global] Moving everything to Cloud Firestore\n
+[fix] Renaming fix\n
+[fix] Fix no data error on updating\n
+[fix] Path fixes\n
+[global] Move to Cloud Firestore [global] Update code to get and write data to DB [cmd] Settings respond fixes\n
+[fix] Changed name\n
+[fix] Bugfix\n
+[fix] Fix\n
+[fix] Fix\n
+[fix] Fix\n
+[fix] Improvements\n
+[fix] Global fixes to improve perfomance\n
+[fix] Some fixes with commands list\n
+[api] Add path to get commands list\n
+[cmd] New handling system\n
+[fix] Improvements on logging [fix] Removed logging captcha\n
+[fix] Fix\n
+[fix] Use other func\n
+[fix] Move to other paths\n
+[fix] Fix\n
+[fix] Fixes on logging\n
+[fix] Improvements on logging system\n
+[global] Improvements on logging system\n
+[fix] Fix wrong user's path\n
+[fix] Fixes with refreshing\n
+[cmd] Add /role command\n
+[fix] Fix typo\n
+Merge branch 'master' of https://github.com/jarvis394/ded_tihon\n
+[cmd] New command /neko [cmd] New command /lewd [pkg] Added 'request-promise-native'\n
+[cmd|fix] Fix return permission error\n
+[git] Update issue templates\n
+[cmd] Add showing settings ability\n
+[cmd] Update path\n
+[fix] Fix logging commits (again x2) A lot of commits because of testing :/\n
+[fix] Fix logging commits (again) A lot of commits because of testing :/\n
+[fix] Fix logging commits\n
+[fix] Split logging commits to variable\n
+[fix] Fix logging [fix] Prettify logging (again)\n
+[fix] Prettify logging\n
+[global] Secret verifying on update\n
+[fix] Add logging latest commit (again)\n
+[fix] Check 'secret' field on request\n
+[fix] Fix on checking github event\n
+[fix] Fixes [fix] Remove unused lines of code\n
+[fix] Remove unused variables\n
+[fix] Fixes\n
+[rm] Remove unused 'commands/db.js'\n
+[fix] Fix unknown 'origin'\n
+[fix] Force pull on update\n
+[fix] Minor fixes\n
+[fix] Check for errors [fix] Log latest commit\n
+[fix] Fixes\n
+[fix] Fixes\n
+[fix] Remove unused variable\n
+[rm] Delete settings.json (unused)\n
+[global] New way to update from repo\n
+[fix] Remove spaces\n
+[fix] Add nodemon to scripts\n
+[fix] Remove unhelpful 'git pull'\n
+Update server.js\n
+Fix\n
+[global] Fixes\n
+[global] Fixes\n
+[cmd] Remove unused variable\n
+[global] Update libs [global] Changes to keep project on hosting\n
+[global] Fix undefined module\n
+[host] Fix\n
+[host] Pull on push request\n
+[cmd] Add file of new command\n
+[cmd] Add description\n
+[global] Added respond on mention ability\n
+[cmd] Fix bug\n
+[cmd] Added command '/ban' [cmd] Improved 'roles'\n
+[cmd] Get everything back (0c896e974e4b14cda7987dc3d0cba17e241484df)\n
+[cmd] Move functions outside block\n
+[files] role.js -> roles.js\n
+[db] Working commands (show/add/remove)\n
+Add description in utils.js Tests Changed 'start' command to nodemon\n
+[db] Add new methods\n
+Firebase implement\n
+Remove unnecessary changelog\n
+Fix getting <Promise> on randomMessage()\n
+Move files to subfolders\n
+Set port to 4000\n
+Update package-lock.json\n
+Update version Update dependencies\n
+Add /role command Minor enhancements\n
+Move bot TOKEN and ID constants to config.js Rename constants.js -> config.js\n
+Rename files\n
+New error handling system Move getMsg() to ./utils.js\n
+Implement cooldown\n
+Merge pull request #6 from jarvis394/glitch\n
+Remove shrinkwrap.yaml from pushing to git\n
+Merge from glitch\n
+💽🏘 Updated with Glitch\n
+Merge pull request #4 from jarvis394/glitch\n
+Site update\n
+Add info how to start using bot\n
+Merge pull request #3 from jarvis394/glitch\n
+Fix typo\n
+Fix typo\n
+Merge pull request #2 from jarvis394/glitch\n
+Add no.js and auto module\n
+Delete .glitch-assets\n
+Merge pull request #1 from jarvis394/glitch\n
+Should be in gitignore\n
+🎭🖼 Updated with Glitch\n
+Create LICENSE\n
