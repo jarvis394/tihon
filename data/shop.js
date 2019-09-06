@@ -137,7 +137,7 @@ const items = [
     rep: 100
   }),
   new Item({
-    name: 'Огород',
+    name: 'Огородик',
     icon: '🍓',
     price: 250000,
     groupId: 2,
@@ -151,6 +151,30 @@ const items = [
     groupId: 2,
     earning: 12500,
     rep: 1000
+  }),
+  
+  // Clothes
+  new Item({
+    name: '',
+    icon: '🍀',
+    price: 500000,
+    groupId: 2,
+    earning: 12500,
+    rep: 1000
+  }),
+  new Item({
+    name: 'Плантация',
+    icon: '🍀',
+    price: 50000,
+    groupId: 3,
+    rep: 250
+  }),
+  new Item({
+    name: 'Костюм',
+    icon: '👔',
+    price: 100000,
+    groupId: 3,
+    rep: 500
   }),
 
   // Coffins
