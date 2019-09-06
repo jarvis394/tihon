@@ -155,24 +155,23 @@ const items = [
   
   // Clothes
   new Item({
-    name: '',
-    icon: '🍀',
-    price: 500000,
-    groupId: 2,
-    earning: 12500,
-    rep: 1000
-  }),
-  new Item({
-    name: 'Плантация',
-    icon: '🍀',
+    name: 'Сельский прикид',
+    icon: '👨‍🌾',
     price: 50000,
     groupId: 3,
-    rep: 250
+    rep: 500
+  }),
+  new Item({
+    name: 'Sperman',
+    icon: '💦',
+    price: 50000,
+    groupId: 3,
+    rep: 500
   }),
   new Item({
     name: 'Костюм',
     icon: '👔',
-    price: 100000,
+    price: 50000,
     groupId: 3,
     rep: 500
   }),
