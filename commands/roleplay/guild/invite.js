@@ -1,9 +1,10 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const rel = '../../../'
   const handleError = require(rel + 'utils/handleError')
   const User = require(rel + 'lib/User')
   const Guild = require(rel + 'lib/Guild')
   const CommandError = require(rel + 'lib/CommandError')
+  const { api } = require(rel + 'variables')
   
   try {
     

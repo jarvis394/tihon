@@ -1,6 +1,6 @@
 const handleError = require('../../../utils/handleError')
 
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const aliases = {
     create: [ 'создать' ],
     info: [ 'инфа' ],
@@ -30,7 +30,7 @@ exports.run = async (api, update, args) => {
     
     const module = require(`./${file}`)
     
-    return module.run(api, update, args)
+    return module.run(update, args)
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND') {
       return update.reply('Такой команды не существует 😑')

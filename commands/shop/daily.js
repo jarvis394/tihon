@@ -32,8 +32,8 @@ exports.run = async (update) => {
         `💵 Твой баланс: ${format(await user.getAmount())} ${CURRENCY}`
       )
     } else {
-      let left = DAY - (now - lastTime)
-
+      let left = new Date(now + DAY - now + lastTime)
+      console.log(left)
       return update.send(
         '😕 Ты уже использовал бонус!\n' +
         `Осталось ждать ${moment(left).calendar()}`

@@ -1,4 +1,4 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const rel = '../../../'
   const handleError = require(rel + 'utils/handleError')
   const User = require(rel + 'lib/User')

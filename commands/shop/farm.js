@@ -52,7 +52,7 @@ exports.run = async (update) => {
 
       return update.send(res.join('\n'))
     } else {
-      let left = WAITING_TIME - (now - lastTime)
+      let left = new Date(WAITING_TIME - (now - lastTime))
 
       return update.send(
         `😕 Ты уже собирал урожай!\nОсталось ждать ${moment(left).calendar()}`
