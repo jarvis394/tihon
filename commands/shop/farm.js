@@ -1,8 +1,11 @@
-exports.run = async (api, update) => {
+exports.run = async (update) => {
   const User = require('../../lib/User')
   const shopUtils = require('../../utils/shop')
   const handleError = require('../../utils/handleError')
   const HOUR = 3600000 * 6
+  const WAITING_TIME = HOUR * 3
+  const moment = require('moment')
+  moment.locale('ru')
 
   try {
     let firstTimeFlag = false
@@ -14,7 +17,7 @@ exports.run = async (api, update) => {
 
     // If no data found
     if (!earnings.farms) {
-      earnings = user.setEarning('farms', Date.now() - HOUR)
+      earnings = user.setEarning('farms', Date.now() - WAITING_TIME)
 
       firstTimeFlag = true
     }
@@ -23,7 +26,7 @@ exports.run = async (api, update) => {
     let lastTime = earnings.farms
     let now = Date.now()
 
-    if (now - lastTime >= HOUR || firstTimeFlag) {
+    if (now - lastTime >= WAITING_TIME || firstTimeFlag) {
       res.push('💸 Ты собрал урожай и продал его:\n')
 
       // For each item push if it has 'earning'
@@ -31,7 +34,7 @@ exports.run = async (api, update) => {
         let shopItem = shopUtils.getItemById(id)
 
         if (shopItem && shopItem.earning) {
-          let earning = Math.floor(((now - lastTime) / HOUR) * shopItem.earning)
+          let earning = Math.floor(((now - lastTime) / WAITING_TIME) * shopItem.earning)
 
           user.add(earning)
           res.push(`‌‌ ‌‌ - ${shopItem.name} - ${earning}T`)
@@ -49,10 +52,11 @@ exports.run = async (api, update) => {
 
       return update.send(res.join('\n'))
     } else {
-      let left = new Date(HOUR - (now - lastTime))
+      const left = new Date(WAITING_TIME + lastTime)
 
       return update.send(
-        `😕 Ты уже собирал урожай!\nОсталось ждать ${left.getHours()}:${left.getMinutes()}:${left.getSeconds()}`
+        '😕 Ты уже собирал урожай!\n' +
+        `Команда будет доступна ${moment(left).fromNow()}`
       )
     }
   } catch (e) {

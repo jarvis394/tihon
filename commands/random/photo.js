@@ -1,4 +1,4 @@
-exports.run = async (api, update) => {
+exports.run = async (update) => {
   const handleError = require('../../utils/handleError')
 
   const { randomArray } = require('../../utils/random')

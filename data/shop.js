@@ -4,6 +4,10 @@ const Group = require('../lib/Group')
 const Pet = require('../lib/Pet')
 
 module.exports.categories = {
+  transport: new Category({
+    icon: '🚏',
+    name: 'Транспорт'
+  }),
   realty: new Category({
     icon: '🌇',
     name: 'Недвижимость'
@@ -133,7 +137,7 @@ const items = [
     rep: 100
   }),
   new Item({
-    name: 'Огород',
+    name: 'Огородик',
     icon: '🍓',
     price: 250000,
     groupId: 2,
@@ -147,6 +151,29 @@ const items = [
     groupId: 2,
     earning: 12500,
     rep: 1000
+  }),
+  
+  // Clothes
+  new Item({
+    name: 'Сельский прикид',
+    icon: '👨‍🌾',
+    price: 50000,
+    groupId: 3,
+    rep: 500
+  }),
+  new Item({
+    name: 'Sperman',
+    icon: '💦',
+    price: 50000,
+    groupId: 3,
+    rep: 500
+  }),
+  new Item({
+    name: 'Костюм',
+    icon: '👔',
+    price: 50000,
+    groupId: 3,
+    rep: 500
   }),
 
   // Coffins

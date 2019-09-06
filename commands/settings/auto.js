@@ -1,4 +1,4 @@
-exports.run = async (api, update) => {
+exports.run = async (update) => {
   const handleError = require('../../utils/handleError')
 
   const DBDialog = require('../../lib/DBDialog')
@@ -11,10 +11,10 @@ exports.run = async (api, update) => {
 
     if (state) {
       state = false
-      update.send('Теперь здесь не будет отправляться рассылка')
+      update.send('✨ Теперь здесь не будет отправляться рассылка')
     } else {
       state = true
-      update.send('Теперь тут будет отправляться рассылка')
+      update.send('✨ Теперь тут будет отправляться рассылка')
     }
 
     dialog.update({

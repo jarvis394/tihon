@@ -1,4 +1,4 @@
-exports.run = async (api, update, args, _1, _2, _3, variables) => {
+exports.run = async (update, args, _1, _2, _3, variables) => {
   return update.reply('🤗 Эта команда теперь недоступна, спасибо [id233169580|Артёму Булатову]!')
   
   // DISABLED //

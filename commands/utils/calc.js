@@ -1,4 +1,4 @@
-exports.run = (api, update, args) => {
+exports.run = (update, args) => {
   const handleError = require('../../utils/handleError')
 
   const math = require('mathjs')

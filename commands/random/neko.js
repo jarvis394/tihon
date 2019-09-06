@@ -1,4 +1,4 @@
-exports.run = async (api, update) => {
+exports.run = async (update) => {
   const { get } = require('request-promise-native')
   const handleError = require('../../utils/handleError')
 

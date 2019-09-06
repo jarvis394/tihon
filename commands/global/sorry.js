@@ -1,4 +1,4 @@
-exports.run = async (api, update) => {
+exports.run = async (update) => {
   const handleError = require('../../utils/handleError')
 
   const { randomArray } = require('../../utils/random')
@@ -28,6 +28,6 @@ exports.command = {
     en: 'Please forgive poor bot!',
     ru: 'Пожалуйста простите старого бота!'
   },
-  alias: ['ахуел', 'уебок', 'сука', 'пидор', 'слыш', 'э'],
+  alias: ['слышь', 'эй', 'слыш', 'э'],
   group: 'global'
 }

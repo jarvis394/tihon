@@ -1,5 +1,6 @@
-exports.run = (api, update, args) => {
+exports.run = (update, args) => {
   const handleError = require('../../utils/handleError')
+  const { api } = require('../../variables')
 
   try {
     if (args.length === 0) return update.send('Ссылки нема')

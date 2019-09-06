@@ -1,4 +1,4 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
   const User = require('../../lib/User')
 
@@ -25,7 +25,10 @@ exports.run = async (api, update, args) => {
     if (state.exists) return update.reply('🤔 Ты уже женат с этим человеком, забыл?')
 
     // Get names
-    const names = await api.users.get({ user_ids: `${user.id},${person.id}` })
+    const names = [
+      await user.getName(),
+      await person.getName()
+    ]
     const userName = names[0].first_name
     const personName = names[1].first_name
 

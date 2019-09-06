@@ -1,14 +1,11 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const User = require('../../lib/User')
   const handleError = require('../../utils/handleError')
   const { getGroupById, getItemById } = require('../../utils/shop')
 
   try {
-    const name = await api.users.get({
-      user_ids: update.senderId,
-      name_case: 'gen'
-    })
     const user = new User(update.senderId)
+    const name = await user.getName('gen')
 
     if (!args[0]) {
       return update.send('😕 Ты не ввел ID предмета, который хочешь купить')
@@ -48,7 +45,7 @@ exports.run = async (api, update, args) => {
     user.addReputation(item.rep)
 
     return update.send(
-      `🎉 Теперь у ${name[0].first_name} есть предмет ${item.name}\n` +
+      `🎉 Теперь у ${name.first_name} есть предмет ${item.name}\n` +
         '\nЧтобы продать, нужно использовать команду "продать" и группу:' +
         '\n@tihon_bot, продать дом'
     )

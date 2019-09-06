@@ -6,15 +6,7 @@ module.exports = async update => {
 
   try {
     let cmd = require(`../commands/${command.group}/${command.name}`)
-    cmd.run(
-      api,
-      update,
-      args,
-      randomStorage,
-      vk,
-      commands,
-      require('../variables')
-    )
+    cmd.run(update, args)
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND') return 
     handleError(update, e)
