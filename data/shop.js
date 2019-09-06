@@ -4,6 +4,10 @@ const Group = require('../lib/Group')
 const Pet = require('../lib/Pet')
 
 module.exports.categories = {
+  transport: new Category({
+    icon: '🚏',
+    name: 'Транспорт'
+  }),
   realty: new Category({
     icon: '🌇',
     name: 'Недвижимость'
