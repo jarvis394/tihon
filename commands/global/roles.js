@@ -1,4 +1,4 @@
-exports.run = async (api, update, args) => {
+/* exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
   const DBDialog = require('../../lib/DBDialog')
 
@@ -46,6 +46,7 @@ exports.run = async (api, update, args) => {
     /**
      * Add role
      */
+
     async function addRole(id, index) {
       await dialog.checkData()
 
@@ -170,7 +171,7 @@ exports.run = async (api, update, args) => {
   } catch (e) {
     handleError(update, e)
   }
-}
+}*/
 
 exports.command = {
   name: 'roles',
@@ -182,5 +183,6 @@ exports.command = {
       'Добавляет или удаляет роль у пользователя. Без аргументов возвращает роли пользователя'
   },
   group: 'global',
-  alias: ['роли']
+  alias: ['роли'],
+  hidden: true
 }

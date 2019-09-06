@@ -1,4 +1,4 @@
-exports.run = async (api, update, args) => {
+exports.run = async (update, args) => {
   const User = require('../../lib/User')
   const { getItemById, getGroupById } = require('../../utils/shop')
   const handleError = require('../../utils/handleError')

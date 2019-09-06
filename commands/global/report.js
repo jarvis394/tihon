@@ -1,4 +1,4 @@
-exports.run = async (api, update, args, rs) => {
+exports.run = async (update, args) => {
   const handleError = require('../../utils/handleError')
 
   const { ID } = require('../../configs/constants')
@@ -18,7 +18,7 @@ exports.run = async (api, update, args, rs) => {
     let date = msg.date
     let res
 
-    for (let el of rs.keys()) {
+    /*for (let el of rs.keys()) {
       if (parseInt(el) > date - 100 && parseInt(el) < date + 100) {
         res = parseInt(el)
         break
@@ -34,7 +34,7 @@ exports.run = async (api, update, args, rs) => {
         id: rs.get(res)
       })
 
-    return update.send(`Сообщение с ID ${res} помечено как спам.`)
+    return update.send(`Сообщение с ID ${res} помечено как спам.`)*/
   } catch (e) {
     handleError(update, e)
   }
@@ -48,5 +48,6 @@ exports.command = {
     ru: 'Зарепортить пересланное сообщение'
   },
   alias: ['репорт'],
-  group: 'global'
+  group: 'global',
+  hidden: true
 }
