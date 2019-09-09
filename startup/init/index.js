@@ -1,7 +1,7 @@
-const firebase = require('./firebase')
+const db = require('./database')
 const vk = require('./vk')
 
 module.exports = {
-  ...firebase,
+  ...db,
   ...vk
 }

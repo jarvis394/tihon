@@ -81,7 +81,7 @@ exports.run = async (update, args) => {
     let opponentId
 
     try {
-      opponentId = args[0].split('|')[0].slice(3)
+      opponentId = parseInt(args[0].split('|')[0].slice(3))
       if (isNaN(opponentId)) throw new Error('argument \'opponentId\' is NaN')
       if (update.senderId === opponentId) throw new Error('ids are same')
     } catch (e) {
@@ -90,7 +90,8 @@ exports.run = async (update, args) => {
       )
     }
 
-    if (opponentId === ID) return update.reply('🤗 Не буду)')
+    if (opponentId < 0) return update.reply('👿 Нельзя драться с ботом!')
+    if (opponentId === ID * 1) return update.reply('🤗 Не буду)')
 
     const { senderId } = update
     const player = new Opponent(senderId)
@@ -195,8 +196,6 @@ exports.run = async (update, args) => {
         const damage = random(30, 50),
           attacker = Math.random() >= 0.5 ? player : opponent,
           receiver = attacker.id === player.id ? opponent : player,
-          pHP = player.hp,
-          oHP = opponent.hp,
           c = Math.random()
 
         if (c < 0.1) {

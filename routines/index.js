@@ -5,7 +5,7 @@
 if (process.env.MODE !== 'DISABLED') {
 
   // Do stuff on shutdown
-  require('./restart')
+  // require('./restart')
 
   // Auto send messages
   require('./auto')

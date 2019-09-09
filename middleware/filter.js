@@ -7,6 +7,7 @@ updates.on('message', async (update, next) => {
 
   if (isOutbox) return
   if (text === '' || !text) return
+  if (senderId < 0) return
   if (ADMIN_ONLY && !isAdmin(senderId)) return
   if (EXCLUDE_ADMINS && isAdmin(senderId)) return 
 

@@ -3,7 +3,7 @@ const { random } = require('../utils/random')
 const randomMessage = require('../utils/randomMessage')
 const data = require('../utils/data')
 const { AUTO_INTERVAL } = require('../configs/constants')
-const { log, api, collect } = require('../variables')
+const { log, collect } = require('../variables')
 
 let queue = []
 

@@ -1,7 +1,7 @@
 exports.run = async (update) => {
   const handleError = require('../../utils/handleError')
 
-  const DBDialog = require('../../lib/DBDialog')
+  const DBDialog = require('../../lib/Dialog')
 
   try {
     const dialog = new DBDialog(update.peerId)

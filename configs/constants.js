@@ -1,7 +1,7 @@
 /**
  * Bot ID
  */
-const ID = '378852887'
+const ID = process.env.ID
 
 /**
  * Bot prefix

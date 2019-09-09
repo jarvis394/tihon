@@ -9,7 +9,7 @@ exports.run = async (update, args) => {
     
     const { senderId } = update
     const user = new User(senderId)
-    const guildId = await user.fetchGuild()
+    const guildId = user.guild
     
     const text = `${guildId ? `🔻 Ты состоишь в колхозе [ ${guildId} ]` : '🔻 Ты не состоишь в колхозе'}\n\nСправка:\n` +
           '1️⃣ /колхоз - информация о колхозе\n' +

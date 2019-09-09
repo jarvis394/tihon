@@ -9,8 +9,8 @@ updates.on('message', async (update, next) => {
 
   if (count % 50 === 0) {
     try {
-      const cmd = require('../commands/random/random.js')
-      cmd.run(api, update, [], randomStorage)
+      const cmd = require('../commands/random/random')
+      cmd.run(update)
     } catch (e) {
       handleError(e)
     }

@@ -4,10 +4,9 @@ const cmd = require('node-cmd')
 const crypto = require('crypto')
 const readline = require('reverse-line-reader')
 
-const { app, commands, firebase, log } = require('../variables')
+const { app, commands, db, log } = require('../variables')
 const { SECRET } = require('../configs/secrets')
 const promo = require('../utils/promo')
-const db = firebase.firestore()
 
 // Home
 app.get('/', (req, res) => {

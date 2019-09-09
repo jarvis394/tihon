@@ -4,7 +4,7 @@
   },
   "restart": {
     "exclude": [],
-    "include": ["\\.json", "\\.sqlite"]
+    "include": ["\\.json"]
   },
-  "throttle": 100000000
-} 
+  "throttle": 1000000000000
+}

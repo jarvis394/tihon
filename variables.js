@@ -1,5 +1,5 @@
 const init = require('./startup')
-const { log } = init
+const { api } = init
 const RequestsQueue = require('./lib/RequestsQueue')
 
 // const Container = require('./lib/Container')
@@ -30,25 +30,12 @@ const battleCommandTimeout = new Map()
 const randomStorage = new Map()
 
 /**
- * Saves users in local store
- */
-const users = new Map()
-
-/**
- * Saves guilds in local store
- */
-const guildsStore = new Map()
-
-/**
  * Saves requests for captcha handling
  */
-const requestsQueue = new RequestsQueue()
+const requestsQueue = new RequestsQueue(api)
 
 const express = require('express')
 const app = express()
-
-// Log success message
-log.success('Initialized variables', { private: true })
 
 module.exports = {
   ...init,
@@ -56,9 +43,7 @@ module.exports = {
   talkedRecently,
   randomStorage,
   app,
-  users,
   anonCommandTimeout,
   battleCommandTimeout,
-  guildsStore,
   requestsQueue,
 }
