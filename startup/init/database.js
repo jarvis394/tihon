@@ -66,7 +66,7 @@ db.prepare(`
 
 // Create earnings table
 db.prepare(`
-  CREATE TABLE "earnings" (
+  CREATE TABLE IF NOT EXISTS "earnings" (
     "userId"	INTEGER NOT NULL,
     "field"	TEXT NOT NULL,
     "time"	INTEGER NOT NULL,
@@ -77,7 +77,7 @@ db.prepare(`
 
 // Create pets table
 db.prepare(`
-  CREATE TABLE "pets" (
+  CREATE TABLE IF NOT EXISTS "pets" (
     "ownerId"	TEXT,
     "petId"	INTEGER NOT NULL,
     "timestamp"	INTEGER NOT NULL,
@@ -88,7 +88,7 @@ db.prepare(`
 
 // Add trigger add_guild_member
 db.prepare(`
-  CREATE TRIGGER add_guild_member BEFORE INSERT ON guildMembers 
+  CREATE TRIGGER IF NOT EXISTS add_guild_member BEFORE INSERT ON guildMembers 
   BEGIN 
     UPDATE users SET guild=NEW.guildId WHERE id=NEW.memberId;
   END
@@ -96,7 +96,7 @@ db.prepare(`
 
 // Add trigger delete_guild_member
 db.prepare(`
-  CREATE TRIGGER delete_guild_member AFTER DELETE ON guildMembers 
+  CREATE TRIGGER IF NOT EXISTS delete_guild_member AFTER DELETE ON guildMembers 
   BEGIN 
     UPDATE users SET guild=NULL WHERE id=OLD.memberId;
   END
