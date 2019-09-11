@@ -8,7 +8,7 @@ describe('Random message logging', () => {
     const message = await randomMessage()
 
     let line = ''
-    readline.eachLine('logs/main.log', (l) => {
+    readline.eachLine('logs/main.log', l => {
       line = JSON.parse(l)
 
       expect(message.text).toBe(line.message.text)

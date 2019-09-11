@@ -5,7 +5,6 @@ const bodyParser = require('body-parser').json()
 const { app, log } = require('../variables')
 
 // Middlewares
-app.use(express.static('web/public'))
 app.use(express.static('logs'))
 app.use(bodyParser)
 

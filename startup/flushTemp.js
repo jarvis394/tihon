@@ -8,12 +8,12 @@ const chalk = require('chalk')
 fs.readFile('temp/coinsData.json', (err, data) => {
   if (err && err.code === 'ENOENT') {
     log.warn('No file found on path \'temp/coinsData.json\'', {
-      private: true
+      private: true,
     })
   } else if (err) {
     return log.error(err)
   }
-  
+
   data = data ? JSON.parse(data) : {}
 
   for (let id in data) {
@@ -27,10 +27,10 @@ fs.readFile('temp/coinsData.json', (err, data) => {
 
           user.amount += d.amount
           user.rank += d.rank
-          
+
           if (user.amount < 0) user.amount = 0
           if (user.rank < 0) user.rank = 0
-          
+
           // Guild
           if (!user.guild) user.guild = d.guild ? d.guild : null
 
@@ -70,7 +70,7 @@ fs.readFile('temp/coinsData.json', (err, data) => {
 fs.readFile('temp/guildsData.json', (err, data) => {
   if (err && err.code === 'ENOENT') {
     log.warn('No file found on path \'temp/guildsData.json\'', {
-      private: true
+      private: true,
     })
   } else if (err) {
     return log.error(err)
@@ -86,20 +86,20 @@ fs.readFile('temp/guildsData.json', (err, data) => {
         if (doc.exists) {
           const d = doc.data()
           const guild = data[id]
-          
+
           guild.id = d.id
           guild.name = d.name
 
           guild.money += d.money
           guild.reputation += d.reputation
-          
+
           if (guild.money < 0) guild.money = 0
           if (guild.reputation < 0) guild.reputation = 0
-          
+
           // Stats
           guild.stats.win += d.stats.win
           guild.stats.lose += d.stats.lose
-          
+
           /*
           // Items
           for (let key in user.items) {
@@ -107,22 +107,26 @@ fs.readFile('temp/guildsData.json', (err, data) => {
               d.items[key] ? d.items[key] : []
             )
           }*/
-          
+
           // Members
           guild.members = guild.members.concat(d.members)
-          guild._actions.forEach((action) => {
+          guild._actions.forEach(action => {
             switch (action.type) {
             case 'remove': {
-              guild.members = guild.members.filter(e => e.id !== action.memberId)
+              guild.members = guild.members.filter(
+                e => e.id !== action.memberId
+              )
               break
             }
             case 'roleChange': {
-              guild.members[guild.members.findIndex(e => e.id === action.memberId)].role = action.to
+              guild.members[
+                guild.members.findIndex(e => e.id === action.memberId)
+              ].role = action.to
               break
             }
             }
           })
-          
+
           return await t.update(guildRef, guild)
         } else {
           return await t.set(guildRef, data[id])

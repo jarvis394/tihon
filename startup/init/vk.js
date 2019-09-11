@@ -15,7 +15,7 @@ async function run() {
 }
 
 // Handle captcha
-vk.captchaHandler = async (payload) => {
+vk.captchaHandler = async payload => {
   log.warn('Need captcha, pushing to the queue: ' + payload.src)
   await captchaHandler(payload)
 }
@@ -24,7 +24,7 @@ vk.captchaHandler = async (payload) => {
 if (process.env.MODE !== 'DISABLED') {
   vk.setOptions({
     token: TOKEN,
-    authScope: 'all'
+    authScope: 'all',
   })
 
   // Start only when data is loaded once
@@ -36,5 +36,5 @@ module.exports = {
   vk,
   updates,
   api,
-  collect
+  collect,
 }

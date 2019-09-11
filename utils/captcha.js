@@ -9,14 +9,14 @@
 // const saveCaptcha = src => fs.appendFile('temp/captchas.log', src)
 
 // /**
-//  * Returns all captchas list 
+//  * Returns all captchas list
 //  */
 // const removeCaptcha = () => {
 
 // }
 
 // /**
-//  * Returns all captchas list 
+//  * Returns all captchas list
 //  */
 // const getAllCaptchas = () => fs.readFile('temp/captchas.log')
 

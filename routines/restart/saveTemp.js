@@ -1,9 +1,5 @@
 const fs = require('mz/fs')
-const {
-  users: usersStore,
-  guildsStore,
-  log
-} = require('../../variables')
+const { users: usersStore, guildsStore, log } = require('../../variables')
 
 const run = () => {
   let res = {}
@@ -14,7 +10,7 @@ const run = () => {
       log.error(err)
     } else {
       log.success('Saved temp data for users', {
-        private: true
+        private: true,
       })
 
       let resGuilds = {}
@@ -25,7 +21,7 @@ const run = () => {
           log.error(e)
         } else {
           log.success('Saved temp data for guilds\n\n\n', {
-            private: true
+            private: true,
           })
           return process.exit(0)
         }

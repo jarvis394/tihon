@@ -6,7 +6,7 @@ const COLORS = {
   warn: chalk.yellow,
   error: chalk.red,
   success: chalk.green,
-  command: chalk.cyan
+  command: chalk.cyan,
 }
 
 const LEVELS = {
@@ -15,10 +15,10 @@ const LEVELS = {
   debug: 2,
   info: 3,
   success: 4,
-  command: 5
+  command: 5,
 }
 
 module.exports = {
   COLORS,
-  LEVELS
+  LEVELS,
 }

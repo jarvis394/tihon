@@ -20,31 +20,26 @@ const log = createLogger({
   level: 'info',
   levels: LEVELS,
   exitOnError: false,
-  format: combine(
-    timestamp(),
-    errors({ stack: true }),
-    splat(),
-    json()
-  ),
+  format: combine(timestamp(), errors({ stack: true }), splat(), json()),
   transports: [
     new transports.File({
       filename: 'logs/error.log',
       format: ignorePrivate(),
       level: 'error',
-      handleExceptions: true
+      handleExceptions: true,
     }),
     new transports.File({
       filename: 'logs/main.log',
       format: ignorePrivate(),
       level: 'command',
-      handleExceptions: true
+      handleExceptions: true,
     }),
     new transports.Console({
       level: 'command',
       format: combine(simple(), consoleFormat),
-      handleExceptions: true
-    })
-  ]
+      handleExceptions: true,
+    }),
+  ],
 })
 
 module.exports = log

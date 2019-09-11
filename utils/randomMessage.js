@@ -12,7 +12,7 @@ const dataUtils = require('./data')
  */
 module.exports = async () => {
   // Testing functions
-  const isEmpty = m => !m.text 
+  const isEmpty = m => !m.text
   const hasLink = m => m.text.split(' ').some(t => isUrl(t))
   const startsWithPhone = m => m.text.split(' ').some(t => t.startsWith('+7'))
   const isCommandMessage = m => m.text.split(' ').some(t => t.startsWith('/'))
@@ -65,7 +65,7 @@ module.exports = async () => {
 
   // Log message to command.log
   commandLogger.random({
-    message: msg
+    message: msg,
   })
 
   return msg

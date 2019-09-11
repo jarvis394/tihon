@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "lint": "prettier * --config .prettierrc.js --write || eslint . --fix",
+    "lint": "prettier **/{.[^.],}* --config .prettierrc.js --write || eslint . --fix",
     "nodemon": "nodemon .",
     "test": "jest --verbose"
   },

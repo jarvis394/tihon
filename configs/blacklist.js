@@ -38,17 +38,15 @@ const USERS = [
   '472132940',
   '257520997',
   '119528604',
-  '182762562'
+  '182762562',
 ]
 
 /**
  * Blacklisted multidialogs
  */
-const DIALOGS = [
-  '2000000021',
-]
+const DIALOGS = ['2000000021']
 
 module.exports = {
-  USERS, 
-  DIALOGS
+  USERS,
+  DIALOGS,
 }

@@ -22,5 +22,5 @@ module.exports = {
   TOKEN,
   SECRET,
   FIREBASE_KEYS,
-  FIREBASE_DB_URL
+  FIREBASE_DB_URL,
 }

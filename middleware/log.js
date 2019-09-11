@@ -12,7 +12,7 @@ module.exports = async update => {
     command: true,
     peerId,
     senderId,
-    id
+    id,
   })
   console.log('\tPeer:', peerId, '| User:', senderId, '| Message:', id)
 }

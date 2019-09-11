@@ -3,12 +3,12 @@ const { api, log } = require('../variables')
 
 setInterval(async () => {
   let list = await api.friends.getRequests({
-    count: 1000
+    count: 1000,
   })
   list.items.forEach(friend => {
     api.friends
       .add({
-        user_id: friend
+        user_id: friend,
       })
       .catch(e => log.error(e))
 

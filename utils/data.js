@@ -1,7 +1,7 @@
 // const fs = require('mz/fs')
 
 /**
- * Returns dialogs list 
+ * Returns dialogs list
  */
 const getDialogs = async () => {
   const data = require('../temp/dialogs.json')
@@ -9,7 +9,7 @@ const getDialogs = async () => {
 }
 
 /**
- * Returns histories list 
+ * Returns histories list
  */
 const getHistories = () => {
   const data = require('../temp/messages.json')
@@ -18,5 +18,5 @@ const getHistories = () => {
 
 module.exports = {
   getDialogs,
-  getHistories
+  getHistories,
 }

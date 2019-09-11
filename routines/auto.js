@@ -26,7 +26,7 @@ async function messageService(dialog) {
   const data = await Dialog.checkData()
   let options = {
     peer_id: dialog.conversation.peer.id,
-    random_id: random(10000000, 99999999)
+    random_id: random(10000000, 99999999),
   }
 
   // If dialog is blacklisted then return
@@ -60,15 +60,12 @@ async function messageService(dialog) {
   if (!options.message && !options.attachment) return
 
   queue.push(options)
-  
+
   if (queue.length % 25 == 0) {
-    setTimeout(
-      () => {
-        const q = queue.splice(0, 25)
-        collect.executes('messages.send', q)
-      },
-      random(5 * 1000, 60 * 1000)
-    )
+    setTimeout(() => {
+      const q = queue.splice(0, 25)
+      collect.executes('messages.send', q)
+    }, random(5 * 1000, 60 * 1000))
   }
 }
 

@@ -36,7 +36,7 @@ const generate = () => {
     code: key,
     n,
     promo,
-    timestamp
+    timestamp,
   }
 }
 
@@ -67,5 +67,5 @@ const getPromo = () => {
 module.exports = {
   promoFunction,
   generate,
-  getPromo
+  getPromo,
 }

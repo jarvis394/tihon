@@ -8,7 +8,7 @@ const GUILD = {
   shield: 'int',
   timeout: 'int',
   items: 'text',
-  population: 'text'
+  population: 'text',
 }
 
 module.exports = GUILD

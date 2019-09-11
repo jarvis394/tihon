@@ -63,5 +63,5 @@ module.exports = {
   DAILY_BONUS,
   DATA_GET_INTERVAL,
   ID,
-  CURRENCY
+  CURRENCY,
 }

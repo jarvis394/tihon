@@ -3,5 +3,5 @@ const vk = require('./vk')
 
 module.exports = {
   ...db,
-  ...vk
+  ...vk,
 }

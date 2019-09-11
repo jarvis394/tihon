@@ -10,5 +10,5 @@ const log = require('./log')
 module.exports = {
   ...init,
   commands,
-  log
+  log,
 }

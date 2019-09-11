@@ -23,5 +23,5 @@ const random = (min = 0, max = 1) => {
 
 module.exports = {
   random,
-  randomArray
+  randomArray,
 }

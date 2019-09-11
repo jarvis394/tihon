@@ -31,7 +31,7 @@ updates.on('message', async (update, next) => {
   } else {
     state.isCommand = false
   }
-  
+
   // Check if user is admin
   state.isAdmin = isAdmin(senderId)
 
@@ -52,7 +52,7 @@ updates.on('message', async (update, next) => {
       if (state.isAdmin) {
         state.command = {
           name: state.commandText.slice(5),
-          group: 'dev'
+          group: 'dev',
         }
       } else {
         return await update.reply('🔐 Такое доступно только админам')
@@ -71,7 +71,7 @@ updates.on('message', async (update, next) => {
     // Update the state
     state.isCommand = !!state.command
   }
-  
+
   // If there is only mention then set the state and return
   if (state.isMentioned && !state.isCommand) {
     state.isMentionMessage = true
