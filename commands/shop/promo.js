@@ -6,7 +6,7 @@ exports.run = async ({ update, args }) => {
 
   const code = args[0]
   const user = new User(update.senderId)
-  const earnings = await user.getEarnings()
+  const earnings = user.earnings
   const promo = getPromo()
 
   const promoCode = promo.code.toString()

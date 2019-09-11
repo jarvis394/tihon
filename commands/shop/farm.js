@@ -1,6 +1,7 @@
 exports.run = async ({ update, args }) => {
   const User = require('../../lib/User')
   const shopUtils = require('../../utils/shop')
+  const { CURRENCY } = require('../../configs/constants')
 
   const HOUR = 3600000 * 6
   const WAITING_TIME = HOUR * 3
@@ -11,7 +12,7 @@ exports.run = async ({ update, args }) => {
   let res = []
   let all = 0
   let user = new User(update.senderId)
-  let items = await user.fetchInventory()
+  let items = await user.items
   let earnings = await user.getEarnings()
 
   // If no data found
@@ -38,7 +39,9 @@ exports.run = async ({ update, args }) => {
         )
 
         user.add(earning)
-        res.push(`‌‌ ‌‌ - ${shopItem.name} - ${earning}T`)
+        res.push(
+          `‌‌ ‌‌ ${shopItem.icon} ${shopItem.name} - ${earning} ${CURRENCY}`
+        )
         all += earning
       }
     })
@@ -46,7 +49,7 @@ exports.run = async ({ update, args }) => {
     // Return if nothing to add
     if (all === 0) return update.send('😯 Ты ничего не собрал')
 
-    res.push('\nВсего: ' + all + 'T')
+    res.push('\nВсего: ' + all + CURRENCY)
 
     user.setEarning('farms', now)
     user.addReputation(Math.floor(all / 1500))

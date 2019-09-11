@@ -28,7 +28,7 @@ exports.run = async ({ update, args }) => {
 
     return update.send(
       `😝 Вы получили ежедневный бонус ${format(DAILY_BONUS)} ${CURRENCY}\n` +
-        `💵 Твой баланс: ${format(await user.getAmount())} ${CURRENCY}`
+        `💵 Твой баланс: ${format(user.money)} ${CURRENCY}`
     )
   } else {
     const left = new Date(lastTime + DAY)

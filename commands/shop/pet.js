@@ -63,7 +63,7 @@ exports.run = async ({ update, args }) => {
     const id = parseInt(args[1])
     const pet = shopData.pets.find(i => i.id === id)
     const { amount, state } = await user.isEnoughFor(pet.price)
-    const pets = await user.fetchPets()
+    const pets = user.pet
 
     if (pets.length >= 3)
       return update.reply('✖️ Нельзя иметь больше 3-х питомцев')

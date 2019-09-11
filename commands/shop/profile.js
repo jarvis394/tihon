@@ -14,7 +14,7 @@ exports.run = async ({ update, args }) => {
   let items = user.items
   let balance = user.money
   let rank = user.reputation
-  let pets = user.pet
+  let pet = user.pet
 
   if (USERS.some(e => e === userId.toString()))
     return update.reply('😠 Этот пользователь заблокирован')
@@ -32,27 +32,22 @@ exports.run = async ({ update, args }) => {
 
   shopData.groups.forEach(group => {
     const { icon, name, title } = group
-    const groupItems = items[title]
+    const groupItem = items.find(e => e.title === title)
 
     // If there is items
-    if (groupItems.length !== 0) {
-      const item = shopUtils.getItemById(groupItems[0])
+    if (groupItem) {
+      const item = shopUtils.getItemById(groupItem.id)
 
       // Push group text
       res.push(`${icon} ${name}: ${item.name}`)
     }
   })
 
-  // If there is pets
-  if (pets.length !== 0) {
-    // Push pets group text
-    res.push('\n👣 Питомцы:')
-
+  // If there is pet
+  if (pet) {
     // Push pet's text
-    pets.forEach((id, i) => {
-      const pet = shopUtils.getPetById(id)
-      res.push(`  [ ${i + 1} ] ${pet.icon} ${pet.name}`)
-    })
+    const petData = shopUtils.getPetById(pet.id)
+    res.push(`👣 Питомец: ${petData.icon} ${petData.name}`)
   }
 
   // Send result to the user
