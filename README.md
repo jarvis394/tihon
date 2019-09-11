@@ -41,7 +41,7 @@ to run bot by yourself.
 
 ## Todo
 
-Global: 
+Global:
 
 - Learn TypeScript to get rid of some checking. _Types are good_
 - Make an API and divide frontend and backend to 2 projects **(Almost done)**
@@ -50,16 +50,18 @@ Global:
 Needed:
 
 - ~~Set every checking as `throw new CommandError` for better code style and error handling~~
-  
+
   Better make a callback for command to execute with given command result
+
 - Get results of every command written with command log
 - Log data changes for debugging
-- Recursively check commands filetree to get **`parents`** and **`children`** of commands. 
-  For example, 
+- Recursively check commands filetree to get **`parents`** and **`children`** of commands.
+  For example,
+
   ```javascript
   // Parent
   - guild/
-    
+
     // Children
     - create { aliases: [ ...] }
     - leave { aliases: [ ... ] }

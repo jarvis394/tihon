@@ -1,5 +1,5 @@
-/* exports.run = async (update, args) => {
-  const handleError = require('../../utils/handleError')
+/* exports.run = async ({ update, args }) => {
+  
   const DBDialog = require('../../lib/DBDialog')
 
   const emptyUserData = {
@@ -10,7 +10,7 @@
 
   const dialog = new DBDialog(update.peerId)
 
-  try {
+
     // Return if group mentioned (usually that's bot)
     if (args.some(el => el.startsWith('[club')))
       return update.reply('Группам роли не даю')
@@ -169,9 +169,7 @@
         `Роли у ${name[0].first_name} ${name[0].last_name}:\n${res}`
       )
     }
-  } catch (e) {
-    handleError(update, e)
-  }
+  
 }*/
 
 exports.command = {
@@ -181,9 +179,9 @@ exports.command = {
     en:
       'Adds or removes role at specific user. Without add/remove shows only user\'s roles',
     ru:
-      'Добавляет или удаляет роль у пользователя. Без аргументов возвращает роли пользователя'
+      'Добавляет или удаляет роль у пользователя. Без аргументов возвращает роли пользователя',
   },
   group: 'global',
   alias: ['роли'],
-  hidden: true
+  hidden: true,
 }

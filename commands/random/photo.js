@@ -1,6 +1,4 @@
-exports.run = async (update) => {
-  const handleError = require('../../utils/handleError')
-
+exports.run = async ({ update, args }) => {
   const { randomArray } = require('../../utils/random')
 
   const DBDialog = require('../../lib/Dialog')
@@ -53,9 +51,7 @@ exports.run = async (update) => {
         ph.attachment.photo.id
       }${access}`
     })
-  } catch (e) {
-    handleError(update, e)
-  }*/
+  */
 }
 
 exports.command = {
@@ -63,8 +59,8 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Sends random photo from other multidialogs',
-    ru: 'Отправить рандомное фото из других бесед'
+    ru: 'Отправить рандомное фото из других бесед',
   },
   alias: ['фото', 'фотка'],
-  group: 'random'
+  group: 'random',
 }

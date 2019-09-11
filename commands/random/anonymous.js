@@ -1,9 +1,11 @@
 exports.run = async (update, args, _1, _2, _3, variables) => {
-  return update.reply('🤗 Эта команда теперь недоступна, спасибо [id233169580|Артёму Булатову]!')
-  
+  return update.reply(
+    '🤗 Эта команда теперь недоступна, спасибо [id233169580|Артёму Булатову]!'
+  )
+
   // DISABLED //
-  
-  // const handleError = require('../../utils/handleError')
+
+  //
   // const { randomArray } = require('../../utils/random')
   // const { ANON_COOLDOWN } = require('../../configs/constants')
   // const commandLogger = require('../../lib/CommandLogger')
@@ -11,7 +13,7 @@ exports.run = async (update, args, _1, _2, _3, variables) => {
   // const User = require('../../lib/User')
   // const moment = require('moment')
 
-  // try {
+  //
   //   const { anonCommandTimeout } = variables
 
   //   async function send(peer, text, attachments) {
@@ -157,7 +159,7 @@ exports.command = {
   arguments: '(message/attachment/forward)|(message/attachment/forward)',
   description: {
     en: 'Sends your message to a random multidialog',
-    ru: 'Отправляет твоё сообщение в рандомную беседу'
+    ru: 'Отправляет твоё сообщение в рандомную беседу',
   },
-  alias: ['anon', 'анон', 'анонимус']
+  alias: ['anon', 'анон', 'анонимус'],
 }

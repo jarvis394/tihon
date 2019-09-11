@@ -1,15 +1,7 @@
-exports.run = async (update, args) => {
-  const handleError = require('../../utils/handleError')
-  
-  try {
-    
-    update.someRandomFunction()
-      
-  } catch (e) {
-    handleError(update, e)
-  }
+exports.run = async ({ update, args }) => {
+  update.someRandomFunction()
 }
 
 exports.command = {
-  'hidden': true
+  hidden: true,
 }

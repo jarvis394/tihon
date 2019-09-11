@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
+    "lint": "prettier * --config .prettierrc.js --write || eslint . --fix",
     "nodemon": "nodemon .",
     "test": "jest --verbose"
   },
@@ -14,7 +15,6 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
-    "eslint": "^6.1.0",
     "express": "^4.16.4",
     "fs": "^0.0.2",
     "hashids": "1.2.2",
@@ -48,6 +48,25 @@
     "delay": "2500"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
     "winston": "^3.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,json,md}": [
+      "prettier --config .prettierrc.js --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

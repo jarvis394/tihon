@@ -1,11 +1,5 @@
-exports.run = async (update) => {
-  const handleError = require('../../utils/handleError')
-
-  try {
-    update.send('> не готово пока')
-  } catch (e) {
-    handleError(update, e)
-  }
+exports.run = async ({ update, args }) => {
+  update.send('> не готово пока')
 }
 
 exports.command = {
@@ -13,8 +7,8 @@ exports.command = {
   arguments: 'num|num',
   description: {
     en: 'Set roles preset',
-    ru: 'Установить пресет ролей'
+    ru: 'Установить пресет ролей',
   },
   group: 'utils',
-  hidden: true
+  hidden: true,
 }

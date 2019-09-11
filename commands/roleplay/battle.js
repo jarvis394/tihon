@@ -1,11 +1,12 @@
-exports.run = async (update, args) => {
+/* eslint-disable require-atomic-updates */
+exports.run = async ({ update, args }) => {
   const { handleError } = require('../../utils/handleError')
   const moment = require('moment')
   const BATTLE_PRICE = 5000
   const { randomArray, random } = require('../../utils/random')
   const User = require('../../lib/User')
   const { ID, BATTLE_COOLDOWN } = require('../../configs/constants')
-  const { battleCommandTimeout, api } = require ('../../variables')
+  const { battleCommandTimeout, api } = require('../../variables')
 
   const histories = {
     beginning: [
@@ -15,7 +16,7 @@ exports.run = async (update, args) => {
       'Хорошее начало: %PLAYER% бьёт сразу в грудь своему противнику!',
       'Алкоголь, похоже, ударил в голову: %PLAYER% кидается во внезапную атаку!',
       '%PLAYER_ACC% валит противника на землю, правда, ненадолго.',
-      '%PLAYER% фигачит кручёный удар! Как? Спросите у Балтики 9!'
+      '%PLAYER% фигачит кручёный удар! Как? Спросите у Балтики 9!',
     ],
     middle: [
       'Бой продолжается ударом пьяной головы %PLAYER_ACC%',
@@ -24,7 +25,7 @@ exports.run = async (update, args) => {
       'Неплохой хук от %PLAYER%',
       'Блестящий удар от %PLAYER%!',
       'Участники боя ходят вокруг да около... Нет, %PLAYER% внезапно нападает!',
-      'Ещё удар от %PLAYER%!'
+      'Ещё удар от %PLAYER%!',
     ],
     ending: [
       'Хороший конец бывает только в сказке! %PLAYER% добивает противника!',
@@ -34,7 +35,7 @@ exports.run = async (update, args) => {
       '%PLAYER% ссыт на лицо проигравшему',
       '%PLAYER% обкончал жопу врага и скрылся',
       '%PLAYER% затроллил своего противника))',
-      'А потом %PLAYER% снимает с противника трусы, в наручниках кидается на врага, как тигр, раздевает и начинает совать, а его бывший оппонент прижимает его к себе. И начинает входить глубоко и жестко'
+      'А потом %PLAYER% снимает с противника трусы, в наручниках кидается на врага, как тигр, раздевает и начинает совать, а его бывший оппонент прижимает его к себе. И начинает входить глубоко и жестко',
     ],
     filling: [
       '%PLAYER% как лох ударяет в крысу!',
@@ -49,8 +50,8 @@ exports.run = async (update, args) => {
       '%PLAYER% зовет собутыльников и устраивает групповой забив',
       '%PLAYER% бросает песок в лицо противника а затем бьет ногой в живот',
       '%PLAYER% тушит сигу об лицо противника',
-      '%PLAYER% проверил прочность пресса своего оппонента'
-    ]
+      '%PLAYER% проверил прочность пресса своего оппонента',
+    ],
   }
 
   class Opponent extends User {
@@ -77,171 +78,159 @@ exports.run = async (update, args) => {
     }
   }
 
+  let opponentId
+
   try {
-    let opponentId
-
-    try {
-      opponentId = parseInt(args[0].split('|')[0].slice(3))
-      if (isNaN(opponentId)) throw new Error('argument \'opponentId\' is NaN')
-      if (update.senderId === opponentId) throw new Error('ids are same')
-    } catch (e) {
-      return update.reply(
-        '👿 Тебе нужен человек для драки (или выпивка)\n\nПример использования: @tihon_bot драка *id'
-      )
-    }
-
-    if (opponentId < 0) return update.reply('👿 Нельзя драться с ботом!')
-    if (opponentId === ID * 1) return update.reply('🤗 Не буду)')
-
-    const { senderId } = update
-    const player = new Opponent(senderId)
-    const opponent = new Opponent(opponentId)
-    const timeoutData = battleCommandTimeout.get(senderId)
-    
-    if (timeoutData && Date.now() - timeoutData < BATTLE_COOLDOWN) {
-      const time = BATTLE_COOLDOWN - (Date.now() - timeoutData)
-
-      return update.reply(
-        '❌ Нельзя так часто с кем-то сражаться!\n' +
-          'Осталось ждать: ' +
-          moment(time).format('mm:ss')
-      )
-    } else {
-      battleCommandTimeout.set(senderId, Date.now())
-    }
-    
-    const { state, amount } = await player.isEnoughFor(BATTLE_PRICE)
-    if (!state)
-      return update.reply(
-        `🧮 Не хватает денег: у тебя ${amount}T, а нужно ${BATTLE_PRICE}T`
-      )
-    
-    player.subtract(BATTLE_PRICE)
-    
-    const n = await api.execute({
-      code: `return [API.users.get({ user_ids: "${player.id},${
-        opponent.id
-      }" }), API.users.get({ user_ids: "${player.id},${
-        opponent.id
-      }", name_case: "acc" })];`
-    })
-
-    const names = {
-      player: {
-        nom: n.response[0][0].first_name + ' ' + n.response[0][0].last_name,
-        acc: n.response[1][0].first_name + ' ' + n.response[1][0].last_name,
-        short:
-          n.response[0][0].first_name.substring(0, 1) +
-          n.response[0][0].last_name.substring(0, 1)
-      },
-      opponent: {
-        nom: n.response[0][1].first_name + ' ' + n.response[0][1].last_name,
-        acc: n.response[1][1].first_name + ' ' + n.response[1][1].last_name,
-        short:
-          n.response[0][1].first_name.substring(0, 1) +
-          n.response[0][1].last_name.substring(0, 1)
-      }
-    }
-
-    player.name = names.player
-    opponent.name = names.opponent
-
-    let history = [player.name.nom + ' ⚔️ ' + opponent.name.nom, '']
-
-    function getCategory(i) {
-      switch (i) {
-      case 0:
-        return 'beginning'
-      case 1:
-        return 'middle'
-      default:
-        return 'filling'
-      }
-    }
-
-    function getHistory(attacker, c) {
-      const text = randomArray(histories[c])
-
-      return text
-        .replace(/%PLAYER%/g, attacker.name.nom)
-        .replace(/%PLAYER_ACC%/g, attacker.name.acc)
-    }
-
-    function getStats() {
-      return `🛡️ ${player.name.short} - ${player.hp}HP | ${
-        opponent.name.short
-      } - ${opponent.hp}HP`
-    }
-
-    function end(state) {
-      const level = getHistory(state.winner, 'ending')
-
-      history.push('🔻 ' + level)
-      history.push(
-        `\n🎉 Победитель - ${state.winner.name.nom} | ${
-          state.winner.hp
-        }HP\n🔹 Проигравший - ${state.loser.name.nom} | 0HP`
-      )
-
-      if (state.winner.id === player.id) state.winner.addReputation(5)
-      else state.winner.addReputation(15)
-
-      state.winner.add(500)
-
-      return update.send(history.join('\n'))
-    }
-
-    function next(i) {
-      if (!player.isDead() && !opponent.isDead()) {
-        const damage = random(30, 50),
-          attacker = Math.random() >= 0.5 ? player : opponent,
-          receiver = attacker.id === player.id ? opponent : player,
-          c = Math.random()
-
-        if (c < 0.1) {
-          history.push(receiver.name.nom + ' отклоняет удар!\n')
-
-          return next(i)
-        }
-
-        const hpState = receiver.decreaseHP(damage)
-
-        if (!hpState) {
-          return end({ winner: attacker, loser: receiver })
-        } else {
-          const category = getCategory(i)
-          const level = getHistory(attacker, category)
-
-          history.push('• ' + level)
-          history.push(getStats())
-          history.push('')
-
-          return next(i + 1)
-        }
-      }
-    }
-
-    const chance = Math.random()
-    if (chance < 0.01) {
-      const winner = Math.random() >= 0.5 ? player : opponent,
-        loser = winner.id === player.id ? opponent : player
-
-      history.push('🔘 ПОЛНАЯ АННИГИЛЯЦИЯ ПРОТИВНИКА с шансом ' + chance + '\n')
-
-      return end({ winner, loser })
-    }
-
-    next(0)
+    opponentId = parseInt(args[0].split('|')[0].slice(3))
+    if (isNaN(opponentId)) throw new Error('argument \'opponentId\' is NaN')
+    if (update.senderId === opponentId) throw new Error('ids are same')
   } catch (e) {
-    handleError(update, e)
+    return update.reply(
+      '👿 Тебе нужен человек для драки (или выпивка)\n\nПример использования: @tihon_bot драка *id'
+    )
   }
+
+  if (opponentId < 0) return update.reply('👿 Нельзя драться с ботом!')
+  if (opponentId === ID * 1) return update.reply('🤗 Не буду)')
+
+  const { senderId } = update
+  const player = new Opponent(senderId)
+  const opponent = new Opponent(opponentId)
+  const timeoutData = battleCommandTimeout.get(senderId)
+
+  if (timeoutData && Date.now() - timeoutData < BATTLE_COOLDOWN) {
+    const time = BATTLE_COOLDOWN - (Date.now() - timeoutData)
+
+    return update.reply(
+      '❌ Нельзя так часто с кем-то сражаться!\n' +
+        'Осталось ждать: ' +
+        moment(time).format('mm:ss')
+    )
+  } else {
+    battleCommandTimeout.set(senderId, Date.now())
+  }
+
+  const { state, amount } = await player.isEnoughFor(BATTLE_PRICE)
+  if (!state)
+    return update.reply(
+      `🧮 Не хватает денег: у тебя ${amount}T, а нужно ${BATTLE_PRICE}T`
+    )
+
+  player.subtract(BATTLE_PRICE)
+
+  const n = await api.execute({
+    code: `return [API.users.get({ user_ids: "${player.id},${opponent.id}" }), API.users.get({ user_ids: "${player.id},${opponent.id}", name_case: "acc" })];`,
+  })
+
+  const names = {
+    player: {
+      nom: n.response[0][0].first_name + ' ' + n.response[0][0].last_name,
+      acc: n.response[1][0].first_name + ' ' + n.response[1][0].last_name,
+      short:
+        n.response[0][0].first_name.substring(0, 1) +
+        n.response[0][0].last_name.substring(0, 1),
+    },
+    opponent: {
+      nom: n.response[0][1].first_name + ' ' + n.response[0][1].last_name,
+      acc: n.response[1][1].first_name + ' ' + n.response[1][1].last_name,
+      short:
+        n.response[0][1].first_name.substring(0, 1) +
+        n.response[0][1].last_name.substring(0, 1),
+    },
+  }
+
+  player.name = names.player
+  opponent.name = names.opponent
+
+  let history = [player.name.nom + ' ⚔️ ' + opponent.name.nom, '']
+
+  function getCategory(i) {
+    switch (i) {
+    case 0:
+      return 'beginning'
+    case 1:
+      return 'middle'
+    default:
+      return 'filling'
+    }
+  }
+
+  function getHistory(attacker, c) {
+    const text = randomArray(histories[c])
+
+    return text
+      .replace(/%PLAYER%/g, attacker.name.nom)
+      .replace(/%PLAYER_ACC%/g, attacker.name.acc)
+  }
+
+  function getStats() {
+    return `🛡️ ${player.name.short} - ${player.hp}HP | ${opponent.name.short} - ${opponent.hp}HP`
+  }
+
+  function end(state) {
+    const level = getHistory(state.winner, 'ending')
+
+    history.push('🔻 ' + level)
+    history.push(
+      `\n🎉 Победитель - ${state.winner.name.nom} | ${state.winner.hp}HP\n🔹 Проигравший - ${state.loser.name.nom} | 0HP`
+    )
+
+    if (state.winner.id === player.id) state.winner.addReputation(5)
+    else state.winner.addReputation(15)
+
+    state.winner.add(500)
+
+    return update.send(history.join('\n'))
+  }
+
+  function next(i) {
+    if (!player.isDead() && !opponent.isDead()) {
+      const damage = random(30, 50),
+        attacker = Math.random() >= 0.5 ? player : opponent,
+        receiver = attacker.id === player.id ? opponent : player,
+        c = Math.random()
+
+      if (c < 0.1) {
+        history.push(receiver.name.nom + ' отклоняет удар!\n')
+
+        return next(i)
+      }
+
+      const hpState = receiver.decreaseHP(damage)
+
+      if (!hpState) {
+        return end({ winner: attacker, loser: receiver })
+      } else {
+        const category = getCategory(i)
+        const level = getHistory(attacker, category)
+
+        history.push('• ' + level)
+        history.push(getStats())
+        history.push('')
+
+        return next(i + 1)
+      }
+    }
+  }
+
+  const chance = Math.random()
+  if (chance < 0.01) {
+    const winner = Math.random() >= 0.5 ? player : opponent,
+      loser = winner.id === player.id ? opponent : player
+
+    history.push('🔘 ПОЛНАЯ АННИГИЛЯЦИЯ ПРОТИВНИКА с шансом ' + chance + '\n')
+
+    return end({ winner, loser })
+  }
+
+  next(0)
 }
 
 exports.command = {
   arguments: '(id)|(id)',
   description: {
     en: 'Battle someone!',
-    ru: 'Устрой сельскую драку!'
+    ru: 'Устрой сельскую драку!',
   },
-  alias: ['битва', 'батл', 'драка', 'подраться', 'подратся']
+  alias: ['битва', 'батл', 'драка', 'подраться', 'подратся'],
 }

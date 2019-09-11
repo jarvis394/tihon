@@ -1,13 +1,5 @@
-exports.run = async (update, args) => {
-  const handleError = require('../../utils/handleError')
-
-  try {
-    return update.reply(
-      '🔍 Смотри команды на сайте: https://tihon-web.glitch.me'
-    )
-  } catch (e) {
-    handleError(update, e)
-  }
+exports.run = async ({ update }) => {
+  return update.reply('🔍 Смотри команды на сайте: https://tihon-web.glitch.me')
 }
 
 exports.command = {
@@ -15,8 +7,8 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Helps you find a description of the command you need',
-    ru: 'Помогает найти нужную тебе команду'
+    ru: 'Помогает найти нужную тебе команду',
   },
   alias: ['помощь', 'справка', 'начать'],
-  group: 'global'
+  group: 'global',
 }

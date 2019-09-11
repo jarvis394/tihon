@@ -1,129 +1,124 @@
-exports.run = async (update, args) => {
+exports.run = async ({ update, args }) => {
   const User = require('../../lib/User')
-  const handleError = require('../../utils/handleError')
+
   const shopData = require('../../data/shop')
   const { api } = require('../../variables')
 
   const aliases = {
     buy: ['buy', 'купить', 'купитт', 'купля', 'куплч'],
-    sell: ['sell', 'продать', 'продат', 'продатб', 'продажа']
+    sell: ['sell', 'продать', 'продат', 'продатб', 'продажа'],
   }
 
-  try {
-    let option = args[0]
-    if (!option) return sendPetsMenu()
-    if (aliases.buy.some(e => e == option)) return sendBuyMenu(option)
-    if (aliases.sell.some(e => e == option)) return sendSellMenu(option)
+  let option = args[0]
+  if (!option) return sendPetsMenu()
+  if (aliases.buy.some(e => e == option)) return sendBuyMenu(option)
+  if (aliases.sell.some(e => e == option)) return sendSellMenu(option)
 
-    return update.send('🤔 Такой опции нет')
+  return update.send('🤔 Такой опции нет')
 
-    async function sendPetsMenu() {
-      let { senderId: id } = update
-      let user = new User(id)
+  async function sendPetsMenu() {
+    let { senderId: id } = update
+    let user = new User(id)
 
-      let pets = user.data.pets
-      let res = ['']
-      
-      if (!pets) return update.send('Пока ничего')
-    }
-    
-    async function sendMenu() {
-      const name = await api.users.get({
-        user_ids: update.senderId,
-        name_case: 'gen'
-      })
-      let res = [name[0].first_name + ', разделы магазина:', '']
+    let pets = user.data.pets
+    let res = ['']
 
-      for (let pet in shopData.pets) {
-        const { name, id, icon, price } = shopData.pets[pet]
-        res.push(`  [ ${id} ] ${icon} ${name} - ${price}T`)
-      }
+    if (!pets) return update.send('Пока ничего')
+  }
 
-      res.push('')
-      res.push('Чтобы купить питомца, напишите его [ ID ]:')
-      res.push('@tihon_bot, питомец купить 7')
+  async function sendMenu() {
+    const name = await api.users.get({
+      user_ids: update.senderId,
+      name_case: 'gen',
+    })
+    let res = [name[0].first_name + ', разделы магазина:', '']
 
-      update.send(res.join('\n'))
+    for (let pet in shopData.pets) {
+      const { name, id, icon, price } = shopData.pets[pet]
+      res.push(`  [ ${id} ] ${icon} ${name} - ${price}T`)
     }
 
-    async function sendBuyMenu() {
-      let name = await api.users.get({
-        user_ids: update.senderId,
-        name_case: 'gen'
-      })
-      let user = new User(update.senderId)
+    res.push('')
+    res.push('Чтобы купить питомца, напишите его [ ID ]:')
+    res.push('@tihon_bot, питомец купить 7')
 
-      if (!args[1]) {
-        return await sendMenu()
-      }
+    update.send(res.join('\n'))
+  }
 
-      if (isNaN(args[1])) {
-        return update.send('😕 ID - это число, знаешь.')
-      }
+  async function sendBuyMenu() {
+    let name = await api.users.get({
+      user_ids: update.senderId,
+      name_case: 'gen',
+    })
+    let user = new User(update.senderId)
 
-      const id = parseInt(args[1])
-      const pet = shopData.pets.find(i => i.id === id)
-      const { amount, state } = await user.isEnoughFor(pet.price)
-      const pets = await user.fetchPets()
-      
-      if (pets.length >= 3) return update.reply('✖️ Нельзя иметь больше 3-х питомцев')
+    if (!args[1]) {
+      return await sendMenu()
+    }
 
-      if (!state) {
-        return update.send(
-          '🧮 Недостаточно денег - у тебя ' +
-             + amount + 
-            'T, а нужно ' +
-            pet.price +
-            'T'
-        )
-      }
+    if (isNaN(args[1])) {
+      return update.send('😕 ID - это число, знаешь.')
+    }
 
-      user.subtract(pet.price)
-      user.addPet(pet.id)
+    const id = parseInt(args[1])
+    const pet = shopData.pets.find(i => i.id === id)
+    const { amount, state } = await user.isEnoughFor(pet.price)
+    const pets = await user.fetchPets()
 
+    if (pets.length >= 3)
+      return update.reply('✖️ Нельзя иметь больше 3-х питомцев')
+
+    if (!state) {
       return update.send(
-        `🎉 Теперь у ${name[0].first_name} владеет животным ${pet.name}\n` +
-          '\nЧтобы продать, нужно написать после команды слово "продать" и номер вещи в профиле  '
+        '🧮 Недостаточно денег - у тебя ' +
+          +amount +
+          'T, а нужно ' +
+          pet.price +
+          'T'
       )
     }
 
-    async function sendSellMenu() {
-      let name = await api.users.get({
-        user_ids: update.senderId
-      })
-      let user = new User(update.senderId)
+    user.subtract(pet.price)
+    user.addPet(pet.id)
 
-      if (!args[1]) {
-        return update.send(
-          '😕 Ты не ввел номер питомца, который хочешь продать'
-        )
-      }
+    return update.send(
+      `🎉 Теперь у ${name[0].first_name} владеет животным ${pet.name}\n` +
+        '\nЧтобы продать, нужно написать после команды слово "продать" и номер вещи в профиле  '
+    )
+  }
 
-      if (isNaN(args[1])) {
-        return update.send('😕 Номер - это число, знаешь.')
-      }
+  async function sendSellMenu() {
+    let name = await api.users.get({
+      user_ids: update.senderId,
+    })
+    let user = new User(update.senderId)
 
-      let n = parseInt(args[1]) - 1
-      let id = user.data.pets[n]
-      let item = shopData.pets.find(i => i.id === id)
-
-      if (!id) {
-        return update.send('🧮 У тебя нет питомца под таким номером')
-      }
-
-      if (!item) {
-        return update.send('❌ У тебя есть несуществующий питомец')
-      }
-
-      user.add(item.price)
-      user.removeItem(n)
-
-      return update.send(
-        `🎉 ${name[0].first_name} продал питомца ${item.name} за ${item.price}T`
-      )
+    if (!args[1]) {
+      return update.send('😕 Ты не ввел номер питомца, который хочешь продать')
     }
-  } catch (e) {
-    handleError(update, e)
+
+    if (isNaN(args[1])) {
+      return update.send('😕 Номер - это число, знаешь.')
+    }
+
+    let n = parseInt(args[1]) - 1
+    let id = user.data.pets[n]
+    let item = shopData.pets.find(i => i.id === id)
+
+    if (!id) {
+      return update.send('🧮 У тебя нет питомца под таким номером')
+    }
+
+    if (!item) {
+      return update.send('❌ У тебя есть несуществующий питомец')
+    }
+
+    user.add(item.price)
+    user.removeItem(n)
+
+    return update.send(
+      `🎉 ${name[0].first_name} продал питомца ${item.name} за ${item.price}T`
+    )
   }
 }
 
@@ -131,8 +126,8 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Buy, sell or manage your pet',
-    ru: 'Купить, продать, ебать животное'
+    ru: 'Купить, продать, ебать животное',
   },
   alias: ['животное', 'питомец'],
-  hidden: false
+  hidden: false,
 }

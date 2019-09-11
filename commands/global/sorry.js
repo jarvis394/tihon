@@ -1,6 +1,4 @@
-exports.run = async (update) => {
-  const handleError = require('../../utils/handleError')
-
+exports.run = async ({ update, args }) => {
   const { randomArray } = require('../../utils/random')
 
   const sorry = [
@@ -11,14 +9,10 @@ exports.run = async (update) => {
     'Простите...',
     'Прошу прощения!',
     'Да блять хуй соси',
-    'Мне похуй 🥴😎'
+    'Мне похуй 🥴😎',
   ]
 
-  try {
-    return await update.send(randomArray(sorry))
-  } catch (e) {
-    handleError(update, e)
-  }
+  return await update.send(randomArray(sorry))
 }
 
 exports.command = {
@@ -26,8 +20,8 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Please forgive poor bot!',
-    ru: 'Пожалуйста простите старого бота!'
+    ru: 'Пожалуйста простите старого бота!',
   },
   alias: ['слышь', 'эй', 'слыш', 'э'],
-  group: 'global'
+  group: 'global',
 }

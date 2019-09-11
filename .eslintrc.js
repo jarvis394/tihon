@@ -3,15 +3,15 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    node: true
+    node: true,
   },
   extends: 'eslint:recommended',
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018
+    ecmaVersion: 2018,
   },
   rules: {
     'no-console': 'off',
@@ -21,6 +21,6 @@ module.exports = {
     'linebreak-style': ['error', 'windows'],
     quotes: ['warn', 'single'],
     semi: ['error', 'never'],
-    'no-unused-vars': 'off'
-  }
+    'no-unused-vars': 'off',
+  },
 }

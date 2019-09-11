@@ -1,6 +1,4 @@
-exports.run = async (update, args) => {
-  const handleError = require('../../utils/handleError')
-
+exports.run = async ({ update, args }) => {
   const DBDialog = require('../../lib/Dialog')
   const dialog = new DBDialog(update.peerId)
 
@@ -14,25 +12,15 @@ exports.run = async (update, args) => {
     let res =
       '⚙️ Настройки\n' +
       `⠀⠀(auto) - Авто отправка сообщений: ${data.auto ? 'Да' : 'Нет'}\n` +
-      interval 
+      interval
     // + `⠀⠀(preset) - Пресет ролей: №${data.preset + 1}`
 
     return update.send(res)
   }
 
-  try {
-    if (args.length === 0) return await showSettings(update.peerId)
-    else if (
-      args[0] === 'auto' ||
-      args[0] === 'interval' ||
-      args[0] === 'preset'
-    )
-      return update.send(
-        'Используй /' + args[0] + ', чтобы поменять насторйки.'
-      )
-  } catch (e) {
-    handleError(update, e)
-  }
+  if (args.length === 0) return await showSettings(update.peerId)
+  else if (args[0] === 'auto' || args[0] === 'interval' || args[0] === 'preset')
+    return update.send('Используй /' + args[0] + ', чтобы поменять насторйки.')
 }
 
 exports.command = {
@@ -40,7 +28,7 @@ exports.command = {
   arguments: '(field) (value)|(поле) (значение)',
   description: {
     en: 'Changes settings of the dialog',
-    ru: 'Изменяет настройки диалога'
+    ru: 'Изменяет настройки диалога',
   },
-  group: 'settings'
+  group: 'settings',
 }

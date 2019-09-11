@@ -1,16 +1,8 @@
-exports.run = async (update, args) => {
-  const handleError = require('../../utils/handleError')
-  
-  try {
-    
-    await update.reply('👌')
-    process.kill(process.pid)
-    
-  } catch (e) {
-    handleError(update, e)
-  }
+exports.run = async ({ update, args }) => {
+  await update.reply('👌')
+  process.kill(process.pid)
 }
 
 exports.command = {
-  'hidden': true
+  hidden: true,
 }

@@ -1,6 +1,4 @@
-exports.run = async (update) => {
-  const handleError = require('../../utils/handleError')
-
+exports.run = async ({ update, args }) => {
   const { randomArray } = require('../../utils/random')
 
   const responds = [
@@ -32,14 +30,10 @@ exports.run = async (update) => {
     'Да, да, вчера по новостям видел',
     'ОН МНЕ ВО СНЕ СНИЛСЯ',
     'Это трап',
-    'это не фотошоп, я это видел в горах Краснодарского края.'
+    'это не фотошоп, я это видел в горах Краснодарского края.',
   ]
 
-  try {
-    await update.send(randomArray(responds))
-  } catch (e) {
-    handleError(update, e)
-  }
+  await update.send(randomArray(responds))
 }
 
 exports.command = {
@@ -47,7 +41,7 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Rate something',
-    ru: 'Оценить что-нибудь'
+    ru: 'Оценить что-нибудь',
   },
   alias: [
     'оцени',
@@ -59,7 +53,7 @@ exports.command = {
     'чо думаешь',
     'что думаешь',
     'ну как',
-    'ну как?'
+    'ну как?',
   ],
-  group: 'utils'
+  group: 'utils',
 }

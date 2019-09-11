@@ -1,9 +1,8 @@
-exports.run = async (update) => {
-  const handleError = require('../../utils/handleError')
+exports.run = async ({ update, args }) => {
   const { randomArray } = require('../../utils/random')
   const DBDialog = require('../../lib/DBDialog')
   const { api } = require('../../variables')
-  
+
   async function getMsg() {
     var Dialog = randomArray(Dialogs.items)
 
@@ -17,7 +16,7 @@ exports.run = async (update) => {
     var Videos = await api.messages.getHistoryAttachments({
       peer_id: Dialog.conversation.peer.id,
       count: 200,
-      media_type: 'video'
+      media_type: 'video',
     })
 
     // Return false if no videos in dialog
@@ -28,28 +27,24 @@ exports.run = async (update) => {
     return Video
   }
 
-  try {
-    // Get dialogs
-    var Dialogs = await api.messages.getConversations({
-      count: 200
-    })
+  // Get dialogs
+  var Dialogs = await api.messages.getConversations({
+    count: 200,
+  })
 
-    let video = await getMsg()
+  let video = await getMsg()
 
-    while (!video) {
-      video = await getMsg()
-    }
-
-    video = video.attachment.video
-
-    var access = video.access_key ? '_' + video.access_key : ''
-
-    await update.send('', {
-      attachment: `video${video.owner_id}_${video.id}${access}`
-    })
-  } catch (e) {
-    handleError(update, e)
+  while (!video) {
+    video = await getMsg()
   }
+
+  video = video.attachment.video
+
+  var access = video.access_key ? '_' + video.access_key : ''
+
+  await update.send('', {
+    attachment: `video${video.owner_id}_${video.id}${access}`,
+  })
 }
 
 exports.command = {
@@ -57,8 +52,8 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Sends random video from other multidialogs',
-    ru: 'Отправить рандомное видео из других бесед'
+    ru: 'Отправить рандомное видео из других бесед',
   },
   alias: ['видео'],
-  group: 'random'
+  group: 'random',
 }
