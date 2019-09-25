@@ -7,30 +7,28 @@ exports.run = async (update, args) => {
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
 
   // Return if guild is empty
   if (!guildId) {
-    throw new CommandError(
+    return update.reply(
       '😕 Ты не состоишь в колхозе\n\n' +
-        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]',
-      'User_GuildIsEmpty'
+        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]'
     )
   }
 
   // Get info
   const guild = new Guild(guildId)
-  const data = await guild.fetchData()
 
-  if (!data) {
+  if (!guild.exists()) {
     throw new CommandError(
       `Колхоз с ID "${guildId}" не найден.`,
       'Guild_NotFound'
     )
   }
 
-  const name = await guild.getName()
-  const money = await guild.getMoney()
+  const name = guild.name
+  const money = guild.money
 
   if (args[1]) {
     const amount = parseInt(args[1], 10)
@@ -63,9 +61,11 @@ exports.run = async (update, args) => {
     user.subtract(amount)
 
     return update.reply(
-      `✨ В казну колхоза переведено ${format(amount)} ₮ пользователем ${
+      `✨ В казну колхоза переведено ${format(amount)} ₮ участником [id${
         user.id
-      }`
+      }|${await user.getFullName('ins')}]\n\n🏦 Всего: ${format(
+        amount + money
+      )} ₮`
     )
   }
 

@@ -6,7 +6,7 @@ exports.run = async ({ update, args }) => {
   const { randomArray, random } = require('../../utils/random')
   const User = require('../../lib/User')
   const { ID, BATTLE_COOLDOWN } = require('../../configs/constants')
-  const { battleCommandTimeout, api } = require('../../variables')
+  const { timeouts, api } = require('../../variables')
 
   const histories = {
     beginning: [
@@ -96,19 +96,6 @@ exports.run = async ({ update, args }) => {
   const { senderId } = update
   const player = new Opponent(senderId)
   const opponent = new Opponent(opponentId)
-  const timeoutData = battleCommandTimeout.get(senderId)
-
-  if (timeoutData && Date.now() - timeoutData < BATTLE_COOLDOWN) {
-    const time = BATTLE_COOLDOWN - (Date.now() - timeoutData)
-
-    return update.reply(
-      '❌ Нельзя так часто с кем-то сражаться!\n' +
-        'Осталось ждать: ' +
-        moment(time).format('mm:ss')
-    )
-  } else {
-    battleCommandTimeout.set(senderId, Date.now())
-  }
 
   const { state, amount } = await player.isEnoughFor(BATTLE_PRICE)
   if (!state)
@@ -117,6 +104,11 @@ exports.run = async ({ update, args }) => {
     )
 
   player.subtract(BATTLE_PRICE)
+
+  timeouts.set('battle', {
+    timestamp: Date.now(),
+    timeout: BATTLE_COOLDOWN,
+  })
 
   const n = await api.execute({
     code: `return [API.users.get({ user_ids: "${player.id},${opponent.id}" }), API.users.get({ user_ids: "${player.id},${opponent.id}", name_case: "acc" })];`,

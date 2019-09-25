@@ -1,15 +1,15 @@
 exports.run = async ({ update, args }) => {
   const { randomArray } = require('../../utils/random')
-  const DBDialog = require('../../lib/DBDialog')
-  const { api } = require('../../variables')
+  const { api, db } = require('../../variables')
 
   async function getMsg() {
     var Dialog = randomArray(Dialogs.items)
 
-    const dialog = new DBDialog(Dialog.conversation.peer.id)
-    const data = dialog.checkData()
+    const data = db
+      .prepare(`SELECT * FROM main.dialogs WHERE id = ${update.peerId}`)
+      .get()
 
-    while (data.no) {
+    while (data.canReadMessages === 'true') {
       Dialog = randomArray(Dialogs.items)
     }
 

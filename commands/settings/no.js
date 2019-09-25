@@ -1,10 +1,8 @@
 exports.run = async ({ update, args }) => {
-  const DBDialog = require('../../lib/Dialog')
-
-  const dialog = new DBDialog(update.peerId)
-
-  let state = await dialog.checkData()
-  state = state.no
+  const { db } = require('../../variables')
+  let state = db
+    .prepare('SELECT state FROM main.dialogs WHERE id =' + update.peerId)
+    .get().state
 
   if (state) {
     state = false
@@ -14,17 +12,16 @@ exports.run = async ({ update, args }) => {
     update.send('✨ Теперь отсюда бот не будет брать сообщения')
   }
 
-  dialog.update({
-    no: state,
-  })
+  db.prepare(`UPDATE INTO main.dialogs SET canReadMessages = ${state}`).run()
 }
 
 exports.command = {
   name: 'no',
   arguments: false,
   description: {
-    en: 'Will your chat be in random.js?',
-    ru: 'Будет или нет диалог попадать в random.js?',
+    en: 'Will your chat be in random?',
+    ru: 'Будет или нет диалог попадать в random?',
   },
   group: 'settings',
+  alias: ['нет'],
 }

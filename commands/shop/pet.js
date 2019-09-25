@@ -126,7 +126,7 @@ exports.command = {
   arguments: false,
   description: {
     en: 'Buy, sell or manage your pet',
-    ru: 'Купить, продать, ебать животное',
+    ru: 'Купить, продать, менять животное',
   },
   alias: ['животное', 'питомец'],
   hidden: false,

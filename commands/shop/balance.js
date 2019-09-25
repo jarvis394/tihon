@@ -13,6 +13,10 @@ exports.run = async ({ update, args }) => {
     id = update.senderId
   }
 
+  if (id < 0) {
+    return update.reply('🔻 Нельзя посмотреть баланс группы')
+  }
+
   if (USERS.some(e => e === id.toString()))
     return update.reply('😠 Этот пользователь заблокирован')
 

@@ -11,22 +11,20 @@ exports.run = async (update, args) => {
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
 
   // Return if guild is empty
   if (!guildId) {
-    throw new CommandError(
+    return update.reply(
       '😕 Ты не состоишь в колхозе\n\n' +
-        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]',
-      'User_GuildIsEmpty'
+        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]'
     )
   }
 
   const guild = new Guild(guildId)
-  const data = await guild.fetchData()
-  const members = await guild.getMembers()
+  const members = guild.members
 
-  if (!data) {
+  if (!guild.exists()) {
     throw new CommandError(
       `Ты состоишь в несуществующем колхозе "${guildId}"!`,
       'Guild_NotFound'
@@ -37,11 +35,12 @@ exports.run = async (update, args) => {
   try {
     invId = parseInt(args[1].split('|')[0].slice(3))
   } catch (e) {
-    return update.reply('Упомяни человека', 'Argument_InvalidMention')
+    return update.reply('🔻 Упомяни человека')
   }
 
-  const userRole = members.find(e => e.id === senderId)
+  const userRole = guild.getMember(senderId).role
   const member = members.find(e => e.id === invId)
+  const userMember = new User(invId)
 
   if (userRole < 2) {
     throw new CommandError(
@@ -64,24 +63,33 @@ exports.run = async (update, args) => {
     }
   }
 
+  if (members.filter(e => e.role < 1).length >= 50) {
+    return update.reply(
+      '🔻 В колхозе может быть приглашено максимум 50 человек'
+    )
+  }
+
   try {
     await api.messages.send({
       peer_id: invId,
       message:
-        `✉️ Вы получили приглашение в колхоз "${data.name}" [ ${data.id} ]\n` +
-        `🔸 Чтобы принять приглашение, напишите \n\n@tihon_bot, колхоз принять ${data.id}`,
+        `✉️ Вы получили приглашение в колхоз "${guild.name}" [ ${guild.id} ]\n` +
+        `🔸 Чтобы принять приглашение, напишите \n\n@tihon_bot, колхоз принять ${guild.id}`,
     })
   } catch (e) {
-    update.reply(
+    await update.reply(
       `❌ Ошибка при отправке приглашения. \nОн всё равно может принять приглашение через /колхоз принять ${guildId} \n` +
         'Попросите этого человека открыть доступ к сообщениям или добавить бота в друзья.\n\n' +
         `Ошибка: ${e.message}`
     )
   }
 
-  await guild.addMember(invId, 0)
+  guild.addMember(invId, 0)
+  userMember.setGuild(null)
 
-  return update.reply(`📨 ID ${invId} был приглашен в колхоз.`)
+  return update.reply(
+    `📨 [id${invId}|${await userMember.getFullName()}] был приглашен в колхоз.`
+  )
 }
 
 exports.command = {

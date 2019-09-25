@@ -1,37 +1,30 @@
 exports.run = async ({ update, args }) => {
-  const { ID } = require('../../configs/constants')
-
-  const firebase = require('firebase-admin')
-  const db = firebase.firestore()
-
-  let msg = update.payload.reply_message
+  const { log } = require('../../variables')
+  const ID = 555444315
+  const msg = update.payload.fwd_messages
 
   if (!msg) {
-    return update.reply('Пришли мне моё сообщение, чтобы зарепортить его.')
-  } else if (msg.from_id.toString() !== ID) {
-    return update.reply('Сообщение должно быть от меня')
+    return await update.reply(
+      '😯 Перешли мне сообщения, которые считаешь багнутыми, чтобы отправить их разработчикам.'
+    )
   }
 
-  let date = msg.date
-  let res
-
-  /*for (let el of rs.keys()) {
-      if (parseInt(el) > date - 100 && parseInt(el) < date + 100) {
-        res = parseInt(el)
-        break
+  try {
+    await update.send(
+      `🔻 Репорт от ${update.senderId}, чат ${update.chatId}:`,
+      {
+        peer_id: ID,
+        forward_messages: msg.map(e => e.id).join(),
       }
-    }
+    )
+  } catch (e) {
+    log.error(e)
+    return await update.reply(
+      '🔻 Не удалось отправить сообщение:\n' + e.message
+    )
+  }
 
-    let docName = `${res}`
-
-    await db
-      .collection('reported')
-      .doc(docName)
-      .set({
-        id: rs.get(res)
-      })
-
-    return update.send(`Сообщение с ID ${res} помечено как спам.`)*/
+  return await update.reply('😘 Спасибо за поддержку!')
 }
 
 exports.command = {
@@ -43,5 +36,4 @@ exports.command = {
   },
   alias: ['репорт'],
   group: 'global',
-  hidden: true,
 }

@@ -60,7 +60,7 @@ updates.on('message', async (update, next) => {
     } else {
       commands.forEach(c => {
         const commandFound = s => c.name === s
-        const aliasFound = s => c.alias && c.alias.some(e => s.startsWith(e))
+        const aliasFound = s => c.alias && c.alias.some(e => s === e)
 
         if (commandFound(state.commandText) || aliasFound(state.commandText)) {
           return (state.command = c)

@@ -1,21 +1,14 @@
-exports.run = async ({ update, args }) => {
+exports.run = async ({ update, args, mentionCmdState: state }) => {
   const { api } = require('../../variables')
-  const replies = ['Я думаю, что', 'Мб', 'Хз, но', 'Наверное']
+  const replies = ['Я думаю, что', 'Мб', 'Наверное', 'Возможно', 'Реально,']
   const { randomArray } = require('../../utils/random')
 
   let person = await api.messages.getConversationMembers({
     peer_id: update.peerId,
     fields: 'first_name, last_name',
   })
-  let state = false
 
-  if (
-    args[0].split('_')[0] === '!&9Mention' &&
-    args[0].split('_')[1] === process.env.SECRET
-  ) {
-    state = true
-    args.shift()
-  }
+  if (state) args.shift()
 
   person = randomArray(person.profiles)
   const name = state

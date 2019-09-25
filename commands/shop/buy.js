@@ -1,6 +1,5 @@
 exports.run = async ({ update, args }) => {
   const User = require('../../lib/User')
-
   const { getGroupById, getItemById } = require('../../utils/shop')
 
   const user = new User(update.senderId)
@@ -17,7 +16,7 @@ exports.run = async ({ update, args }) => {
   let id = parseInt(args[0])
   let item = getItemById(id)
 
-  if (!item) return update.send('❌ Такого предмета нет в магазине')
+  if (!item) return update.send('🔻 Такого предмета нет в магазине')
 
   const { amount, state } = await user.isEnoughFor(item.price)
 
@@ -32,11 +31,10 @@ exports.run = async ({ update, args }) => {
   }
 
   const group = getGroupById(item.groupId)
-
-  const addItemSuccess = await user.addItem(group, item.id)
+  const addItemSuccess = user.setItem(item.id)
 
   if (!addItemSuccess)
-    return update.send(`❌ В группе ${group.name} нельзя иметь больше вещей`)
+    return update.send(`🔻 В группе ${group.name} нельзя иметь больше вещей`)
 
   user.subtract(item.price)
   user.addReputation(item.rep)

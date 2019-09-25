@@ -4,7 +4,18 @@ const { items, pets, groups } = require('../data/shop')
  * Gets group by its groupID
  * @param {number} id Group ID
  */
-const getGroupById = id => groups.find(i => i.groupId === id)
+const getGroupById = id => groups.find(i => i.id === id)
+
+/**
+ * Gets group by one of its itemsID
+ * @param {number} id Item ID
+ */
+const getGroupByItemId = id => {
+  const g = items.find(i => i.id === id)
+
+  if (!g) return false
+  else return getGroupById(g.groupId)
+}
 
 /**
  * Gets group by its title
@@ -13,10 +24,11 @@ const getGroupById = id => groups.find(i => i.groupId === id)
 const getGroupByTitle = title => groups.find(i => i.title === title)
 
 /**
- * Gets group by its accName
- * @param {string} name Group accName
+ * Gets group by its profileName
+ * @param {string} name Group profileName
  */
-const getGroupByAccName = name => groups.find(i => i.accName === name)
+const getGroupByProfileName = name =>
+  groups.find(i => i.profileName.toLowerCase() === name.toLowerCase())
 
 /**
  * Gets group by its name
@@ -45,10 +57,11 @@ const getPetById = id => pets.find(i => i.id === id)
 
 module.exports = {
   getGroupById,
+  getGroupByItemId,
   getGroupByTitle,
   getGroupByName,
   getItemById,
   getItemsByGroupId,
-  getGroupByAccName,
+  getGroupByProfileName,
   getPetById,
 }

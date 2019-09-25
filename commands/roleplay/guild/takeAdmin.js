@@ -6,23 +6,21 @@ exports.run = async (update, args) => {
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
 
   // Return if guild is empty
   if (!guildId) {
-    throw new CommandError(
+    return update.reply(
       '😕 Ты не состоишь в колхозе\n\n' +
-        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]',
-      'User_GuildIsEmpty'
+        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]'
     )
   }
 
   const guild = new Guild(guildId)
-  const data = await guild.fetchData()
-  const members = await guild.getFilteredMembers()
-  const guildUser = members.find(e => e.id === senderId)
+  const members = guild.getFilteredMembers()
+  const guildUser = guild.getMember(senderId)
 
-  if (!data) {
+  if (!guild.exists()) {
     throw new CommandError(
       `Колхоз с ID "${guildId}" не найден`,
       'Guild_NotFound'
@@ -57,7 +55,7 @@ exports.run = async (update, args) => {
   }
 
   // Find member in guild
-  const guildMember = data.members.find(e => e.id === memberId)
+  const guildMember = guild.getMember(memberId)
 
   // If member not found in guild
   if (!guildMember) {
@@ -68,7 +66,7 @@ exports.run = async (update, args) => {
   const memberName = await member.getFullName()
   const userName = await user.getFullName('acc')
 
-  await guild.changeRole(memberId, 1)
+  guild.changeRole(memberId, 1)
 
   return update.reply(
     `✨ [id${memberId}|${memberName}] был снят с должности по воле [id${senderId}|${userName}]!`

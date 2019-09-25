@@ -2,55 +2,51 @@ exports.run = async ({ update, args }) => {
   const User = require('../../lib/User')
   const {
     getGroupByName,
-    getGroupByAccName,
+    getGroupByProfileName,
     getGroupByTitle,
     getItemById,
   } = require('../../utils/shop')
+  const format = require('../../utils/format')
   const { api } = require('../../variables')
 
-  const name = await api.users.get({
-    user_ids: update.senderId,
-  })
   const user = new User(update.senderId)
+  const name = await user.getName()
 
   if (!args[0]) {
     return update.send('😕 Ты не ввел группу, в которой находится предмет')
   }
 
-  if (
-    args[0] &&
-    (!getGroupByAccName(args[0]) &&
-      !getGroupByTitle(args[0]) &&
-      !getGroupByName(args[0]))
-  ) {
+  let groupName = args[0].toLowerCase()
+  let group =
+    getGroupByProfileName(groupName) ||
+    getGroupByName(groupName) ||
+    getGroupByTitle(groupName)
+
+  if (!group) {
     return update.send('😕 Ты ввел несуществующую группу')
   }
 
-  let groupName = args[0]
-  let group = getGroupByAccName(groupName)
+  let items = user.items
+  let dbItem = items[group.title]
 
-  if (!group) group = getGroupByName(groupName)
-  if (!group) group = getGroupByTitle(groupName)
-
-  let items = await user.fetchInventory()
-  let id = items[group.title][0]
-  let item = getItemById(id)
-
-  if (!id) {
-    return update.send('🧮 У тебя нет предмета в этой группе')
+  if (!dbItem.id) {
+    return update.send('🔻 У тебя нет предмета в этой группе')
   }
 
+  let item = getItemById(dbItem.id)
+
   if (!item) {
-    return update.send('❌ У тебя есть несуществующий предмет')
+    return update.send('🔻 У тебя есть несуществующий предмет')
   }
 
   user.add(item.price / 2)
-  await user.subtractReputation(item.rep)
-  await user.removeItem(group.title, 0)
+  user.subtractReputation(item.rep)
+  user.removeItem(group.title)
 
   return update.send(
-    `🎉 ${name[0].first_name} продал предмет ${item.name} за ${item.price /
-      2} ₮`
+    `🎉 ${name.first_name} продал предмет ${item.name} за ${format(
+      item.price / 2
+    )} ₮`
   )
 }
 

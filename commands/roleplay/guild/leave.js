@@ -6,23 +6,21 @@ exports.run = async (update, args) => {
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
 
   // Return if guild is empty
   if (!guildId) {
-    throw new CommandError(
+    return update.reply(
       '😕 Ты не состоишь в колхозе\n\n' +
-        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]',
-      'User_GuildIsEmpty'
+        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]'
     )
   }
 
   const guild = new Guild(guildId)
-  const data = await guild.fetchData()
-  const members = await guild.fetchMembers()
-  const guildUser = members.find(e => e.id === senderId)
+  const members = guild.members
+  const guildUser = guild.getMember(senderId)
 
-  if (!data) {
+  if (!guild.exists()) {
     throw new CommandError(
       `Колхоз с ID "${guildId}" не найден`,
       'Guild_NotFound'
@@ -32,17 +30,17 @@ exports.run = async (update, args) => {
   if (guildUser.role === 3) {
     throw new CommandError(
       'Ты не можешь покинуть колхоз, так как являешься его создателем.\n\n' +
-        'Используй команду "/колхоз распустить", чтобы распустить колхоз и выйти из него'
+        'Используй команду "/колхоз распустить", чтобы распустить колхоз и выйти из него',
+      'User_IsGuildCreator'
     )
   }
 
   const userName = await user.getFullName()
 
-  await guild.removeMember(senderId)
-  await user.pushGuildId(null)
+  guild.removeMember(senderId)
 
   return update.reply(
-    `✨ [id${senderId}|${userName}] покинуо колхоз по своей воле!`
+    `✨ [id${senderId}|${userName}] покинул колхоз по своей воле!`
   )
 }
 

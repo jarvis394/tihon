@@ -4,15 +4,17 @@ exports.run = async ({ update, args }) => {
   const user = new User(update.senderId)
   const { state, amount } = await user.isEnoughFor(1000)
   if (!state)
-    return update.reply(`🧮 Не хватает денег: у тебя ${amount}T, а нужно 1000T`)
+    return update.reply(
+      `🧮 Не хватает денег: у тебя ${amount} T, а нужно 1000 T`
+    )
 
   let file = args[0]
-  const top = require('./top').command
+  const list = require('./list').command
   const who = require('./who').command
 
-  if (top.alias.some(e => e === file)) {
-    file = 'top'
-  } else if (who.alias.some(e => e === file)) {
+  if (file === 'list' || list.alias.some(e => e === file)) {
+    file = 'list'
+  } else if (file === 'who' || who.alias.some(e => e === file)) {
     file = 'who'
   } else if (!file) {
     return update.reply('✖️ Введи команду')
@@ -22,10 +24,11 @@ exports.run = async ({ update, args }) => {
 
   user.subtract(1000)
 
-  require('./' + file).run(update, [
-    '!&9Mention_' + process.env.SECRET,
-    ...args,
-  ])
+  require('./' + file).run({
+    update,
+    args,
+    mentionCmdState: true,
+  })
 }
 
 exports.command = {

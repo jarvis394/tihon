@@ -1,6 +1,8 @@
 exports.run = async (update, args) => {
   const rel = '../../../'
+  const { db } = require(rel + 'variables')
   const format = require(rel + 'utils/format')
+  const { random, randomArray } = require(rel + 'utils/random')
   const User = require(rel + 'lib/User')
   const Guild = require(rel + 'lib/Guild')
   const CommandError = require(rel + 'lib/CommandError')
@@ -27,6 +29,14 @@ exports.run = async (update, args) => {
       `Колхоз с ID "${guildId}" не найден.`,
       'Guild_NotFound'
     )
+  }
+
+  class opponentGuild extends Guild {
+    constructor(id) {
+      super(id)
+
+      this.winRate = random(50)
+    }
   }
 }
 

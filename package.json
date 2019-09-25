@@ -36,7 +36,7 @@
     "better-sqlite3": "^5.4.3"
   },
   "repository": {
-    "url": "https://github.com/jarvis394/ded_tihon"
+    "url": "https://github.com/jarvis394/tihon"
   },
   "license": "MIT",
   "nodemonConfig": {

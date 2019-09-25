@@ -1,5 +1,5 @@
 const handleError = require('../utils/handleError')
-const { randomStorage, updates, api } = require('../variables')
+const { updates } = require('../variables')
 
 updates.on('message', async (update, next) => {
   let { count } = update.state
@@ -7,10 +7,10 @@ updates.on('message', async (update, next) => {
   if (!count) count = 0
   count += 1
 
-  if (count % 50 === 0) {
+  if (count % 25 === 0) {
     try {
       const cmd = require('../commands/random/random')
-      cmd.run(update)
+      cmd.run({ update })
     } catch (e) {
       handleError(e)
     }

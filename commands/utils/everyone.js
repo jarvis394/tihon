@@ -9,7 +9,7 @@ exports.run = async ({ update, args }) => {
     return update.reply('🤗 Такое доступно только админам!')
 
   const text =
-    members.profiles.map(e => `[id${e.id}|${e.first_name}]`).join(' ') +
+    members.profiles.map(e => `[id${e.id}|.]`).join(' ') +
     '\n\n' +
     args.join(' ')
 

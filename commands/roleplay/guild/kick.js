@@ -6,7 +6,7 @@ exports.run = async (update, args) => {
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
 
   // Return if guild is empty
   if (!guildId) {
@@ -18,11 +18,10 @@ exports.run = async (update, args) => {
   }
 
   const guild = new Guild(guildId)
-  const data = await guild.fetchData()
-  const members = await guild.fetchMembers()
-  const guildUser = members.find(e => e.id === senderId)
+  const members = guild.members
+  const guildUser = guild.getMember(senderId)
 
-  if (!data) {
+  if (!guild.exists()) {
     throw new CommandError(
       `Колхоз с ID "${guildId}" не найден`,
       'Guild_NotFound'
@@ -57,7 +56,7 @@ exports.run = async (update, args) => {
   }
 
   // Find member in guild
-  const guildMember = data.members.find(e => e.id === memberId)
+  const guildMember = guild.members.find(e => e.id === memberId)
 
   // If member not found in guild
   if (!guildMember) {
@@ -66,7 +65,7 @@ exports.run = async (update, args) => {
 
   if (guildMember.role >= guildUser.role) {
     throw new CommandError(
-      'Нельзя выгнать человека с ролью, такой же,икак у тебя и выше',
+      'Нельзя выгнать человека с ролью, такой же, как у тебя и выше',
       'Guild_MissingPrivileges'
     )
   }
@@ -75,8 +74,7 @@ exports.run = async (update, args) => {
   const memberName = await member.getFullName()
   const userName = await user.getFullName('acc')
 
-  await guild.removeMember(memberId)
-  await member.pushGuildId(null)
+  guild.removeMember(memberId)
 
   return update.reply(
     `✨ [id${memberId}|${memberName}] был изгнан из колхоза по воле [id${senderId}|${userName}]!`

@@ -1,6 +1,7 @@
 exports.run = async ({ update, args }) => {
   const data = require('../../data/shop')
   const { getGroupById } = require('../../utils/shop')
+  const format = require('../../utils/format')
   const { api } = require('../../variables')
 
   // If no args then will send menu
@@ -35,9 +36,7 @@ exports.run = async ({ update, args }) => {
       )
 
       for (let group of data.groups.filter(g => g.category === category)) {
-        res.push(
-          '⠀⠀' + '[ ' + group.groupId + ' ] ' + group.icon + ' ' + group.name
-        )
+        res.push('⠀⠀' + '[ ' + group.id + ' ] ' + group.icon + ' ' + group.name)
       }
 
       res.push('')
@@ -64,11 +63,16 @@ exports.run = async ({ update, args }) => {
 
     data.items.forEach((item, i) => {
       if (item.groupId === groupId) {
-        res.push(`[ ${item.id} ] ${item.icon} ${item.name} - ${item.price} ₮`)
-
-        if (item.earning) {
-          res.push(`⠀⠀⠀⠀- ${item.earning}T/час`)
-        }
+        res.push(
+          `[ ${item.id} ] ${item.icon} ${item.name} ${
+            item.earning ? '- ' + format(item.earning) + ' ₮/12h' : ''
+          }`
+        )
+        res.push(
+          `${Array(item.id.toString().length > 1 ? 8 : 6)
+            .fill(' ')
+            .join('')}- ${format(item.price)} ₮ | 💠 ${format(item.rep)} R`
+        )
       }
     })
 
@@ -84,8 +88,8 @@ exports.command = {
   name: 'shop',
   arguments: false,
   description: {
-    en: 'Go to the supermarket :p',
-    ru: 'Сходить в супермаркет :p',
+    en: 'Go to the supermarket',
+    ru: 'Сходить в супермаркет',
   },
   alias: ['шоп', 'магазин', 'ларёк', 'ларек'],
   group: 'shop',

@@ -1,8 +1,10 @@
 exports.run = async ({ update, args }) => {
   const User = require('../../lib/User')
   const { USERS: BLACKLIST } = require('../../configs/blacklist')
+  const { CURRENCY } = require('../../configs/constants')
 
   let receiverId, amount
+  const { senderId } = update
 
   try {
     receiverId = parseInt(args[0].split('|')[0].slice(3))
@@ -12,6 +14,14 @@ exports.run = async ({ update, args }) => {
     return update.reply(
       '✖️ Не упомянут человек, кому нужно перевести тихоины\n\nПример: @tihon_bot передать *id 1000'
     )
+  }
+
+  if (receiverId === senderId) {
+    return update.reply('🔻 Нельзя передавать деньги самому себе')
+  }
+
+  if (receiverId < 0) {
+    return update.reply('🔻 Нельзя передавать деньги группе')
   }
 
   if (BLACKLIST.some(e => e === receiverId.toString()))
@@ -36,7 +46,7 @@ exports.run = async ({ update, args }) => {
     return update.reply(
       '✖️ У тебя нет такой суммы! Тебе осталось накопить всего ' +
         (amount - s.amount) +
-        'T'
+        CURRENCY
     )
   }
 
@@ -44,7 +54,12 @@ exports.run = async ({ update, args }) => {
   user.subtract(amount)
 
   return update.reply(
-    '🎉 Передано ' + amt + ' ₮ (2% комиссии) пользователю ' + receiverId
+    '🎉 Передано ' +
+      amt +
+      ' ' +
+      CURRENCY +
+      ' (2% комиссии) пользователю ' +
+      receiverId
   )
 }
 

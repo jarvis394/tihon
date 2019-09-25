@@ -1,4 +1,4 @@
-exports.run = async ({ update, args }) => {
+exports.run = async ({ update, args, mentionCmdState: state }) => {
   const { randomArray } = require('../../utils/random')
   const { api } = require('../../variables')
 
@@ -7,18 +7,22 @@ exports.run = async ({ update, args }) => {
     fields: 'first_name, last_name',
   })
   let list = []
-  let state = false
+  let history = []
 
-  if (
-    args[0].split('_')[0] === '!&9Mention' &&
-    args[0].split('_')[1] === process.env.SECRET
+  if (state) args.shift()
+
+  for (
+    let i = 0;
+    i < (persons.profiles.length >= 10 ? 10 : persons.profiles.length);
+    i++
   ) {
-    state = true
-    args.shift()
-  }
-
-  for (let i = 0; i < 10; i++) {
     let person = randomArray(persons.profiles)
+    while (history.some(e => e === person.id)) {
+      person = randomArray(persons.profiles)
+    }
+
+    history.push(person.id)
+
     if (state) {
       list.push(
         `${i + 1}. [id${person.id}|${person.first_name +
@@ -36,12 +40,12 @@ exports.run = async ({ update, args }) => {
 }
 
 exports.command = {
-  name: 'top',
+  name: 'list',
   arguments: '(arg)|(предл.)',
   description: {
-    en: 'Top of ***',
-    ru: 'Топ ***',
+    en: 'List of ***',
+    ru: 'Список ***',
   },
-  alias: ['топ'],
+  alias: ['список'],
   group: 'utils',
 }

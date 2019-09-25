@@ -15,19 +15,9 @@ const memoryStorage = new Map()
 const talkedRecently = new Set()
 
 /**
- * Saves users which recently used /anon
+ * Saves timeouts for commands
  */
-const anonCommandTimeout = new Map()
-
-/**
- * Saves users which recently used /battle
- */
-const battleCommandTimeout = new Map()
-
-/**
- * Saves previous random messages
- */
-const randomStorage = new Map()
+const timeouts = new Map()
 
 /**
  * Saves requests for captcha handling
@@ -41,9 +31,7 @@ module.exports = {
   ...init,
   memoryStorage,
   talkedRecently,
-  randomStorage,
   app,
-  anonCommandTimeout,
-  battleCommandTimeout,
   requestsQueue,
+  timeouts,
 }

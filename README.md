@@ -53,6 +53,7 @@ Needed:
 
   Better make a callback for command to execute with given command result
 
+- ~~Add unified timeouts for commands~~
 - Get results of every command written with command log
 - Log data changes for debugging
 - Recursively check commands filetree to get **`parents`** and **`children`** of commands.

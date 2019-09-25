@@ -6,7 +6,7 @@ exports.run = async (update, args) => {
   const { api } = require(rel + 'variables')
 
   const formatMember = (e, i) => {
-    const u = membersData.find(d => d.id === e.id)
+    const u = membersData.find(m => m.id === e.id)
     const name = u.first_name + ' ' + u.last_name
     let icon = e.role
 
@@ -23,24 +23,21 @@ exports.run = async (update, args) => {
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
 
   // Return if guild is empty
   if (!guildId) {
-    throw new CommandError(
+    return update.reply(
       '😕 Ты не состоишь в колхозе\n\n' +
-        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]',
-      'User_GuildIsEmpty'
+        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]'
     )
   }
 
   // Get info
   const guild = new Guild(guildId)
-  const name = await guild.getName()
-  const invited = (await guild.getMembers()).filter(e => e.role < 1)
-  const members = (await guild.getFilteredMembers()).sort(
-    (a, b) => a.role < b.role
-  )
+  const name = guild.name
+  const invited = guild.members.filter(e => e.role < 1)
+  const members = guild.getFilteredMembers().sort((a, b) => a.role < b.role)
   const membersData = await api.users.get({ user_ids: members.map(e => e.id) })
 
   let response = members.slice(0, 7).map((e, i) => formatMember(e, i))

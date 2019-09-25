@@ -8,5 +8,5 @@ module.exports = (update, e) => {
 
   !e.isCommandError && log.error(e)
 
-  update.reply((e.emoji ? e.emoji : '🔻') + ' ' + e.message)
+  update.reply((e.emoji ? '' : '🔻 ') + e.message)
 }

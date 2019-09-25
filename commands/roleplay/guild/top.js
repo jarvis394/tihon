@@ -1,35 +1,37 @@
 exports.run = async (update, args) => {
   const rel = '../../../'
-  const getTopGuilds = require(rel + 'utils/getTopGuilds')
+  const getGuildsTop = require(rel + 'utils/getGuildsTop')
+  const format = require(rel + 'utils/format')
+  const { CURRENCY } = require(rel + 'configs/constants')
   const User = require(rel + 'lib/User')
   const Guild = require(rel + 'lib/Guild')
   const CommandError = require(rel + 'lib/CommandError')
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
+  const top = await getGuildsTop()
 
-  // Return if guild is empty
-  if (!guildId) {
-    throw new CommandError(
-      '😕 Ты не состоишь в колхозе\n\n' +
-        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]',
-      'User_GuildIsEmpty'
+  let res = []
+
+  if (top.length === 0) {
+    return await update.reply(
+      '😯 Пока нет никаких колхозов!\n\nСоздай свой - @tihon_bot колхоз создать (имя)'
     )
   }
 
-  // Get info
-  const guild = new Guild(guildId)
-  const data = await guild.fetchData()
-
-  if (!data) {
-    throw new CommandError(
-      `Колхоз с ID "${guildId}" не найден.`,
-      'Guild_NotFound'
+  top.forEach((guild, i) => {
+    res.push(
+      `${i + 1}. [ ID ${guild.id} ] [id${guild.creatorId}|${guild.name}]`
     )
-  }
+    res.push(
+      `     🏦 ${format(guild.money)} ${CURRENCY} - 💠 ${format(
+        guild.reputation
+      )} R`
+    )
+  })
 
-  console.log(await getTopGuilds())
+  return await update.reply(res.join('\n'))
 }
 
 exports.command = {

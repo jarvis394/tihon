@@ -5,9 +5,9 @@ exports.run = ({ update, args }) => {
   var calc = args.join(' ')
 
   try {
-    resp = math.eval(calc)
+    resp = math.evaluate(calc)
   } catch (e) {
-    return update.send('Похоже, я слишком тупой для таких примеров')
+    return update.reply('Похоже, я слишком тупой для таких примеров')
   }
 
   update.send(`📥 Ввод: ${calc}\n📤 Вывод: ${resp}`)

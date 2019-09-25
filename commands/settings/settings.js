@@ -1,31 +1,20 @@
 exports.run = async ({ update, args }) => {
-  const DBDialog = require('../../lib/Dialog')
-  const dialog = new DBDialog(update.peerId)
+  const { db } = require('../../variables')
+  const data = db
+    .prepare('SELECT * FROM main.dialogs WHERE id =' + update.peerId)
+    .get()
 
-  async function showSettings() {
-    let data = await dialog.checkData()
-    let interval = data.auto
-      ? `⠀⠀⠀| (interval) - Интервал отправки сообщений: ${data.interval /
-          1000} секунд\n`
-      : ''
+  let res =
+    '⚙️ Настройки\n' +
+    `⠀⠀Авто отправка сообщений: ${data.autoMailing ? 'Да' : 'Нет'}\n` +
+    `  Брать сообщения из этого диалога: ${data.canReadMessages ? 'Да' : 'Нет'}`
 
-    let res =
-      '⚙️ Настройки\n' +
-      `⠀⠀(auto) - Авто отправка сообщений: ${data.auto ? 'Да' : 'Нет'}\n` +
-      interval
-    // + `⠀⠀(preset) - Пресет ролей: №${data.preset + 1}`
-
-    return update.send(res)
-  }
-
-  if (args.length === 0) return await showSettings(update.peerId)
-  else if (args[0] === 'auto' || args[0] === 'interval' || args[0] === 'preset')
-    return update.send('Используй /' + args[0] + ', чтобы поменять насторйки.')
+  return await update.reply(res)
 }
 
 exports.command = {
   name: 'settings',
-  arguments: '(field) (value)|(поле) (значение)',
+  arguments: false,
   description: {
     en: 'Changes settings of the dialog',
     ru: 'Изменяет настройки диалога',

@@ -10,8 +10,7 @@ exports.run = async ({ update, args }) => {
 
   let id = parseInt(args[0])
   let item = getItemById(id)
-  let group = getGroupById(item.groupId)
-  user.addItem(group, id)
+  user.setItem(id)
 
   return update.send('added ' + args[0])
 }

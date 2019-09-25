@@ -20,13 +20,13 @@ exports.run = async ({ update, args }) => {
     const func = promoFunctions[promo.n].function
     const state = await promoFunction(func, user)
 
-    if (!state) return update.reply('♦️ Ты не успел!')
+    if (!state) return update.reply('🔻 Ты не успел! Промокод недействителен')
 
     return update.send('🎈 Промокод успешно применён')
   } else if (earnings.promo === promo.code) {
-    return update.send('♦️ Ты уже вводил этот промокод. Жди следующий!')
+    return update.send('🔻 Ты уже вводил этот промокод. Жди следующий!')
   } else {
-    return update.send('♦️ Введен неправильный или недействительный код')
+    return update.send('🔻 Введен неправильный или недействительный код')
   }
 }
 

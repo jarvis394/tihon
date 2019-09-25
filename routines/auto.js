@@ -1,9 +1,8 @@
-const DBDialog = require('../lib/Dialog')
 const { random } = require('../utils/random')
 const randomMessage = require('../utils/randomMessage')
 const data = require('../utils/data')
 const { AUTO_INTERVAL } = require('../configs/constants')
-const { log, collect } = require('../variables')
+const { db, log, collect } = require('../variables')
 
 let queue = []
 
@@ -22,15 +21,18 @@ setInterval(async () => {
  * @param {Object} dialog Dialog object
  */
 async function messageService(dialog) {
-  const Dialog = new DBDialog(dialog.conversation.peer.id)
-  const data = await Dialog.checkData()
+  const data = db
+    .prepare(
+      `SELECT * FROM main.dialogs WHERE id = ${dialog.conversation.peer.id}`
+    )
+    .get()
   let options = {
     peer_id: dialog.conversation.peer.id,
     random_id: random(10000000, 99999999),
   }
 
   // If dialog is blacklisted then return
-  if (!data.auto) return
+  if (!data.autoMailing) return
 
   // If bot was kicked from dialog then return
   if (!dialog.conversation.can_write.allowed) return

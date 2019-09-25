@@ -2,43 +2,52 @@ exports.run = async (update, args) => {
   const rel = '../../../'
   const User = require(rel + 'lib/User')
   const Guild = require(rel + 'lib/Guild')
-  const CommandError = require(rel + 'lib/CommandError')
+  const shopData = require(rel + 'data/guildShop')
+  const { GuildIsEmpty } = require(rel + 'errors/User')
   const moment = require('moment')
 
   moment.locale('ru')
 
   const { senderId } = update
   const user = new User(senderId)
-  const guildId = await user.fetchGuild()
+  const guildId = user.guild
 
   // Return if guild is empty
   if (!guildId) {
-    throw new CommandError(
-      '😕 Ты не состоишь в колхозе\n\n' +
-        'Глава колхоза может пригласить тебя командой /колхоз пригласить [id]',
-      'User_GuildIsEmpty'
-    )
+    return update.reply(GuildIsEmpty(guildId))
   }
 
   // Get info
   const guild = new Guild(guildId)
-  const data = await guild.fetchData()
-  const name = await guild.getName()
-  const money = await guild.getMoney()
-  const reputation = await guild.getReputation()
-  const members = await guild.getFilteredMembers()
-  const stats = await guild.getStats()
+  const name = guild.name
+  const money = guild.money
+  const reputation = guild.reputation
+  const members = guild.getFilteredMembers()
+  const stats = guild.stats
+  const population = guild.population
+  const shield = guild.shield
 
-  const text =
-    `📜 Информация о колхозе "${name}":\n\n` +
-    `🌐 ID: ${data.id}\n` +
-    `💠 Репутация: ${reputation} R\n` +
-    `🏦 Казна: ${money} ₮\n` +
-    `📊 Статистика: ${stats.win} W | ${stats.lose} L\n` +
-    `👥 В колхозе состоит ${members.length}/50 человек\n\n` +
-    `🛡️ Щит доступен до: ${moment(data.shield).calendar()}`
+  let res = [
+    `📜 Информация о колхозе "${name}":\n`,
+    `🌐 ID: ${guildId}`,
+    `💠 Репутация: ${reputation} R`,
+    `🏦 Казна: ${money} ₮`,
+    `📊 Статистика: ${stats.wins} W | ${stats.loses} L`,
+    `👥 В колхозе состоит ${members.length}/50 человек\n`,
+  ]
 
-  return update.reply(text)
+  if (shield) {
+    res.push(`🛡️ Действие щита закончится ${moment(shield).fromNow()}`)
+  }
+
+  res.push('')
+  for (let group in population) {
+    const i = shopData.find(e => e.group === group)
+
+    res.push(`${i.icon} ${i.accName} - ${population[group]} / 100`)
+  }
+
+  return update.reply(res.join('\n'))
 }
 
 exports.command = {

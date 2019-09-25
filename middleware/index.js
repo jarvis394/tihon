@@ -21,6 +21,9 @@ require('./session')
 // Filter blacklisted users and multidialogs
 require('./blacklist')
 
+// Filter by timeout
+require('./timeout')
+
 updates.on('message', async (update, next) => {
   // If message is only mention
   // then return mention message

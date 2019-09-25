@@ -1,22 +1,18 @@
 exports.run = async ({ update, args }) => {
-  const DBDialog = require('../../lib/Dialog')
-
-  const dialog = new DBDialog(update.peerId)
-
-  let state = await dialog.checkData()
-  state = state.auto
+  const { db } = require('../../variables')
+  let state = db
+    .prepare('SELECT autoMailing FROM main.dialogs WHERE id =' + update.peerId)
+    .get().autoMailing
 
   if (state) {
     state = false
-    update.send('✨ Теперь здесь не будет отправляться рассылка')
+    update.reply('✨ Теперь здесь не будет отправляться рассылка')
   } else {
     state = true
-    update.send('✨ Теперь тут будет отправляться рассылка')
+    update.reply('✨ Теперь тут будет отправляться рассылка')
   }
 
-  dialog.update({
-    auto: state,
-  })
+  db.prepare(`UPDATE INTO main.dialogs SET autoMailing = ${state}`).run()
 }
 
 exports.command = {
@@ -26,6 +22,6 @@ exports.command = {
     en: 'Disable/Enable auto-sending messages',
     ru: 'Отключить/Включить автоматическую рассылку сообщений',
   },
-  alias: ['авто'],
+  alias: ['авто', 'рассылка'],
   group: 'settings',
 }

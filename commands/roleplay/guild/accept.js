@@ -2,35 +2,28 @@ exports.run = async (update, args) => {
   const rel = '../../../'
   const User = require(rel + 'lib/User')
   const Guild = require(rel + 'lib/Guild')
+  const { GuildNotEmpty } = require(rel + 'errors/User')
+  const { NotFound } = require(rel + 'errors/Guild')
   const CommandError = require(rel + 'lib/CommandError')
 
   if (!args[1]) {
-    throw new CommandError('Укажи ID колхоза', 'Argument_MissingField')
+    return update.reply('🔻 Укажи ID колхоза')
   }
 
   const { senderId } = update
   const guildId = args[1]
   const user = new User(senderId)
-  const userGuild = await user.fetchGuild()
+  const userGuild = user.guild
 
   if (userGuild) {
-    throw new CommandError(
-      'Ты уже состоишь в колхозе с ID "' +
-        userGuild +
-        '"\n\n' +
-        'Сначала выйди из него, а потом принимай приглашение.',
-      'User_GuildNotEmpty'
-    )
+    return update.reply(GuildNotEmpty(userGuild))
   }
 
   const guild = new Guild(guildId)
-  const data = await guild.getMembers()
+  const data = await guild.members
 
   if (!data) {
-    throw new CommandError(
-      `Колхоз с ID "${guildId}" не найден`,
-      'Guild_NotFound'
-    )
+    return update.reply(NotFound(guildId))
   }
 
   const member = data.find(e => e.id === senderId)
@@ -46,11 +39,15 @@ exports.run = async (update, args) => {
     )
   }
 
-  await guild.changeRole(senderId, 1)
+  if (data.filter(e => e.role > 0).length >= 50) {
+    return update.reply('🔻 В колхозе может быть максимум 50 человек')
+  }
 
-  await user.setGuild(guildId)
+  guild.changeRole(senderId, 1)
 
-  return update.reply(`✅ ID ${senderId} был принят в колхоз.`)
+  user.setGuild(guildId)
+
+  return update.reply(`✅ Ты был принят в колхоз "${guild.name}"`)
 }
 
 exports.command = {

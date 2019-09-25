@@ -4,6 +4,7 @@ const commandLogger = require('../lib/CommandLogger')
 const { randomArray } = require('./random')
 const isUrl = require('./isUrl')
 const dataUtils = require('./data')
+const { db } = require('../variables')
 
 /**
  * Returns random message from multidialogs
@@ -20,7 +21,9 @@ module.exports = async () => {
     m.text.split(' ').some(t => t.startsWith('АШИБКА РИП'))
   const isLong = m => m.text.length > 200
   const isSelf = m => m.from_id.toString() === ID.toString()
-  const hasMention = m => m.text.split(' ').some(t => t.startsWith('[id'))
+  const hasMention = m =>
+    m.text.split(' ').some(t => t.startsWith('[id') || t.startsWith('[club'))
+  const isFromGroup = m => m.from_id < 0
 
   function testMessage(m) {
     if (!m) return true
@@ -33,7 +36,8 @@ module.exports = async () => {
       isErrorMessage(m) ||
       isLong(m) ||
       isSelf(m) ||
-      hasMention(m)
+      hasMention(m) ||
+      isFromGroup(m)
     )
   }
 
@@ -49,6 +53,16 @@ module.exports = async () => {
     return flag
   }
 
+  function canRead(m) {
+    const data = db
+      .prepare(`SELECT * FROM main.dialogs WHERE id = ${m.peer_id}`)
+      .get()
+
+    if (data) {
+      return data.canReadMessages === 'true'
+    }
+  }
+
   async function getMsg() {
     const histories = dataUtils.getHistories()
     const dialogHistory = randomArray(histories)
@@ -59,7 +73,7 @@ module.exports = async () => {
 
   let msg = await getMsg()
 
-  while (testMessage(msg) || testAttachments(msg)) {
+  while (testMessage(msg) || testAttachments(msg) /* || !canRead(msg)*/) {
     msg = await getMsg()
   }
 

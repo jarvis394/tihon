@@ -1,8 +1,7 @@
 exports.run = async (update, args) => {
   const rel = '../../../'
   const User = require(rel + 'lib/User')
-  const { firebase } = require(rel + 'variables')
-  const db = firebase.firestore()
+  const { db } = require(rel + 'variables')
   const { senderId } = update
   const user = new User(senderId)
   const guildId = user.guild

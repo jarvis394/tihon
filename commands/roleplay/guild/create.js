@@ -1,85 +1,83 @@
 exports.run = async (update, args) => {
   const rel = '../../../'
   const User = require(rel + 'lib/User')
-  const CommandError = require(rel + 'lib/CommandError')
-  const thinid = require('thinid')
-  const { firebase } = require(rel + 'variables')
-  const db = firebase.firestore()
+  const Guild = require(rel + 'lib/Guild')
+  const { db, log } = require(rel + 'variables')
   const GUILD_PRICE = 100000
 
-  const name = args[1]
+  const { GuildNotEmpty } = require(rel + 'errors/User')
+
+  const name = args.slice(1).join(' ')
   const now = Date.now()
   const { senderId } = update
   const user = new User(senderId)
-  const guild = await user.fetchGuild()
+  const userGuild = user.guild
 
   // Check for current guild
-  if (guild) {
-    throw new CommandError(
-      `🙁 Ты уже состоишь в колхозе [ ${guild} ]\n\n` +
-        'Сначала выйди из колхоза, а затем создавай свой!',
-      'User_GuildNotEmpty'
-    )
+  if (userGuild) {
+    return update.reply(GuildNotEmpty(guild))
   }
 
   // Check for name
   if (!name) {
-    throw new CommandError(
+    return update.reply(
       '🖍️ Введи имя колхоза\n\n' +
-        'Для просмотра справки: *tihon_bot, колхоз помощь',
-      'Argument_MissingField'
+        'Для просмотра справки: *tihon_bot, колхоз помощь'
     )
   }
 
   // Check for length
   if (name.length > 16) {
-    throw new CommandError(
-      '🔻 Введи имя покороче (макс. 16)',
-      'Argument_TooLong'
-    )
+    return update.reply('🔻 Введи имя покороче (макс. 16)')
   }
 
   // Check for money
   const { state, amount } = await user.isEnoughFor(GUILD_PRICE)
 
   if (!state) {
-    throw new CommandError(
+    return update.reply(
       '🧮 Недостаточно денег - у тебя ' +
         +amount +
         ' ₮, а нужно ' +
         GUILD_PRICE +
-        ' ₮',
-      'User_InsufficientFunds'
+        ' ₮'
     )
   }
 
-  const guildId = thinid(4)
   const guildData = {
-    id: guildId,
     name: name,
-    members: [{ id: senderId, role: 3 }],
     reputation: 0,
-    stats: {
-      win: 0,
-      lose: 0,
-    },
+    wins: 0,
+    loses: 0,
     money: 0,
     shield: now + 3600 * 12 * 1000,
-    timeout: 0,
-    population: {
-      farmers: 0,
-      peasants: 0,
-      workers: 0,
-    },
+    timeout: null,
+    creatorId: user.id,
   }
 
-  // Write entry for guild
-  db.collection('guilds')
-    .doc(guildId)
-    .set(guildData)
+  // Try writing entry for the guild
+  let id
+  try {
+    const { lastInsertRowid } = db
+      .prepare(
+        'INSERT INTO main.guilds (name, creatorId, money, reputation, wins, loses, shield, timeout) VALUES (@name, @creatorId, @money, @reputation, @wins, @loses, @shield, @timeout);'
+      )
+      .run(guildData)
+    id = lastInsertRowid
+  } catch (e) {
+    log.error(e)
+    return await update.reply(
+      '🔻 Не удалось записать данные в базу:\n\n' + e.message
+    )
+  }
+
+  const guild = new Guild(id)
+
+  // Add member to the list
+  guild.addMember(senderId, 3)
 
   // Set guild for user
-  user.setGuild(guildId)
+  user.setGuild(id)
 
   // Subtract user's money amount
   user.subtract(GUILD_PRICE)
@@ -89,7 +87,7 @@ exports.run = async (update, args) => {
     '✨ Колхоз с названием "' +
       name +
       '" был успешно создан. \n🌐 ID колхоза: ' +
-      guildId
+      id
   )
 }
 
