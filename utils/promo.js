@@ -1,5 +1,6 @@
 const { random } = require('../utils/random')
 const fs = require('fs')
+const path = require('path')
 const promos = require('../data/promo')
 
 const promoFunction = async (f, u) => {
@@ -19,7 +20,7 @@ const generate = () => {
   const timestamp = Date.now()
 
   fs.writeFile(
-    'temp/promo.json',
+    path.resolve('temp/promo.json'),
     JSON.stringify({ code: key, timestamp, n, promo }),
     err => {
       if (err) {
@@ -52,7 +53,7 @@ const getPromo = () => {
     data = require('../temp/promo.json')
   } catch (e) {
     data = {}
-    fs.writeFile('temp/promo.json', JSON.stringify(data), err => {
+    fs.writeFile(path.resolve('temp/promo.json'), JSON.stringify(data), err => {
       if (err) {
         log.error(err)
       } else {

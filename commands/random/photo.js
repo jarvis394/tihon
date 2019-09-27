@@ -1,11 +1,7 @@
-exports.run = async ({ update, args }) => {
+exports.run = async ({ update }) => {
   const { randomArray } = require('../../utils/random')
-  const { api } = require('../../variables')
-
-  const DBDialog = require('../../lib/Dialog')
+  const { api, db } = require('../../variables')
   const blacklist = require('../../configs/blacklist')
-
-  // return update.reply('😦 Фото пока недоступно')
 
   // Get dialogs
   var Dialogs = await api.messages.getConversations({
@@ -15,10 +11,13 @@ exports.run = async ({ update, args }) => {
   async function getMsg() {
     var Dialog = randomArray(Dialogs.items)
 
-    const dialog = new DBDialog(Dialog.conversation.peer.id)
-    const data = dialog.checkData()
+    const data = db
+      .prepare(
+        `SELECT * FROM main.dialogs WHERE id = ${Dialog.conversation.peer.id}`
+      )
+      .get()
 
-    while (data.no) {
+    while (!data.canReadMessages) {
       Dialog = randomArray(Dialogs.items)
     }
 

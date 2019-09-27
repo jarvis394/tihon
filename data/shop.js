@@ -345,6 +345,56 @@ const items = [
     rep: 10000,
   }),
 
+  // Companies
+  new Item({
+    name: 'Minecraft сервер',
+    icon: '🔻',
+    price: 1000,
+    earning: 150,
+    group: 'companies',
+    rep: 25,
+  }),
+  new Item({
+    name: 'Реселлинг',
+    icon: '🔻',
+    price: 5000,
+    earning: 300,
+    group: 'companies',
+    rep: 100,
+  }),
+  new Item({
+    name: 'Кафе "В Колхозе"',
+    icon: '🔻',
+    price: 25000,
+    earning: 750,
+    group: 'companies',
+    rep: 500,
+  }),
+  new Item({
+    name: 'Бордель "Помидор"',
+    icon: '🔻',
+    price: 100000,
+    earning: 8000,
+    group: 'companies',
+    rep: 2000,
+  }),
+  new Item({
+    name: 'Торговля сельхозтехникой',
+    icon: '🔻',
+    price: 250000,
+    earning: 15000,
+    group: 'companies',
+    rep: 5000,
+  }),
+  new Item({
+    name: '1xbet стратег',
+    icon: '🔻',
+    price: 500000,
+    earning: 30000,
+    group: 'companies',
+    rep: 10000,
+  }),
+
   // Clothes
   new Item({
     name: 'Сельский прикид',

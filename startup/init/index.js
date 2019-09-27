@@ -1,3 +1,5 @@
+require('./env')
+
 const db = require('./database')
 const vk = require('./vk')
 

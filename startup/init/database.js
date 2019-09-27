@@ -1,7 +1,8 @@
 const Database = require('better-sqlite3')
 const path = require('path')
 
-const db = new Database(path.resolve(process.cwd(), 'db', 'data.sqlite'))
+const dbPath = path.resolve(process.cwd(), 'db/data.sqlite')
+const db = new Database(dbPath)
 
 // Create users table
 db.prepare(
@@ -23,14 +24,13 @@ db.prepare(
   CREATE TABLE IF NOT EXISTS "guilds" (
     "id"	        INTEGER PRIMARY KEY AUTOINCREMENT,
     "name"	      TEXT NOT NULL,
-    "creatorId"   INTEGET NOT NULL,
+    "creatorId"   INTEGER NOT NULL,
     "money"	      INTEGER NOT NULL,
     "reputation"	INTEGER NOT NULL,
     "wins"	      INTEGER NOT NULL,
     "loses"	      INTEGER NOT NULL,
     "shield"	    INTEGER,
-    "timeout"	    INTEGER,
-    FOREIGN KEY("creatorId") REFERENCES "users"("id") ON DELETE CASCADE
+    "timeout"	    INTEGER
   )
 `
 ).run()

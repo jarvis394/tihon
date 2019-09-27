@@ -2,8 +2,6 @@ const init = require('./startup')
 const { api } = init
 const RequestsQueue = require('./lib/RequestsQueue')
 
-// const Container = require('./lib/Container')
-
 /**
  * Saves counter to every dialog
  */
