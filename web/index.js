@@ -12,7 +12,7 @@ app.use(bodyParser)
 require('./routes')
 
 events.once('getDataSuccess', () => {
-  const listener = app.listen(4000, () => {
+  const listener = app.listen(3000, () => {
     log.info('Started on port ' + listener.address().port, { private: true })
   })
 })
