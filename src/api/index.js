@@ -1,0 +1,18 @@
+const express = require('express')
+const events = require('../lib/Events')
+const bodyParser = require('body-parser').json()
+
+const { app, log } = require('../globals')
+
+// Middlewares
+app.use(express.static('logs'))
+app.use(bodyParser)
+
+// Routes
+require('./routes')
+
+events.once('getDataSuccess', () => {
+  const listener = app.listen(3000, () => {
+    log.info('Started on port ' + listener.address().port, { private: true })
+  })
+})

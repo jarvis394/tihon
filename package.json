@@ -1,0 +1,72 @@
+{
+  "name": "tihon",
+  "version": "7.0.0",
+  "description": "VK bot",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node .",
+    "lint": "prettier **/{.[^.],}* --config .prettierrc.js --write || eslint . --fix",
+    "nodemon": "nodemon .",
+    "test": "jest --verbose"
+  },
+  "engines": {
+    "node": "10.x.x"
+  },
+  "dependencies": {
+    "better-sqlite3": "^5.4.3",
+    "body-parser": "^1.19.0",
+    "chalk": "^2.4.2",
+    "dotenv": "^8.1.0",
+    "emoji-regex": "^8.0.0",
+    "express": "^4.16.4",
+    "fs": "^0.0.2",
+    "hashids": "1.2.2",
+    "is-url": "^1.2.4",
+    "jest": "^25.0.0",
+    "lodash": "^4.17.15",
+    "mathjs": "^6.0.4",
+    "moment": "^2.24.0",
+    "mz": "^2.7.0",
+    "node-cmd": "^3.0.0",
+    "path": "^0.12.7",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
+    "reverse-line-reader": "^0.2.6",
+    "thinid": "^0.4.3",
+    "vk-io": "^4.0.0-rc.17"
+  },
+  "repository": {
+    "url": "https://github.com/jarvis394/tihon"
+  },
+  "license": "MIT",
+  "nodemonConfig": {
+    "ignore": [
+      "*.json",
+      "views/",
+      "public/"
+    ],
+    "delay": "2500"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "winston": "^3.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,json,md}": [
+      "prettier --config .prettierrc.js --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
