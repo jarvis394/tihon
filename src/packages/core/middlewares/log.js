@@ -14,5 +14,4 @@ module.exports = async update => {
     senderId,
     id,
   })
-  console.log('   P', peerId, '| U', senderId, '| M', id)
 }

@@ -1,20 +1,24 @@
 const cluster = require('cluster')
 const handleError = require('../../utils/handleError')
+const { commandsQueue: queue } = require('../../globals')
 
-cluster.worker.on('executeCommand', async update => {
-  // Set worker state as working
-  cluster.worker.emit('working')
+cluster.worker.on('message', async ({ isCommand }) => {
+  if (!isCommand) return
 
-  // Destruct state
-  const { command: cmd, arguments: args } = update.state
+  const update = queue.shift()
+  console.log(process.pid, update, queue.isEmpty)
+
+  // Destructure state
+  /*const { command: cmd, arguments: args } = update.state
 
   try {
     const command = require(`../../commands/${cmd.group}/${cmd.name}`)
     const response = await command.run({ update, args })
     
-    return await update.reply(response)
+    await update.reply(response)
+    return cluster.worker.send({ busy: false })
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND') return
-    else handleError(update, e)
-  }
+    else return handleError(update, e)
+  }*/
 })

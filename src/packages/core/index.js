@@ -1,22 +1,41 @@
 const cluster = require('cluster')
 const path = require('path')
 const events = require('../../lib/Events')
-const { commandsQueue } = require('../../globals')
-const handlerExecPath = path.resolve(
-  process.cwd(),
-  'src/packages/handler/index.js'
-)
-const forksAmount = 2
+const { commandsQueue: queue } = require('../../globals')
+const handlerExecPath = path.resolve('src/packages/handler/index.js')
+const forksAmount = 5
 
 let workers = {}
+
+class Worker {
+  constructor(process) {
+    this.process = process
+    this.pid = process.process.pid
+    this.state = {
+      busy: false,
+    }
+  }
+
+  isBusy() {
+    return this.state.busy
+  }
+
+  setBusyState(state) {
+    return (this.state.busy = state)
+  }
+
+  send(message) {
+    return this.process.send(message)
+  }
+}
 
 /**
  * Handles worker's message
  * @param {string} message Message
  */
 function messageHandler({ worker, message }) {
-  if (message === 'working') {
-    workers[worker.process.pid].state.working = message.working
+  if (message.busy !== null) {
+    workers[worker.process.pid].setBusyState(message.busy)
   }
 }
 
@@ -41,46 +60,49 @@ cluster.on('exit', (worker, code, signal) => {
   console.log('Starting a new worker')
 
   const fork = cluster.fork()
-  workers[fork.process.pid] = {
-    process: fork,
-    state: {
-      working: false
-    }
-  }
+  workers[fork.process.pid] = new Worker(fork)
 
   // To receive messages from worker process
-  fork.process.on('message', message => messageHandler({ 
-    process: workers[fork.process.pid],  
-    message 
-  }))
+  fork.process.on('message', message =>
+    messageHandler({
+      process: workers[fork.process.pid],
+      message,
+    })
+  )
 })
 
 // Fork workers
 for (let i = 0; i < forksAmount; i++) {
   const fork = cluster.fork()
-  workers[fork.process.pid] = {
-    process: fork,
-    state: {
-      working: false
-    }
-  }
+  workers[fork.process.pid] = new Worker(fork)
 
   // To receive messages from worker process
-  fork.process.on('message', message => messageHandler({ 
-    process: workers[fork.process.pid],  
-    message 
-  }))
+  fork.process.on('message', message =>
+    messageHandler({
+      process: workers[fork.process.pid],
+      message,
+    })
+  )
 }
 
-events.on('executeCommand', update => {
-  for (const pid in workers) {
-    const { process, state } = workers[pid]
+// Process queue
+setInterval(async () => await processQueue(), 0)
 
-    if (!state.working) {
-      return process.emit('executeCommand', update)
+// Push commands to the queue on event
+events.on('executeCommand', async update => queue.push(update))
+
+async function processQueue() {
+  if (!queue.isEmpty) {
+    for (const pid in workers) {
+      const worker = workers[pid]
+      if (worker.isBusy()) continue
+
+      worker.setBusyState(true)
+      worker.send({ isCommand: true })
+      break
     }
   }
-})
+}
 
 // Start middlewares
 require('./middlewares')

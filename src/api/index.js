@@ -1,5 +1,4 @@
 const express = require('express')
-const events = require('../lib/Events')
 const bodyParser = require('body-parser').json()
 
 const { app, log } = require('../globals')
@@ -11,8 +10,6 @@ app.use(bodyParser)
 // Routes
 require('./routes')
 
-events.once('getDataSuccess', () => {
-  const listener = app.listen(3000, () => {
-    log.info('Started on port ' + listener.address().port, { private: true })
-  })
+const listener = app.listen(443, () => {
+  log.info('Started on port ' + listener.address().port, { private: true })
 })

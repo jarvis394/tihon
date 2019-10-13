@@ -1,7 +1,7 @@
 const { random } = require('../utils/random')
 const fs = require('fs')
 const path = require('path')
-const promos = require('../data/promo')
+const promos = require('../configs/data/promo')
 
 const promoFunction = async (f, u) => {
   await f(u)

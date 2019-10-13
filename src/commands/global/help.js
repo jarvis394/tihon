@@ -1,5 +1,5 @@
-exports.run = async ({ update }) => {
-  return update.reply('🔍 Смотри команды на сайте: https://tihon-web.glitch.me')
+exports.run = async () => {
+  return '🔍 Смотри команды на сайте: https://tihon-web.glitch.me'
 }
 
 exports.command = {

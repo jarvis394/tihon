@@ -2,11 +2,12 @@ const events = require('./lib/Events')
 
 /**
  * Load global globals and connect to databases, etc.
- * TODO: Refactor globals in the way that it will only avaliable 
- *       after /loaders are loaded 
+ * TODO: Refactor globals in the way that it will only avaliable
+ *       after /loaders are loaded
  */
 require('./globals')
 
+// Start routines
 require('./routines')
 
 events.once('load', () => {

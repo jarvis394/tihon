@@ -14,6 +14,14 @@ class CommandsQueue {
   push(update) {
     this.queue.push(update)
   }
+
+  shift() {
+    return this.queue.shift()
+  }
+
+  unshift(update) {
+    this.queue.unshift(update)
+  }
 }
 
 module.exports = CommandsQueue
