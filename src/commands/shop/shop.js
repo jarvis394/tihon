@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  const data = require('../../data/shop')
+  const data = require('../../configs/data/shop')
   const { getGroupById } = require('../../utils/shop')
   const format = require('../../utils/format')
   const { api } = require('../../globals')
