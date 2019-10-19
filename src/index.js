@@ -14,4 +14,7 @@ require('./routines')
 events.once('load', () => {
   // Start core app
   require('./packages/core')
+
+  // Start web API
+  require('./api')
 })
