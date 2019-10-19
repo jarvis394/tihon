@@ -1,6 +1,6 @@
 exports.run = async ({ update, args }) => {
-  const User = require('../../lib/User')
-  const Guild = require('../../lib/Guild')
+  const User = require('../../lib/models/User')
+  const Guild = require('../../lib/models/Guild')
 
   const { USERS } = require('../../configs/blacklist')
 

@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  const User = require('../../lib/User')
+  const User = require('../../lib/models/User')
 
   const user = new User(update.senderId)
   const { state, amount } = await user.isEnoughFor(1000)

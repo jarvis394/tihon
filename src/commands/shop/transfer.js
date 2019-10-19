@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  const User = require('../../lib/User')
+  const User = require('../../lib/models/User')
   const { USERS: BLACKLIST } = require('../../configs/blacklist')
   const { CURRENCY } = require('../../configs/constants')
 

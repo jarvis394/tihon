@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  const User = require('../../lib/User')
+  const User = require('../../lib/models/User')
   const { getItemById, getGroupById } = require('../../utils/shop')
 
   let user = new User(

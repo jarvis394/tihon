@@ -1,4 +1,4 @@
-const User = require('../../lib/User')
+const User = require('../../lib/models/User')
 const shopData = require('../../configs/data/shop')
 const cmd = require('node-cmd')
 const crypto = require('crypto')

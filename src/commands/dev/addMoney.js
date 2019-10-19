@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  const User = require('../../lib/User')
+  const User = require('../../lib/models/User')
   let user = new User(
     args[0] && args[1] ? args[1].split('|')[0].slice(3) : update.senderId
   )

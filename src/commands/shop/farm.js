@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  const User = require('../../lib/User')
+  const User = require('../../lib/models/User')
   const shopUtils = require('../../utils/shop')
   const format = require('../../utils/format')
   const { CURRENCY } = require('../../configs/constants')

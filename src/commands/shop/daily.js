@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  const User = require('../../lib/User')
+  const User = require('../../lib/models/User')
   const format = require('../../utils/format')
   const { randomArray } = require('../../utils/random')
   const DAY = 86400000

@@ -4,7 +4,7 @@ exports.run = async ({ update, args }) => {
   const moment = require('moment')
   const BATTLE_PRICE = 5000
   const { randomArray, random } = require('../../utils/random')
-  const User = require('../../lib/User')
+  const User = require('../../lib/models/User')
   const { ID, BATTLE_COOLDOWN } = require('../../configs/constants')
   const { timeouts, api } = require('../../globals')
 
