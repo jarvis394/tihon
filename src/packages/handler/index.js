@@ -1,24 +1,24 @@
 const cluster = require('cluster')
 const handleError = require('../../utils/handleError')
-const { commandsQueue: queue } = require('../../globals')
+const { vk } = require('../../globals')
+const { MessageContext } = require('vk-io')
 
-cluster.worker.on('message', async ({ isCommand }) => {
-  if (!isCommand) return
+cluster.worker.on('message', async ({ isCommand, update, state }) => {
+  if (!isCommand) return 
 
-  const update = queue.shift()
-  console.log(process.pid, update, queue.isEmpty)
-
+  const u = new MessageContext(vk, update, {})
+  
   // Destructure state
-  /*const { command: cmd, arguments: args } = update.state
+  const { command: cmd, arguments: args } = state
 
   try {
     const command = require(`../../commands/${cmd.group}/${cmd.name}`)
-    const response = await command.run({ update, args })
+    const response = await command.run({ u, args })
     
-    await update.reply(response)
+    await u.reply(response)
     return cluster.worker.send({ busy: false })
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND') return
-    else return handleError(update, e)
-  }*/
+    else return handleError(u, e)
+  }
 })

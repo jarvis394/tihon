@@ -2,7 +2,7 @@ exports.run = async ({ update, args, mentionCmdState: state }) => {
   const { randomArray } = require('../../utils/random')
   const { api } = require('../../globals')
 
-  let persons = await api.messages.getConversationMembers({
+  const users = await api.messages.getConversationMembers({
     peer_id: update.peerId,
     fields: 'first_name, last_name',
   })
@@ -13,12 +13,12 @@ exports.run = async ({ update, args, mentionCmdState: state }) => {
 
   for (
     let i = 0;
-    i < (persons.profiles.length >= 10 ? 10 : persons.profiles.length);
+    i < (users.profiles.length >= 10 ? 10 : users.profiles.length);
     i++
   ) {
-    let person = randomArray(persons.profiles)
+    let person = randomArray(users.profiles)
     while (history.some(e => e === person.id)) {
-      person = randomArray(persons.profiles)
+      person = randomArray(users.profiles)
     }
 
     history.push(person.id)
@@ -34,9 +34,9 @@ exports.run = async ({ update, args, mentionCmdState: state }) => {
     }
   }
 
-  await update.send(
-    `🔹 Топ ${args.length !== 0 ? args.join(' ') : 'села'}:\n${list.join('\n')}`
-  )
+  return `🔹 Топ ${args.length !== 0 ? args.join(' ') : 'села'}:\n${list.join(
+    '\n'
+  )}`
 }
 
 exports.command = {

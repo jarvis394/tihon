@@ -1,6 +1,6 @@
 const cluster = require('cluster')
 const path = require('path')
-const events = require('../../lib/Events')
+const events = require('../../lib/structures/Events')
 const { commandsQueue: queue } = require('../../globals')
 const handlerExecPath = path.resolve('src/packages/handler/index.js')
 const forksAmount = 5
@@ -35,7 +35,7 @@ class Worker {
  */
 function messageHandler({ worker, message }) {
   if (message.busy !== null) {
-    workers[worker.process.pid].setBusyState(message.busy)
+    workers[worker.pid].setBusyState(message.busy)
   }
 }
 
@@ -79,7 +79,7 @@ for (let i = 0; i < forksAmount; i++) {
   // To receive messages from worker process
   fork.process.on('message', message =>
     messageHandler({
-      process: workers[fork.process.pid],
+      worker: workers[fork.process.pid],
       message,
     })
   )
@@ -96,9 +96,11 @@ async function processQueue() {
     for (const pid in workers) {
       const worker = workers[pid]
       if (worker.isBusy()) continue
+      
+      const update = queue.shift()
 
       worker.setBusyState(true)
-      worker.send({ isCommand: true })
+      worker.send({ isCommand: true, update: update.payload, state: update.state })
       break
     }
   }

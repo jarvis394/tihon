@@ -15,11 +15,9 @@ exports.run = async ({ update, args, mentionCmdState: state }) => {
     ? `[id${person.id}|${person.first_name + ' ' + person.last_name}]`
     : `${person.first_name + ' ' + person.last_name}`
 
-  await update.send(
-    `${randomArray(replies)}${
-      args.length !== 0 ? ' ' + args.join(' ') : ''
-    } это ${name}`
-  )
+  return `${randomArray(replies)}${
+    args.length !== 0 ? ' ' + args.join(' ') : ''
+  } это ${name}`
 }
 
 exports.command = {

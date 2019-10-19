@@ -1,5 +1,5 @@
 const { updates } = require('../../../globals')
-const User = require('../../../lib/User')
+const User = require('../../../lib/models/User')
 
 updates.on('message', async (update, next) => {
   const { senderId } = update

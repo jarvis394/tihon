@@ -6,7 +6,7 @@
 module.exports = (update, e) => {
   const { log } = require('../globals')
 
-  !e.isCommandError && log.error(e)
+  // !e.isCommandError && log.error(e)
 
   update.reply((e.emoji ? '' : '🔻 ') + e.message)
 }

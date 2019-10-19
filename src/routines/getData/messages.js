@@ -1,5 +1,5 @@
 module.exports = () => {
-  const events = require('../../lib/Events')
+  const events = require('../../lib/structures/Events')
   const fs = require('fs')
   const path = require('path')
   const { log, collect } = require('../../globals')

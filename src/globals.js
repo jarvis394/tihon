@@ -1,7 +1,7 @@
 const init = require('./loaders')
 const { api } = init
-const RequestsQueue = require('./lib/RequestsQueue')
-const CommandsQueue = require('./lib/CommandsQueue')
+const RequestsQueue = require('./lib/structures/RequestsQueue')
+const CommandsQueue = require('./lib/structures/CommandsQueue')
 const express = require('express')
 
 /**

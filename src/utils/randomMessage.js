@@ -1,6 +1,6 @@
 const blacklist = require('../configs/blacklist')
 const { ID } = require('../configs/constants')
-const commandLogger = require('../lib/CommandLogger')
+const commandLogger = require('../lib/structures/CommandLogger')
 const { randomArray } = require('./random')
 const isUrl = require('./isUrl')
 const dataUtils = require('./data')

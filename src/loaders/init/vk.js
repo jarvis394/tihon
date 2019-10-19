@@ -2,7 +2,7 @@ const { VK } = require('vk-io')
 const vk = new VK()
 const { api, updates, collect } = vk
 const log = require('../log')
-const events = require('../../lib/Events')
+const events = require('../../lib/structures/Events')
 const { TOKEN } = require('../../configs/secrets')
 const captchaHandler = require('../../utils/captchaHandler')
 

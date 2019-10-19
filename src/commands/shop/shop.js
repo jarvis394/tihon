@@ -14,7 +14,7 @@ exports.run = async ({ update, args }) => {
   if (!isNaN(option)) {
     if (parseInt(option) <= data.groups.length && parseInt(option) >= 0)
       return sendGroup(parseInt(option))
-    else return update.send('😟 Нет такой группы! Введи валидный [ ID ]')
+    else return '😟 Нет такой группы! Введи валидный [ ID ]'
   }
 
   /**
@@ -46,7 +46,7 @@ exports.run = async ({ update, args }) => {
     res.push('Чтобы посмотреть группу, напишите её [ ID ]:')
     res.push('@tihon_bot, магазин 2')
 
-    return update.send(res.join('\n'))
+    return res.join('\n')
   }
 
   /**
@@ -80,7 +80,7 @@ exports.run = async ({ update, args }) => {
     res.push('Чтобы купить, напишите "купить" и [ ID ]:')
     res.push('@tihon_bot, купить 16')
 
-    return update.send(res.join('\n'))
+    return res.join('\n')
   }
 }
 

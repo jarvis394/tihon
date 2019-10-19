@@ -1,4 +1,4 @@
-exports.run = async ({ update, args }) => {
+exports.run = async () => {
   const { randomArray } = require('../../utils/random')
 
   const responds = [
@@ -33,7 +33,7 @@ exports.run = async ({ update, args }) => {
     'это не фотошоп, я это видел в горах Краснодарского края.',
   ]
 
-  await update.send(randomArray(responds))
+  return randomArray(responds)
 }
 
 exports.command = {

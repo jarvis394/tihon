@@ -1,4 +1,4 @@
-exports.run = ({ update, args }) => {
+exports.run = async ({ update, args }) => {
   const math = require('mathjs')
 
   var resp
@@ -7,10 +7,10 @@ exports.run = ({ update, args }) => {
   try {
     resp = math.evaluate(calc)
   } catch (e) {
-    return update.reply('Похоже, я слишком тупой для таких примеров')
+    throw new Error('Похоже, я слишком тупой для таких примеров')
   }
 
-  update.send(`📥 Ввод: ${calc}\n📤 Вывод: ${resp}`)
+  return `📥 Ввод: ${calc}\n📤 Вывод: ${resp}`
 }
 
 exports.command = {

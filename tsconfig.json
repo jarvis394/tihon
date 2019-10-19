@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "allowJs": true,
+    "sourceMap": false,
+    "removeComments": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "outDir": "./dist"
+  },
+  "rules": {
+    "trailing-comma": false 
+  },
+  "include": [ 
+    "./src" 
+  ]
+}

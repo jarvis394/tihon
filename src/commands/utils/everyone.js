@@ -5,15 +5,16 @@ exports.run = async ({ update, args }) => {
     peer_id: update.peerId,
   })
 
-  if (!members.items.find(e => e.member_id === update.senderId).is_admin)
-    return update.reply('🤗 Такое доступно только админам!')
+  if (!members.items.find(e => e.member_id === update.senderId).is_admin) {
+    throw new Error('🤗 Такое доступно только админам!')
+  }
 
   const text =
     members.profiles.map(e => `[id${e.id}|.]`).join(' ') +
     '\n\n' +
     args.join(' ')
 
-  return await update.send(text)
+  return text
 }
 
 exports.command = {

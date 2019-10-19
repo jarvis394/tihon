@@ -1,5 +1,5 @@
 exports.run = async ({ update, args }) => {
-  await update.send(`Счётчик: (${update.state.session.counter})`)
+  return `Счётчик: (${update.state.session.counter})`
 }
 
 exports.command = {

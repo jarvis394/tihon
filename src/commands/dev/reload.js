@@ -5,7 +5,7 @@ exports.run = async ({ update, args }) => {
   let command
 
   if (!cmdName) {
-    return update.reply('🔻 Введи команду')
+    throw new Error('Введи команду')
   }
 
   commands.forEach(c => {
@@ -18,14 +18,14 @@ exports.run = async ({ update, args }) => {
   })
 
   if (!command) {
-    return update.reply('🔻 Команда не найдена')
+    throw new Error('Команда не найдена')
   }
 
   const { group, name } = command
 
   delete require.cache[require.resolve(`../../commands/${group}/${name}`)]
 
-  await update.reply('👌')
+  return '👌'
 }
 
 exports.command = {

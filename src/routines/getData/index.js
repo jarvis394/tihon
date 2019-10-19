@@ -1,4 +1,4 @@
-const events = require('../../lib/Events')
+const events = require('../../lib/structures/Events')
 const chalk = require('chalk')
 const dialogs = require('./dialogs')
 const messages = require('./messages')
