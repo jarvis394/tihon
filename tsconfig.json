@@ -12,9 +12,8 @@
     "outDir": "./dist"
   },
   "rules": {
-    "trailing-comma": false 
+    "trailing-comma": false
   },
-  "include": [ 
-    "./src" 
-  ]
+  "include": ["./src"],
+  "exclude": ["__mocks__"]
 }
