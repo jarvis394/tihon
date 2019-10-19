@@ -63,5 +63,5 @@ typings/
 shrinkwrap.yaml
 temp/
 .vscode/
-data/
-\\*.sqlite
+/data/
+*.sqlite
