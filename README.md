@@ -11,17 +11,13 @@ Then, you can actually start using bot by typing commands, starting with `/` or 
 
 ## Commands
 
-~~See [bot's website](https://tihon.glitch.me)~~
-
-**NEW!** website on React: [tihon-web.glitch.me](https://tihon-web.glitch.me)
-
-Will be moved to the `tihon.glitch.me` domain in future.
+See [bot's website](https://dedtihon.cf)
 
 ## Running
 
 ```
-git clone https://github.com/jarvis394/ded_tihon
-cd ded_tihon
+git clone https://github.com/jarvis394/tihon
+cd tihon
 npm i
 ```
 
@@ -43,15 +39,17 @@ to run bot by yourself.
 
 Global:
 
-- Learn TypeScript to get rid of some checking. _Types are good_
-- Make an API and divide frontend and backend to 2 projects **(Almost done)**
+- ~~Learn TypeScript to get rid of some checking. _Types are good_~~
+- ~~Make an API and divide frontend and backend to 2 projects~~
 - Translate everything to English, even `/random`
 
 Needed:
 
 - ~~Set every checking as `throw new CommandError` for better code style and error handling~~
 
-  Better make a callback for command to execute with given command result
+  ~~Better make a callback for command to execute with given command result~~
+
+  Done by modules system in v8
 
 - ~~Add unified timeouts for commands~~
 - Get results of every command written with command log
@@ -68,3 +66,7 @@ Needed:
     - leave { aliases: [ ... ] }
     ...
   ```
+
+## Credits
+
+Me in VK: [click](https://vk.com/tarnatovski)
