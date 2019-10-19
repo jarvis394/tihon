@@ -12,4 +12,4 @@ fs.readdirSync(filesPath).forEach(route => {
   total++
 })
 
-log.info(`Loaded ${total} routes`)
+log.info(`Loaded ${total} routes`, { private: true })
