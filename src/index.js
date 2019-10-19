@@ -16,5 +16,5 @@ events.once('load', () => {
   require('./packages/core')
 
   // Start web API
-  require('./api')
+  require('./web')
 })
