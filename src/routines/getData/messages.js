@@ -8,6 +8,10 @@ module.exports = () => {
 
   const dialogsFilePath = path.resolve('temp/dialogs.json')
   const messagesFilePath = path.resolve('temp/messages.json')
+  
+  createFileIfNotExists(dialogsFilePath)
+  
+  if (process.env.MODE === 'DEVELOPMENT') return events.emit('getMessagesSuccess')
 
   fs.readFile(dialogsFilePath, (err, data) => {
     if (err) return log.error(err)
@@ -24,8 +28,6 @@ module.exports = () => {
       count: 100,
       offset: 0,
     }))
-
-    createFileIfNotExists(messagesFilePath)
 
     collect.executes('messages.getHistory', executeItems).then(data => {
       if (data.errors.length !== 0) {

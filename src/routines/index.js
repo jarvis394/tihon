@@ -7,7 +7,7 @@ if (process.env.MODE !== 'DISABLED') {
   // require('./restart')
 
   // Auto send messages
-  // require('./auto')
+  require('./auto')
 
   // Auto accept friend requests
   require('./friends')

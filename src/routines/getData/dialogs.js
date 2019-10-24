@@ -7,10 +7,12 @@ module.exports = () => {
 
   const dialogsFilePath = path.resolve('temp/dialogs.json')
   const stream = collect.messages.getConversations({ extended: 0 })
-
+  
+  createFileIfNotExists(dialogsFilePath)
+  
+  if (process.env.MODE === 'DEVELOPMENT') return events.emit('getDialogsSuccess')
+  
   stream.on('data', data => {
-    createFileIfNotExists(dialogsFilePath)
-
     fs.writeFile(dialogsFilePath, JSON.stringify(data), err => {
       if (err) return log.error(err)
 

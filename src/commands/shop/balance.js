@@ -22,7 +22,7 @@ exports.run = async ({ update, args }) => {
 
   const user = new User(id)
 
-  return update.reply(
+  return (
     (id === update.senderId
       ? 'Твой баланс:⠀⠀\n'
       : 'Баланс ' + (await user.getFullName('acc')) + ': \n') +
